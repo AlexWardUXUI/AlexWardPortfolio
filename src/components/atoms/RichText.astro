@@ -1,0 +1,24 @@
+---
+/**
+ * Atom: RichText
+ * Renders the RichText schema: plain strings, { strong } and { link } nodes.
+ * Inline only; the parent decides the block element and type style.
+ */
+import type { RichTextProps } from '../../types/schema';
+import Link from './Link.astro';
+
+type Props = RichTextProps;
+
+const { content } = Astro.props;
+const nodes = typeof content === 'string' ? [content] : content;
+---
+
+{nodes.map((node) =>
+  typeof node === 'string' ? (
+    node
+  ) : 'strong' in node ? (
+    <strong>{node.strong}</strong>
+  ) : (
+    <Link href={node.link.href} external={node.link.external}>{node.link.label}</Link>
+  )
+)}

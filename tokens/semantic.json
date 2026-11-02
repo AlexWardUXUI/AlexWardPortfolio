@@ -1,0 +1,159 @@
+{
+  "$description": "Tier 2: semantic tokens. Named by purpose, aliased to primitives. Components consume these (or component tokens), never primitives.",
+  "color": {
+    "$type": "color",
+    "primary": {
+      "default": { "$value": "{color.blue.500}", "$description": "Primary action: links, nav actions, focus ring." },
+      "subtle":  { "$value": "{color.blue.100}", "$description": "Low-emphasis primary tint: dividers." }
+    },
+    "secondary": {
+      "default": { "$value": "{color.purple.500}", "$description": "Secondary accent: highlights such as the Highlighted work pill." }
+    },
+    "accent": {
+      "gradient-start": { "$value": "{color.teal.400}" },
+      "gradient-end":   { "$value": "{color.sky.400}" }
+    },
+    "text": {
+      "primary":    { "$value": "{color.neutral.950}", "$description": "Default ink: brand, connect title." },
+      "heading":    { "$value": "{color.neutral.1000}", "$description": "Card titles and bold section headings." },
+      "display":    { "$value": "{color.navy.950}", "$description": "Case study titles and semibold section headings." },
+      "hero":       { "$value": "{color.neutral.900}" },
+      "hero-muted": { "$value": "{color.neutral.750}" },
+      "emphasis":   { "$value": "{color.neutral.700}", "$description": "H3s and the connect strapline." },
+      "secondary":  { "$value": "{color.neutral.500}", "$description": "Body copy." },
+      "list":       { "$value": "{color.neutral.600}" },
+      "muted":      { "$value": "{color.neutral.450}", "$description": "Eyebrows." },
+      "tertiary":   { "$value": "{color.neutral.400}", "$description": "Metadata lines." },
+      "subtle":     { "$value": "{color.neutral.300}", "$description": "Role tags." },
+      "inverse":    { "$value": "{color.neutral.0}" },
+      "inverse-secondary": { "$value": "{color.neutral.75}" },
+      "link":       { "$value": "{color.primary.default}" }
+    },
+    "surface": {
+      "page":       { "$value": "{color.neutral.50}" },
+      "default":    { "$value": "{color.neutral.0}" },
+      "sunken":     { "$value": "{color.neutral.100}" },
+      "inverse":    { "$value": "{color.neutral.1000}" },
+      "overlay":    { "$value": "{color.grey.a60}", "$description": "Translucent surface over imagery (chips)." },
+      "hero-start": { "$value": "{color.neutral.0}" },
+      "hero-end":   { "$value": "{color.neutral.25}" }
+    },
+    "border": {
+      "subtle": { "$value": "{color.primary.subtle}" },
+      "focus":  { "$value": "{color.primary.default}" }
+    }
+  },
+
+  "typography": {
+    "$type": "typography",
+    "display": {
+      "$value": { "fontFamily": "{font.family.sans}", "fontSize": "{font.size.6xl}", "fontWeight": "{font.weight.bold}", "lineHeight": "{font.line-height.snug}", "letterSpacing": "{font.letter-spacing.tightest}" },
+      "$description": "Case study H1."
+    },
+    "heading-xl": {
+      "$value": { "fontFamily": "{font.family.sans}", "fontSize": "{font.size.4xl}", "fontWeight": "{font.weight.extrabold}", "lineHeight": "{font.line-height.snug}", "letterSpacing": "{font.letter-spacing.tighter}" },
+      "$description": "Section title (Let's connect)."
+    },
+    "heading-lg": {
+      "$value": { "fontFamily": "{font.family.sans}", "fontSize": "{font.size.3xl}", "fontWeight": "{font.weight.bold}", "lineHeight": "{font.line-height.snug}", "letterSpacing": "{font.letter-spacing.tight}" },
+      "$description": "Hero headline."
+    },
+    "heading-md": {
+      "$value": { "fontFamily": "{font.family.sans}", "fontSize": "{font.size.2xl}", "fontWeight": "{font.weight.bold}", "lineHeight": "{font.line-height.normal}", "letterSpacing": "{font.letter-spacing.subtle}" },
+      "$description": "Card titles, case study H2 (bold variant)."
+    },
+    "heading-md-alt": {
+      "$value": { "fontFamily": "{font.family.sans}", "fontSize": "{font.size.2xl}", "fontWeight": "{font.weight.semibold}", "lineHeight": "{font.line-height.relaxed}", "letterSpacing": "{font.letter-spacing.compact}" },
+      "$description": "Case study H2 (semibold variant, onboarding + Shotscope pages)."
+    },
+    "heading-sm": {
+      "$value": { "fontFamily": "{font.family.sans}", "fontSize": "{font.size.lg}", "fontWeight": "{font.weight.bold}", "lineHeight": "{font.line-height.normal}", "letterSpacing": "{font.letter-spacing.none}" },
+      "$description": "Case study H3."
+    },
+    "eyebrow": {
+      "$value": { "fontFamily": "{font.family.sans}", "fontSize": "{font.size.2xl}", "fontWeight": "{font.weight.medium}", "lineHeight": "{font.line-height.relaxed}", "letterSpacing": "{font.letter-spacing.compact}" }
+    },
+    "lead": {
+      "$value": { "fontFamily": "{font.family.sans}", "fontSize": "{font.size.2xl}", "fontWeight": "{font.weight.regular}", "lineHeight": "{font.line-height.tight}", "letterSpacing": "{font.letter-spacing.snug}" },
+      "$description": "Hero intro."
+    },
+    "lead-sm": {
+      "$value": { "fontFamily": "{font.family.sans}", "fontSize": "{font.size.xl}", "fontWeight": "{font.weight.regular}", "lineHeight": "{font.line-height.normal}", "letterSpacing": "{font.letter-spacing.slight}" },
+      "$description": "Connect strapline."
+    },
+    "body": {
+      "$value": { "fontFamily": "{font.family.sans}", "fontSize": "{font.size.md}", "fontWeight": "{font.weight.regular}", "lineHeight": "{font.line-height.spacious}", "letterSpacing": "{font.letter-spacing.none}" }
+    },
+    "nav-link": {
+      "$value": { "fontFamily": "{font.family.sans}", "fontSize": "{font.size.md}", "fontWeight": "{font.weight.medium}", "lineHeight": "{font.line-height.loose}", "letterSpacing": "{font.letter-spacing.none}" }
+    },
+    "brand": {
+      "$value": { "fontFamily": "{font.family.sans}", "fontSize": "{font.size.md}", "fontWeight": "{font.weight.light}", "lineHeight": "{font.line-height.double}", "letterSpacing": "{font.letter-spacing.wide}" }
+    },
+    "label": {
+      "$value": { "fontFamily": "{font.family.sans}", "fontSize": "{font.size.sm}", "fontWeight": "{font.weight.medium}", "lineHeight": "{font.line-height.relaxed}", "letterSpacing": "{font.letter-spacing.none}" },
+      "$description": "Footer and meta rows."
+    },
+    "label-tight": {
+      "$value": { "fontFamily": "{font.family.sans}", "fontSize": "{font.size.sm}", "fontWeight": "{font.weight.medium}", "lineHeight": "{font.line-height.relaxed}", "letterSpacing": "{font.letter-spacing.snug}" },
+      "$description": "Pills and role tags."
+    },
+    "caption": {
+      "$value": { "fontFamily": "{font.family.sans}", "fontSize": "{font.size.xs}", "fontWeight": "{font.weight.regular}", "lineHeight": "{font.line-height.spacious}", "letterSpacing": "{font.letter-spacing.none}" },
+      "$description": "Chips and the skills line."
+    }
+  },
+
+  "shadow": {
+    "$type": "shadow",
+    "chip": {
+      "$value": [
+        { "color": "{color.black.a18}", "offsetX": "0px", "offsetY": "0.6px", "blur": "0.6px", "spread": "-1.25px" },
+        { "color": "{color.black.a16}", "offsetX": "0px", "offsetY": "2.3px", "blur": "2.3px", "spread": "-2.5px" },
+        { "color": "{color.black.a06}", "offsetX": "0px", "offsetY": "10px", "blur": "10px", "spread": "-3.75px" }
+      ]
+    },
+    "elevated": {
+      "$value": [
+        { "color": "{color.ink.a06}", "offsetX": "0px", "offsetY": "1px", "blur": "2px", "spread": "0px" },
+        { "color": "{color.ink.a28}", "offsetX": "0px", "offsetY": "24px", "blur": "60px", "spread": "-24px" }
+      ],
+      "$description": "Hero media."
+    },
+    "hover": {
+      "$value": [
+        { "color": "{color.ink.a04}", "offsetX": "0px", "offsetY": "2px", "blur": "4px", "spread": "0px" },
+        { "color": "{color.ink.a18}", "offsetX": "0px", "offsetY": "16px", "blur": "36px", "spread": "-12px" }
+      ],
+      "$description": "Interactive card hover and focus."
+    },
+    "none": {
+      "$value": { "color": "{color.ink.a00}", "offsetX": "0px", "offsetY": "0px", "blur": "0px", "spread": "0px" }
+    }
+  },
+
+  "gradient": {
+    "$type": "gradient",
+    "accent": {
+      "$value": [
+        { "color": "{color.accent.gradient-start}", "position": 0 },
+        { "color": "{color.accent.gradient-end}", "position": 1 }
+      ],
+      "$extensions": { "angle": "99deg" }
+    },
+    "hero": {
+      "$value": [
+        { "color": "{color.surface.hero-start}", "position": 0 },
+        { "color": "{color.surface.hero-end}", "position": 1 }
+      ],
+      "$extensions": { "angle": "180deg" }
+    }
+  },
+
+  "motion": {
+    "transition": {
+      "$type": "transition",
+      "base": { "$value": { "duration": "{duration.base}", "delay": "0ms", "timingFunction": "{easing.standard}" } }
+    }
+  }
+}

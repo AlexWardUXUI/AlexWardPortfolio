@@ -1,0 +1,24 @@
+---
+/**
+ * Atom: Pill
+ * Solid secondary-colour badge for promoting an item, e.g. "Highlighted work".
+ */
+import type { PillProps } from '../../types/schema';
+
+type Props = PillProps;
+
+const { label } = Astro.props;
+---
+
+<span class="pill type-label-tight">{label}</span>
+
+<style>
+  .pill {
+    flex: 0 0 auto;
+    padding: var(--pill-padding);
+    border-radius: var(--pill-radius);
+    background: var(--pill-background);
+    color: var(--pill-text);
+    white-space: nowrap;
+  }
+</style>

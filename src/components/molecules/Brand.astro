@@ -1,0 +1,25 @@
+---
+/** Molecule: Brand. Name in bold plus tagline; tagline hides on small screens. */
+import type { BrandProps } from '../../types/schema';
+
+type Props = BrandProps;
+
+const { name, tagline, href } = Astro.props;
+---
+
+<a class="brand type-brand text-primary" href={href}>
+  <strong>{name} |</strong><span class="brand__tagline"> {tagline}</span>
+</a>
+
+<style>
+  .brand {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  @media (max-width: 599px) {
+    .brand__tagline {
+      display: none;
+    }
+  }
+</style>

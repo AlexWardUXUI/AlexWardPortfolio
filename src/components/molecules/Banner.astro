@@ -1,0 +1,21 @@
+---
+/** Molecule: Banner. Accent-gradient section divider with a title. */
+import type { BannerProps } from '../../types/schema';
+import Heading from '../atoms/Heading.astro';
+
+type Props = BannerProps;
+
+const { title } = Astro.props;
+---
+
+<div class="banner">
+  <Heading level={2} style="heading-md-alt" color="inverse">{title}</Heading>
+</div>
+
+<style>
+  .banner {
+    padding: var(--banner-padding);
+    border-radius: var(--banner-radius);
+    background: var(--gradient-accent);
+  }
+</style>

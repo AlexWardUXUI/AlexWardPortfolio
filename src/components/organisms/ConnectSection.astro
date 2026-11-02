@@ -1,0 +1,43 @@
+---
+/** Organism: ConnectSection. Centred call to action at the end of the home page. */
+import type { ConnectSectionProps } from '../../types/schema';
+import Heading from '../atoms/Heading.astro';
+import Text from '../atoms/Text.astro';
+import RichText from '../atoms/RichText.astro';
+
+type Props = ConnectSectionProps;
+
+const { title, text, id } = Astro.props;
+---
+
+<section class="connect" id={id}>
+  <Heading level={2} style="heading-xl" color="primary" align="center">{title}</Heading>
+  <Text style="lead-sm" color="emphasis" align="center"><RichText content={text} /></Text>
+</section>
+
+<style>
+  .connect {
+    max-width: var(--size-section-width);
+    margin: 0 auto;
+    padding: var(--space-88) var(--space-40) var(--space-96);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-28);
+    background: var(--color-surface-default);
+  }
+  @media (max-width: 899px) {
+    .connect {
+      padding: var(--space-64) var(--space-24) var(--space-72);
+    }
+  }
+  @media (max-width: 599px) {
+    .connect :global(h2) {
+      font-size: var(--font-size-3xl);
+    }
+    .connect :global(p) {
+      font-size: var(--font-size-lg);
+      line-height: var(--font-line-height-relaxed);
+    }
+  }
+</style>

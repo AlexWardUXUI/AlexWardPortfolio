@@ -1,0 +1,21 @@
+---
+/** Molecule: ChipGroup. A wrapping row of Chips. */
+import type { ChipGroupProps } from '../../types/schema';
+import Chip from '../atoms/Chip.astro';
+
+type Props = ChipGroupProps;
+
+const { chips } = Astro.props;
+---
+
+<div class="chip-group">
+  {chips.map((chip) => <Chip {...chip} />)}
+</div>
+
+<style>
+  .chip-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-16);
+  }
+</style>

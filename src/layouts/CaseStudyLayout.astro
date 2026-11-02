@@ -1,0 +1,45 @@
+---
+/** Template: CaseStudyLayout. Navbar, header, block content and footer in a 900px column. */
+import type { CaseStudyLayoutProps } from '../types/schema';
+import BaseLayout from './BaseLayout.astro';
+import Navbar from '../components/organisms/Navbar.astro';
+import CaseHeader from '../components/organisms/CaseHeader.astro';
+import BlockRenderer from '../components/organisms/BlockRenderer.astro';
+import CaseFooter from '../components/organisms/CaseFooter.astro';
+import { brand, caseNav } from '../data/site';
+
+type Props = CaseStudyLayoutProps;
+
+const { study } = Astro.props;
+---
+
+<BaseLayout title={study.seo.title} description={study.seo.description}>
+  <Navbar brand={brand} links={caseNav} />
+  <main class="case">
+    <article class="case__column">
+      <CaseHeader eyebrow={study.eyebrow} title={study.title} />
+      <BlockRenderer blocks={study.blocks} headingStyle={study.headingStyle} />
+      <CaseFooter {...study.footer} />
+    </article>
+  </main>
+</BaseLayout>
+
+<style>
+  .case {
+    padding: calc(var(--nav-height) + var(--space-50)) var(--space-24) var(--space-50);
+    display: flex;
+    justify-content: center;
+  }
+  .case__column {
+    width: 100%;
+    max-width: var(--size-content-width);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-20);
+  }
+  @media (max-width: 599px) {
+    .case {
+      padding: calc(var(--nav-height) + var(--space-32)) var(--space-16) var(--space-40);
+    }
+  }
+</style>

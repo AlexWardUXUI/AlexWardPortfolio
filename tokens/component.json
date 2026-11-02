@@ -1,0 +1,59 @@
+{
+  "$description": "Tier 3: component tokens. One group per component; values alias semantic or primitive tokens. Change a component here without touching its code.",
+  "nav": {
+    "height":     { "$type": "dimension", "$value": "{size.nav-height}" },
+    "padding":    { "$type": "dimension", "$value": "{space.24}" },
+    "gap":        { "$type": "dimension", "$value": "{space.24}" },
+    "background": { "$type": "color", "$value": "{color.surface.default}" },
+    "link":       { "$type": "color", "$value": "{color.text.link}" }
+  },
+  "card": {
+    "radius":            { "$type": "dimension", "$value": "{radius.xl}" },
+    "media-height":      { "$type": "dimension", "$value": "{size.card-media}" },
+    "media-radius-inner":{ "$type": "dimension", "$value": "{radius.md}" },
+    "padding":           { "$type": "dimension", "$value": "{space.24}" },
+    "gap":               { "$type": "dimension", "$value": "{space.18}" },
+    "background":        { "$type": "color", "$value": "{color.surface.default}" },
+    "background-inverse":{ "$type": "color", "$value": "{color.surface.inverse}" },
+    "shadow-rest":       { "$type": "shadow", "$value": "{shadow.none}" },
+    "shadow-hover":      { "$type": "shadow", "$value": "{shadow.hover}" }
+  },
+  "chip": {
+    "background":  { "$type": "color", "$value": "{color.surface.overlay}" },
+    "text":        { "$type": "color", "$value": "{color.text.inverse}" },
+    "radius":      { "$type": "dimension", "$value": "{radius.sm}" },
+    "padding-y":   { "$type": "dimension", "$value": "{space.6}" },
+    "padding-x":   { "$type": "dimension", "$value": "{space.8}" },
+    "gap":         { "$type": "dimension", "$value": "{space.6}" },
+    "icon-size":   { "$type": "dimension", "$value": "{size.icon-sm}" },
+    "icon-radius": { "$type": "dimension", "$value": "{radius.xs}" },
+    "shadow":      { "$type": "shadow", "$value": "{shadow.chip}" }
+  },
+  "pill": {
+    "background": { "$type": "color", "$value": "{color.secondary.default}" },
+    "text":       { "$type": "color", "$value": "{color.text.inverse}" },
+    "radius":     { "$type": "dimension", "$value": "{radius.sm}" },
+    "padding":    { "$type": "dimension", "$value": "{space.8}" }
+  },
+  "role": {
+    "text":    { "$type": "color", "$value": "{color.text.subtle}" },
+    "divider": { "$type": "color", "$value": "{color.border.subtle}" }
+  },
+  "media": {
+    "radius": { "$type": "dimension", "$value": "{radius.md}" }
+  },
+  "hero": {
+    "media-radius": { "$type": "dimension", "$value": "{radius.2xl}" },
+    "media-shadow": { "$type": "shadow", "$value": "{shadow.elevated}" }
+  },
+  "panel": {
+    "background": { "$type": "color", "$value": "{color.surface.sunken}" },
+    "radius":     { "$type": "dimension", "$value": "{radius.lg}" },
+    "padding":    { "$type": "dimension", "$value": "{space.32}" }
+  },
+  "banner": {
+    "radius":  { "$type": "dimension", "$value": "{radius.sm}" },
+    "padding": { "$type": "dimension", "$value": "{space.24}" },
+    "text":    { "$type": "color", "$value": "{color.text.inverse}" }
+  }
+}

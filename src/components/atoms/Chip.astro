@@ -1,0 +1,44 @@
+---
+/**
+ * Atom: Chip
+ * Translucent tool or topic tag that sits over imagery. Optional 20px icon.
+ */
+import type { ChipProps } from '../../types/schema';
+
+type Props = ChipProps;
+
+const { label, icon, iconFit = 'cover' } = Astro.props;
+---
+
+<span class="chip type-caption">
+  {icon && <img class:list={['chip__icon', `chip__icon--${iconFit}`]} src={icon.src} alt={icon.alt} width="20" height="20" />}
+  {label}
+</span>
+
+<style>
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--chip-gap);
+    padding: var(--chip-padding-y) var(--chip-padding-x);
+    border-radius: var(--chip-radius);
+    background: var(--chip-background);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+    box-shadow: var(--chip-shadow);
+    color: var(--chip-text);
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .chip__icon {
+    width: var(--chip-icon-size);
+    height: var(--chip-icon-size);
+    border-radius: var(--chip-icon-radius);
+  }
+  .chip__icon--cover {
+    object-fit: cover;
+  }
+  .chip__icon--contain {
+    object-fit: contain;
+  }
+</style>

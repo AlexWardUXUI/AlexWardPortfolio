@@ -1,0 +1,35 @@
+---
+/**
+ * Molecule: Figure
+ * Rounded content media. "wide" breaks out of the 900px reading column to 1000px.
+ */
+import type { FigureProps } from '../../types/schema';
+import Image from '../atoms/Image.astro';
+
+type Props = FigureProps;
+
+const { image, fit = 'cover', aspect, width = 'content', loading = 'lazy' } = Astro.props;
+---
+
+<div class:list={['figure', `figure--${width}`]} style={aspect ? `aspect-ratio: ${aspect}` : undefined}>
+  <Image {...image} fit={fit} loading={loading} />
+</div>
+
+<style>
+  .figure {
+    max-width: 100%;
+    border-radius: var(--media-radius);
+    overflow: hidden;
+  }
+  .figure--wide {
+    width: calc(100% + 100px);
+    max-width: var(--size-wide-width);
+    margin-left: -50px;
+  }
+  @media (max-width: 1099px) {
+    .figure--wide {
+      width: 100%;
+      margin-left: 0;
+    }
+  }
+</style>

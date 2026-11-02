@@ -1,0 +1,68 @@
+import type { CaseStudy } from '../../types/schema';
+import { caseCta } from '../site';
+
+const dir = '/assets/img/design-system-blueprint';
+
+export const designSystemBlueprint: CaseStudy = {
+  slug: 'design-system-blueprint',
+  seo: {
+    title: 'Design system blueprint | Alex Ward',
+    description: 'Blueprinting a complex design system across multiple teams for an 18,000+ employee organisation.',
+  },
+  eyebrow: 'Past experiences',
+  title: 'Design system blueprint',
+  headingStyle: 'bold',
+  blocks: [
+    { type: 'figure', image: { src: `${dir}/hero.svg`, alt: 'Design system blueprint overview', width: 900, height: 450 }, aspect: '2 / 1', loading: 'eager' },
+    { type: 'meta', text: 'Design systems · Experience strategy · Governance · Cross-team collaboration · Service design' },
+
+    { type: 'heading', level: 2, text: 'Introduction' },
+    { type: 'paragraph', text: 'How do you make digital experiences feel coherent across a large organisation when products have different users, technologies and ways of working?' },
+    { type: 'paragraph', text: 'I worked as part of a multidisciplinary team to assess a complex design and development ecosystem and develop recommendations for how a more connected design-system approach could evolve. The proposal balanced shared foundations with local flexibility, supported by clearer ownership, guidance and a phased adoption plan.' },
+    { type: 'paragraph', text: 'This case study describes recommendations and proposed future-state direction which was handed off to the client to implement. I have implemented design systems since, but this work was focussed on creating a blueprint, not implementation.' },
+
+    { type: 'heading', level: 2, text: 'The challenge' },
+    { type: 'paragraph', text: 'The organisation’s digital products had grown across different teams, platforms and technology stacks. Design guidance, UI kits and component resources were distributed across the ecosystem, making it difficult for teams to find the right information and understand how shared standards applied to their products.' },
+    { type: 'paragraph', text: 'A single universal system was unlikely to fit every product or technical context. The challenge was to find a practical way to improve coherence without forcing every team into the same solution.' },
+
+    { type: 'heading', level: 3, text: 'Understanding the organisation’s digital landscape' },
+    { type: 'paragraph', text: '91 applications considered across the digital ecosystem:' },
+    {
+      type: 'list',
+      items: [
+        '24 live sites audited',
+        '67 screenshots reviewed across software, hardware and embedded experiences',
+        '13 in-depth walkthroughs across LSMD and UDC to identify gaps',
+      ],
+    },
+
+    { type: 'figure', image: { src: `${dir}/landscape.png`, alt: 'Digital landscape audit', width: 900, height: 510 }, aspect: '900 / 510' },
+
+    { type: 'heading', level: 2, text: 'My role' },
+    { type: 'paragraph', text: 'I contributed as a senior UX designer within a multidisciplinary consultancy team. The work brought together design, project and engineering perspectives to understand the existing ecosystem and present recommendations to leadership.' },
+    { type: 'paragraph', text: 'My contribution focused on shaping how the design-system ecosystem could be structured, what guidance and resources it needed, and how teams could contribute to and adopt it over time.' },
+
+    { type: 'heading', level: 2, text: 'Our approach' },
+    { type: 'heading', level: 3, text: 'Understand the existing ecosystem' },
+    { type: 'paragraph', text: 'We mapped the relationship between existing brand guidance, design resources, product-specific systems and component libraries. This helped make overlaps, gaps and differing team needs visible.' },
+    { type: 'heading', level: 3, text: 'Propose shared foundations with local flexibility' },
+    { type: 'paragraph', text: 'We recommended an ecosystem with shared foundations for elements that could benefit many products, alongside local design systems for product- or platform-specific needs. The intent was to make reuse possible where it made sense without treating every difference as a problem to eliminate.' },
+
+    { type: 'figure', image: { src: `${dir}/ecosystem.png`, alt: 'Proposed design-system ecosystem', width: 900, height: 510 }, aspect: '900 / 510' },
+
+    { type: 'heading', level: 3, text: 'Define the supporting model' },
+    { type: 'paragraph', text: 'The recommendations covered more than visual components. They addressed how teams could find guidance, how shared and local needs could be handled, and how ownership, contribution and change could work across the organisation.' },
+    { type: 'heading', level: 3, text: 'Plan for progressive adoption' },
+    { type: 'paragraph', text: 'We proposed a phased approach: begin with manageable priorities, learn from early use, then expand as teams, resources and technical conditions allowed. This gave leadership a practical direction without assuming that every product could change at once.' },
+
+    { type: 'figure', image: { src: `${dir}/adoption.png`, alt: 'Phased adoption roadmap', width: 900, height: 510 }, aspect: '900 / 510' },
+
+    { type: 'heading', level: 2, text: 'The outcome' },
+    { type: 'paragraph', text: 'The work produced a leadership readout with recommendations for the design-system structure, content, governance, roles, processes and adoption roadmap. It gave stakeholders a shared model for discussing how a more coherent ecosystem could develop while recognising differences between products and technologies.' },
+
+    { type: 'heading', level: 2, text: 'What I learned' },
+    { type: 'paragraph', text: 'A design system for a large organisation is not just a component library. It also needs clear information architecture, ownership, contribution routes and a realistic adoption plan.' },
+    { type: 'paragraph', text: 'Coherence can be a more useful goal than identical implementation: teams can share principles and foundations while adapting to the needs and constraints of their products.' },
+  ],
+  footer: { label: 'Design system blueprint', cta: caseCta },
+};

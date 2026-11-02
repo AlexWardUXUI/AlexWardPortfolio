@@ -1,0 +1,26 @@
+---
+/** Molecule: RoleList. RoleTags separated by a subtle divider. */
+import type { RoleListProps } from '../../types/schema';
+import RoleTag from '../atoms/RoleTag.astro';
+
+type Props = RoleListProps;
+
+const { roles } = Astro.props;
+---
+
+<ul class="role-list" aria-label="Roles">
+  {roles.map((role) => <li><RoleTag label={role} /></li>)}
+</ul>
+
+<style>
+  .role-list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 0;
+    list-style: none;
+  }
+  .role-list li + li {
+    border-left: 1px solid var(--role-divider);
+  }
+</style>

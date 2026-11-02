@@ -1,0 +1,23 @@
+---
+/**
+ * Atom: Heading
+ * Separates document level (h1-h3) from visual style (a typography token),
+ * so the outline stays correct whatever the design calls for.
+ */
+import type { HeadingProps } from '../../types/schema';
+
+type Props = HeadingProps;
+
+const { level, style, color, align = 'start', class: className } = Astro.props;
+const Tag = `h${level}` as 'h1' | 'h2' | 'h3';
+---
+
+<Tag class:list={['heading', `type-${style}`, color && `text-${color}`, align === 'center' && 'align-center', className]}>
+  <slot />
+</Tag>
+
+<style>
+  .heading {
+    text-wrap: balance;
+  }
+</style>

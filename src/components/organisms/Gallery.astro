@@ -1,0 +1,41 @@
+---
+/** Organism: Gallery. Sunken panel with a feature image over a row of 2 or 3 images. */
+import type { GalleryProps } from '../../types/schema';
+import Figure from '../molecules/Figure.astro';
+
+type Props = GalleryProps;
+
+const { feature, items, columns, itemFit = 'cover' } = Astro.props;
+const itemAspect = columns === 3 ? '1 / 1' : '16 / 9';
+---
+
+<div class="gallery">
+  <Figure image={feature} aspect="2 / 1" />
+  <div class="gallery__row" style={`--columns: ${columns}`}>
+    {items.map((image) => <Figure image={image} fit={itemFit} aspect={itemAspect} />)}
+  </div>
+</div>
+
+<style>
+  .gallery {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-20);
+    padding: var(--panel-padding);
+    border-radius: var(--panel-radius);
+    background: var(--panel-background);
+  }
+  .gallery__row {
+    display: grid;
+    grid-template-columns: repeat(var(--columns), 1fr);
+    gap: var(--space-20);
+  }
+  @media (max-width: 599px) {
+    .gallery {
+      padding: var(--space-16);
+    }
+    .gallery__row {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -1,0 +1,49 @@
+---
+/** Organism: Navbar. Fixed top bar with Brand and a list of nav Links. */
+import type { NavbarProps } from '../../types/schema';
+import Brand from '../molecules/Brand.astro';
+import Link from '../atoms/Link.astro';
+
+type Props = NavbarProps;
+
+const { brand, links } = Astro.props;
+---
+
+<header class="navbar">
+  <Brand {...brand} />
+  <nav aria-label="Primary">
+    <ul class="navbar__links">
+      {links.map((l) => <li><Link href={l.href} external={l.external} variant="nav">{l.label}</Link></li>)}
+    </ul>
+  </nav>
+</header>
+
+<style>
+  .navbar {
+    position: fixed;
+    inset: 0 0 auto 0;
+    z-index: 100;
+    height: var(--nav-height);
+    padding: var(--nav-padding);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--nav-gap);
+    background: var(--nav-background);
+  }
+  .navbar__links {
+    display: flex;
+    gap: var(--nav-gap);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  @media (max-width: 599px) {
+    .navbar {
+      padding: var(--space-16);
+    }
+    .navbar__links {
+      gap: var(--space-16);
+    }
+  }
+</style>

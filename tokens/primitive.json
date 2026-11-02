@@ -1,0 +1,172 @@
+{
+  "$description": "Tier 1: primitive tokens. Raw values audited from the live Framer site. Never referenced directly by components; use semantic or component tokens.",
+  "color": {
+    "$type": "color",
+    "neutral": {
+      "0":    { "$value": "#ffffff", "$description": "Pure white. Cards, nav, connect section." },
+      "25":   { "$value": "#f7f8f6", "$description": "Hero gradient end." },
+      "50":   { "$value": "#f3f4f2", "$description": "Page background behind the work grid." },
+      "75":   { "$value": "#f2f2f2", "$description": "Body text on the dark card." },
+      "100":  { "$value": "#ededed", "$description": "Gallery panel background." },
+      "300":  { "$value": "#b3b3b3", "$description": "Role tags." },
+      "400":  { "$value": "#8c8c8c", "$description": "Case study skills line." },
+      "450":  { "$value": "#888888", "$description": "Case study eyebrow. Visually identical to 400; candidate to merge." },
+      "500":  { "$value": "#666666", "$description": "Body copy." },
+      "600":  { "$value": "#595959", "$description": "Lists in project overview columns." },
+      "700":  { "$value": "#333333", "$description": "H3s, connect strapline." },
+      "750":  { "$value": "#313233", "$description": "Hero intro. Visually identical to 700; candidate to merge." },
+      "900":  { "$value": "#151719", "$description": "Hero headline." },
+      "950":  { "$value": "#111111", "$description": "Brand mark, connect title." },
+      "1000": { "$value": "#000000", "$description": "Card titles, section headings, dark card surface." }
+    },
+    "navy": {
+      "950": { "$value": "#001122", "$description": "Case study display titles and semibold section headings." }
+    },
+    "blue": {
+      "100": { "$value": "#c4dcf2", "$description": "Divider between role tags." },
+      "400": { "$value": "#3899ff", "$description": "Home link on case study nav. Near-duplicate of 500." },
+      "500": { "$value": "#0099ff", "$description": "Links and nav actions on the home page." }
+    },
+    "purple": {
+      "500": { "$value": "#8941d1", "$description": "Highlighted work pill." }
+    },
+    "teal": {
+      "400": { "$value": "#0fb3b3", "$description": "Banner gradient start." }
+    },
+    "sky": {
+      "400": { "$value": "#2cace2", "$description": "Banner gradient end." }
+    },
+    "ink": {
+      "a04": { "$value": "rgba(17, 24, 39, 0.04)" },
+      "a06": { "$value": "rgba(17, 24, 39, 0.06)" },
+      "a18": { "$value": "rgba(17, 24, 39, 0.18)" },
+      "a28": { "$value": "rgba(17, 24, 39, 0.28)" },
+      "a00": { "$value": "rgba(17, 24, 39, 0)" }
+    },
+    "black": {
+      "a06": { "$value": "rgba(0, 0, 0, 0.06)" },
+      "a16": { "$value": "rgba(0, 0, 0, 0.16)" },
+      "a18": { "$value": "rgba(0, 0, 0, 0.18)" }
+    },
+    "grey": {
+      "a60": { "$value": "rgba(138, 138, 138, 0.6)", "$description": "Translucent chip fill over imagery." }
+    }
+  },
+
+  "font": {
+    "family": {
+      "$type": "fontFamily",
+      "sans": { "$value": ["Inter", "system-ui", "-apple-system", "Segoe UI", "sans-serif"] }
+    },
+    "weight": {
+      "$type": "fontWeight",
+      "light":     { "$value": 300 },
+      "regular":   { "$value": 400 },
+      "medium":    { "$value": 500 },
+      "semibold":  { "$value": 600 },
+      "bold":      { "$value": 700 },
+      "extrabold": { "$value": 800 }
+    },
+    "size": {
+      "$type": "dimension",
+      "xs":  { "$value": "12px" },
+      "sm":  { "$value": "14px" },
+      "md":  { "$value": "16px" },
+      "lg":  { "$value": "18px" },
+      "xl":  { "$value": "22px" },
+      "2xl": { "$value": "24px" },
+      "3xl": { "$value": "32px" },
+      "4xl": { "$value": "40px" },
+      "6xl": { "$value": "72px" }
+    },
+    "line-height": {
+      "$type": "number",
+      "tight":    { "$value": 1.15 },
+      "snug":     { "$value": 1.2 },
+      "normal":   { "$value": 1.4 },
+      "relaxed":  { "$value": 1.5 },
+      "loose":    { "$value": 1.6 },
+      "spacious": { "$value": 1.9 },
+      "double":   { "$value": 2 }
+    },
+    "letter-spacing": {
+      "$type": "dimension",
+      "tightest": { "$value": "-3.8px" },
+      "tighter":  { "$value": "-1.5px" },
+      "tight":    { "$value": "-1px" },
+      "snug":     { "$value": "-0.8px" },
+      "compact":  { "$value": "-0.7px" },
+      "subtle":   { "$value": "-0.5px" },
+      "slight":   { "$value": "-0.4px" },
+      "none":     { "$value": "0px" },
+      "wide":     { "$value": "1px" }
+    }
+  },
+
+  "space": {
+    "$type": "dimension",
+    "4":   { "$value": "4px" },
+    "6":   { "$value": "6px" },
+    "8":   { "$value": "8px" },
+    "10":  { "$value": "10px" },
+    "12":  { "$value": "12px" },
+    "16":  { "$value": "16px" },
+    "18":  { "$value": "18px" },
+    "20":  { "$value": "20px" },
+    "24":  { "$value": "24px" },
+    "28":  { "$value": "28px" },
+    "32":  { "$value": "32px" },
+    "40":  { "$value": "40px" },
+    "50":  { "$value": "50px" },
+    "56":  { "$value": "56px" },
+    "60":  { "$value": "60px" },
+    "64":  { "$value": "64px" },
+    "72":  { "$value": "72px" },
+    "88":  { "$value": "88px" },
+    "96":  { "$value": "96px" },
+    "120": { "$value": "120px" },
+    "184": { "$value": "184px" }
+  },
+
+  "radius": {
+    "$type": "dimension",
+    "xs":  { "$value": "4px",  "$description": "Chip icons." },
+    "sm":  { "$value": "10px", "$description": "Chips, pills, banner." },
+    "md":  { "$value": "12px", "$description": "Content media." },
+    "lg":  { "$value": "20px", "$description": "Gallery panels." },
+    "xl":  { "$value": "28px", "$description": "Project cards." },
+    "2xl": { "$value": "32px", "$description": "Hero media." }
+  },
+
+  "size": {
+    "$type": "dimension",
+    "icon-sm":        { "$value": "20px" },
+    "nav-height":     { "$value": "80px" },
+    "content-width":  { "$value": "900px" },
+    "wide-width":     { "$value": "1000px" },
+    "grid-width":     { "$value": "1040px" },
+    "section-width":  { "$value": "1200px" },
+    "hero-text":      { "$value": "420px" },
+    "hero-media":     { "$value": "560px" },
+    "card-media":     { "$value": "300px" },
+    "hero-min-height":{ "$value": "744px" }
+  },
+
+  "breakpoint": {
+    "$type": "dimension",
+    "$description": "CSS custom properties cannot be used inside @media. These are exported to TS and documented; component CSS mirrors them as literals.",
+    "sm": { "$value": "600px" },
+    "md": { "$value": "900px" },
+    "lg": { "$value": "1100px" },
+    "xl": { "$value": "1280px" }
+  },
+
+  "duration": {
+    "$type": "duration",
+    "base": { "$value": "250ms" }
+  },
+  "easing": {
+    "$type": "cubicBezier",
+    "standard": { "$value": [0.25, 0.1, 0.25, 1] }
+  }
+}

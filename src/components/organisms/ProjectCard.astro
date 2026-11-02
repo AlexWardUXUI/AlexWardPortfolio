@@ -1,0 +1,70 @@
+---
+/**
+ * Organism: ProjectCard
+ * Whole-card link to a case study. Variants: tone (light | dark), optional badge
+ * (Pill) or roles (RoleList) beside the title. Shows a hover/focus shadow.
+ */
+import type { ProjectCardProps } from '../../types/schema';
+import CardMedia from '../molecules/CardMedia.astro';
+import RoleList from '../molecules/RoleList.astro';
+import Heading from '../atoms/Heading.astro';
+import Text from '../atoms/Text.astro';
+import Pill from '../atoms/Pill.astro';
+
+type Props = ProjectCardProps;
+
+const { href, title, description, image, chips, tone = 'light', badge, roles } = Astro.props;
+const dark = tone === 'dark';
+---
+
+<a class:list={['card', `card--${tone}`]} href={href}>
+  <CardMedia image={image} chips={chips} />
+  <div class="card__body">
+    <div class="card__head">
+      <Heading level={2} style="heading-md" color={dark ? 'inverse' : 'heading'}>{title}</Heading>
+      {badge && <Pill label={badge} />}
+      {roles && roles.length > 0 && <RoleList roles={roles} />}
+    </div>
+    <Text color={dark ? 'inverse-secondary' : 'secondary'}>{description}</Text>
+  </div>
+</a>
+
+<style>
+  .card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--card-gap);
+    padding-bottom: var(--card-padding);
+    border-radius: var(--card-radius);
+    overflow: hidden;
+    box-shadow: var(--card-shadow-rest);
+    transition: box-shadow var(--motion-transition-base);
+  }
+  .card--light {
+    background: var(--card-background);
+  }
+  .card--dark {
+    background: var(--card-background-inverse);
+  }
+  .card:hover,
+  .card:focus-visible {
+    box-shadow: var(--card-shadow-hover);
+  }
+  .card:focus-visible {
+    outline: 2px solid var(--color-border-focus);
+    outline-offset: 4px;
+  }
+  .card__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-10);
+    padding: 0 var(--card-padding);
+  }
+  .card__head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: var(--space-10);
+  }
+</style>

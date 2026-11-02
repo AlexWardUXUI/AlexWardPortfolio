@@ -1,0 +1,36 @@
+---
+/**
+ * Atom: Link
+ * inline: link inside running text. nav: navigation action.
+ * External (http/https) links open in a new tab by default.
+ */
+import type { LinkProps } from '../../types/schema';
+
+type Props = LinkProps;
+
+const { href, variant = 'inline', class: className } = Astro.props;
+const external = Astro.props.external ?? /^https?:\/\//.test(href);
+---
+
+<a
+  href={href}
+  class:list={['link', `link--${variant}`, className]}
+  target={external ? '_blank' : undefined}
+  rel={external ? 'noopener' : undefined}
+><slot /></a>
+
+<style>
+  .link {
+    color: var(--color-text-link);
+  }
+  .link:hover {
+    text-decoration: underline;
+  }
+  .link--nav {
+    font-family: var(--typography-nav-link-font-family);
+    font-size: var(--typography-nav-link-font-size);
+    font-weight: var(--typography-nav-link-font-weight);
+    line-height: var(--typography-nav-link-line-height);
+    color: var(--nav-link);
+  }
+</style>

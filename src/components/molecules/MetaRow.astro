@@ -1,0 +1,29 @@
+---
+/** Molecule: MetaRow. Two labels pushed to opposite edges, e.g. company and dates. */
+import type { MetaRowProps } from '../../types/schema';
+import Text from '../atoms/Text.astro';
+
+type Props = MetaRowProps;
+
+const { start, end } = Astro.props;
+---
+
+<div class="meta-row">
+  <Text as="span" style="label" color="secondary">{start}</Text>
+  <Text as="span" style="label" color="secondary">{end}</Text>
+</div>
+
+<style>
+  .meta-row {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-16);
+    padding-block: var(--space-50) var(--space-28);
+  }
+  @media (max-width: 599px) {
+    .meta-row {
+      flex-direction: column;
+      padding-block: var(--space-24) var(--space-8);
+    }
+  }
+</style>

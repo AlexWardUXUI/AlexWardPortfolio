@@ -1,0 +1,18 @@
+---
+/** Page: Case study. One static route per entry in src/data/case-studies. */
+import type { GetStaticPaths } from 'astro';
+import type { CaseStudy } from '../types/schema';
+import CaseStudyLayout from '../layouts/CaseStudyLayout.astro';
+import { caseStudies } from '../data/case-studies';
+
+export const getStaticPaths = (() =>
+  caseStudies.map((study) => ({ params: { slug: study.slug }, props: { study } }))) satisfies GetStaticPaths;
+
+interface Props {
+  study: CaseStudy;
+}
+
+const { study } = Astro.props;
+---
+
+<CaseStudyLayout study={study} />

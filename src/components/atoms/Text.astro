@@ -1,0 +1,15 @@
+---
+/**
+ * Atom: Text
+ * Any non-heading run of text. Style and colour come only from semantic tokens.
+ */
+import type { TextProps } from '../../types/schema';
+
+type Props = TextProps;
+
+const { as: Tag = 'p', style = 'body', color, align = 'start', class: className } = Astro.props;
+---
+
+<Tag class:list={[`type-${style}`, color && `text-${color}`, align === 'center' && 'align-center', className]}>
+  <slot />
+</Tag>

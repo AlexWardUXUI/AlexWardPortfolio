@@ -1,0 +1,53 @@
+---
+/**
+ * Organism: WorkGrid
+ * Rows of two ProjectCards. Column widths come from each card's size, so a row
+ * reads narrow/wide or wide/narrow without extra layout props. Stacks on tablet.
+ */
+import type { WorkGridProps } from '../../types/schema';
+import ProjectCard from './ProjectCard.astro';
+
+type Props = WorkGridProps;
+
+const { rows, id } = Astro.props;
+const fr = { narrow: '320fr', wide: '680fr' } as const;
+---
+
+<section class="work" id={id} aria-label="Selected work">
+  <div class="work__rows">
+    {rows.map((row) => (
+      <div class="work__row" style={`--cols: ${row.map((c) => fr[c.size]).join(' ')}`}>
+        {row.map((card) => <ProjectCard {...card} />)}
+      </div>
+    ))}
+  </div>
+</section>
+
+<style>
+  .work {
+    padding: var(--space-72) var(--space-40) var(--space-88);
+    background: var(--color-surface-page);
+    scroll-margin-top: var(--nav-height);
+  }
+  .work__rows {
+    max-width: var(--size-grid-width);
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-40);
+  }
+  .work__row {
+    display: grid;
+    grid-template-columns: var(--cols);
+    gap: var(--space-40);
+    align-items: start;
+  }
+  @media (max-width: 899px) {
+    .work {
+      padding: var(--space-56) var(--space-16) var(--space-64);
+    }
+    .work__row {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -1,0 +1,25 @@
+---
+/** Organism: CaseFooter. Case study name and a contact prompt. */
+import type { CaseFooterProps } from '../../types/schema';
+import Text from '../atoms/Text.astro';
+import RichText from '../atoms/RichText.astro';
+
+type Props = CaseFooterProps;
+
+const { label, cta } = Astro.props;
+---
+
+<footer class="case-footer">
+  <Text as="span" style="label" color="secondary">{label}</Text>
+  <Text as="span" style="label" color="secondary"><RichText content={cta} /></Text>
+</footer>
+
+<style>
+  .case-footer {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: var(--space-16);
+    padding-top: var(--space-40);
+  }
+</style>
