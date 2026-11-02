@@ -1,12 +1,17 @@
 ---
-/** Template: CaseStudyLayout. Navbar, header, block content and footer in a 900px column. */
+/**
+ * Template: CaseStudyLayout. Navbar, header, hero, the MDX body and footer in a
+ * 900px column. Also styles the Markdown output (headings, paragraphs, lists) with
+ * the same typography tokens the components use.
+ */
 import type { CaseStudyLayoutProps } from '../types/schema';
 import BaseLayout from './BaseLayout.astro';
 import Navbar from '../components/organisms/Navbar.astro';
 import CaseHeader from '../components/organisms/CaseHeader.astro';
-import BlockRenderer from '../components/organisms/BlockRenderer.astro';
 import CaseFooter from '../components/organisms/CaseFooter.astro';
-import { brand, caseNav } from '../data/site';
+import Figure from '../components/molecules/Figure.astro';
+import Text from '../components/atoms/Text.astro';
+import { brand, caseNav, caseCta } from '../data/site';
 
 type Props = CaseStudyLayoutProps;
 
@@ -18,15 +23,31 @@ const { study } = Astro.props;
   <main class="case">
     <article class="case__column">
       <CaseHeader eyebrow={study.eyebrow} title={study.title} />
-      <BlockRenderer blocks={study.blocks} headingStyle={study.headingStyle} />
-      <CaseFooter {...study.footer} />
+      <Figure
+        image={study.hero.image}
+        fit={study.hero.fit}
+        aspect={study.hero.aspect}
+        width={study.hero.width}
+        loading="eager"
+      />
+      {study.tags && <Text style="caption" color="muted">{study.tags}</Text>}
+      {study.period && (
+        <div class="case__period">
+          <Text as="span" style="label" color="secondary">{study.period.start}</Text>
+          <Text as="span" style="label" color="secondary">{study.period.end}</Text>
+        </div>
+      )}
+      <div class="prose">
+        <slot />
+      </div>
+      <CaseFooter label={study.footerLabel} cta={caseCta} />
     </article>
   </main>
 </BaseLayout>
 
 <style>
   .case {
-    padding: calc(var(--nav-height) + var(--space-50)) var(--space-24) var(--space-50);
+    padding: calc(var(--size-nav-height) + var(--space-48)) var(--space-24) var(--space-48);
     display: flex;
     justify-content: center;
   }
@@ -37,9 +58,74 @@ const { study } = Astro.props;
     flex-direction: column;
     gap: var(--space-20);
   }
+  .case__period {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-16);
+    padding-block: var(--space-48) var(--space-28);
+  }
+
+  /* Markdown output. Rhythm: 20px between blocks, headings pulled close to what follows. */
+  .prose {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-20);
+    min-width: 0;
+  }
+  .prose :global(h2) {
+    margin-top: var(--space-4);
+    font-family: var(--typography-heading-md-font-family);
+    font-size: var(--typography-heading-md-font-size);
+    font-weight: var(--typography-heading-md-font-weight);
+    line-height: var(--typography-heading-md-line-height);
+    letter-spacing: var(--typography-heading-md-letter-spacing);
+    color: var(--color-text-primary);
+    text-wrap: balance;
+  }
+  .prose :global(h3) {
+    font-family: var(--typography-heading-sm-font-family);
+    font-size: var(--typography-heading-sm-font-size);
+    font-weight: var(--typography-heading-sm-font-weight);
+    line-height: var(--typography-heading-sm-line-height);
+    letter-spacing: var(--typography-heading-sm-letter-spacing);
+    color: var(--color-text-emphasis);
+    text-wrap: balance;
+  }
+  .prose :global(p),
+  .prose :global(li) {
+    font-family: var(--typography-body-font-family);
+    font-size: var(--typography-body-font-size);
+    font-weight: var(--typography-body-font-weight);
+    line-height: var(--typography-body-line-height);
+    letter-spacing: var(--typography-body-letter-spacing);
+    color: var(--color-text-secondary);
+  }
+  .prose :global(ul) {
+    margin: 0;
+    padding-left: var(--space-24);
+  }
+  .prose :global(a) {
+    color: var(--color-text-link);
+  }
+  .prose :global(a:hover) {
+    text-decoration: underline;
+  }
+  /* Pull body content closer to the heading or lead-in paragraph above it */
+  .prose :global(:is(h2, h3) + *),
+  .prose :global(p + ul) {
+    margin-top: calc(var(--space-12) * -1);
+  }
+  .prose :global(h2 + h2) {
+    margin-top: var(--space-4);
+  }
+
   @media (max-width: 599px) {
     .case {
-      padding: calc(var(--nav-height) + var(--space-32)) var(--space-16) var(--space-40);
+      padding: calc(var(--size-nav-height) + var(--space-32)) var(--space-16) var(--space-40);
+    }
+    .case__period {
+      flex-direction: column;
+      padding-block: var(--space-24) var(--space-8);
     }
   }
 </style>

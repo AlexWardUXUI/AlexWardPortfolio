@@ -1,7 +1,6 @@
 ---
-/** Organism: Navbar. Fixed top bar with Brand and a list of nav Links. */
+/** Organism: Navbar. Fixed top bar: brand (name and tagline) plus a list of nav Links. */
 import type { NavbarProps } from '../../types/schema';
-import Brand from '../molecules/Brand.astro';
 import Link from '../atoms/Link.astro';
 
 type Props = NavbarProps;
@@ -10,7 +9,9 @@ const { brand, links } = Astro.props;
 ---
 
 <header class="navbar">
-  <Brand {...brand} />
+  <a class="navbar__brand type-brand text-primary" href={brand.href}>
+    <strong>{brand.name} |</strong><span class="navbar__tagline"> {brand.tagline}</span>
+  </a>
   <nav aria-label="Primary">
     <ul class="navbar__links">
       {links.map((l) => <li><Link href={l.href} external={l.external} variant="nav">{l.label}</Link></li>)}
@@ -23,17 +24,22 @@ const { brand, links } = Astro.props;
     position: fixed;
     inset: 0 0 auto 0;
     z-index: 100;
-    height: var(--nav-height);
-    padding: var(--nav-padding);
+    height: var(--size-nav-height);
+    padding: var(--space-24);
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: var(--nav-gap);
-    background: var(--nav-background);
+    gap: var(--space-24);
+    background: var(--color-surface-default);
+  }
+  .navbar__brand {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .navbar__links {
     display: flex;
-    gap: var(--nav-gap);
+    gap: var(--space-24);
     margin: 0;
     padding: 0;
     list-style: none;
@@ -41,6 +47,9 @@ const { brand, links } = Astro.props;
   @media (max-width: 599px) {
     .navbar {
       padding: var(--space-16);
+    }
+    .navbar__tagline {
+      display: none;
     }
     .navbar__links {
       gap: var(--space-16);

@@ -5,7 +5,9 @@ import '../styles/global.css';
 
 type Props = BaseLayoutProps;
 
-const { title, description, surface = 'default', ogImage } = Astro.props;
+const { title, description, surface = 'default', ogImage, fonts = [] } = Astro.props;
+const families = ['Inter:wght@300;400;500;600;700;800', ...(fonts.includes('mono') ? ['JetBrains+Mono:wght@400;500'] : [])];
+const fontHref = `https://fonts.googleapis.com/css2?${families.map((f) => `family=${f}`).join('&')}&display=swap`;
 ---
 
 <!doctype html>
@@ -14,6 +16,7 @@ const { title, description, surface = 'default', ogImage } = Astro.props;
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <meta name="description" content={description} />
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
@@ -21,7 +24,7 @@ const { title, description, surface = 'default', ogImage } = Astro.props;
     {ogImage && <meta property="og:image" content={ogImage} />}
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link href={fontHref} rel="stylesheet" />
   </head>
   <body data-surface={surface}>
     <slot />

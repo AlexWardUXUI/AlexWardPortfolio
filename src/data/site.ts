@@ -1,4 +1,4 @@
-import type { BrandProps, ConnectSectionProps, HeroProps, NavLinkItem, RichText } from '../types/schema';
+import type { Brand, ConnectSectionProps, HeroProps, NavLinkItem, RichText } from '../types/schema';
 
 export const LINKEDIN = 'https://www.linkedin.com/in/alexjward93/';
 
@@ -8,7 +8,7 @@ export const site = {
   ogImage: '/assets/img/home/hero.png',
 };
 
-export const brand: BrandProps = {
+export const brand: Brand = {
   name: 'ALEX WARD',
   tagline: 'Service and Product design leader',
   href: '/',
@@ -16,10 +16,30 @@ export const brand: BrandProps = {
 
 export const homeNav: NavLinkItem[] = [
   { label: 'Selected work', href: '#work' },
+  { label: 'Design system', href: '/design-system/' },
   { label: 'Contact me', href: LINKEDIN, external: true },
 ];
 
-export const caseNav: NavLinkItem[] = [{ label: 'Home', href: '/' }];
+export const caseNav: NavLinkItem[] = [
+  { label: 'Home', href: '/' },
+  { label: 'Design system', href: '/design-system/' },
+];
+
+export const designSystemNav: NavLinkItem[] = [
+  { label: 'Home', href: '/' },
+  { label: 'Contact me', href: LINKEDIN, external: true },
+];
+
+export const designSystemCopy = {
+  eyebrow: 'Design system',
+  title: 'How this site is built',
+  intro:
+    'This portfolio runs on a small design system: tokens in the W3C format, components organised by atomic level, and TypeScript schemas that every component and every case study must satisfy. Everything on this page is generated from the source files, so it cannot drift from the code.',
+  seo: {
+    title: 'Design system | Alex Ward',
+    description: 'Tokens, components and content schemas behind Alex Ward’s portfolio, generated from the source code.',
+  },
+};
 
 export const hero: HeroProps = {
   title: 'I help teams solve complex product problems and turn them into services people can use.',

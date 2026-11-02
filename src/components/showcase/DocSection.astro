@@ -1,0 +1,38 @@
+---
+/** Showcase: DocSection. Titled section of the design system page. */
+import Heading from '../atoms/Heading.astro';
+import Text from '../atoms/Text.astro';
+
+interface Props {
+  id: string;
+  title: string;
+  intro?: string;
+}
+
+const { id, title, intro } = Astro.props;
+---
+
+<section class="doc-section" id={id} aria-labelledby={`${id}-title`}>
+  <header class="doc-section__header">
+    <Heading level={2} style="heading-md" color="primary"><span id={`${id}-title`}>{title}</span></Heading>
+    {intro && <Text color="secondary">{intro}</Text>}
+  </header>
+  <slot />
+</section>
+
+<style>
+  .doc-section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-24);
+    padding-top: var(--space-56);
+    border-top: 1px solid var(--color-border-default);
+    scroll-margin-top: calc(var(--size-nav-height) + var(--space-16));
+  }
+  .doc-section__header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+    max-width: 680px;
+  }
+</style>

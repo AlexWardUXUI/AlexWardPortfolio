@@ -26,16 +26,10 @@ strong { font-weight: var(--font-weight-bold); }
 
 /* Text colour utilities: one per semantic text token (see TextColor in src/types/schema.ts) */
 .text-primary { color: var(--color-text-primary); }
-.text-heading { color: var(--color-text-heading); }
 .text-display { color: var(--color-text-display); }
-.text-hero { color: var(--color-text-hero); }
-.text-hero-muted { color: var(--color-text-hero-muted); }
 .text-emphasis { color: var(--color-text-emphasis); }
 .text-secondary { color: var(--color-text-secondary); }
-.text-list { color: var(--color-text-list); }
 .text-muted { color: var(--color-text-muted); }
-.text-tertiary { color: var(--color-text-tertiary); }
-.text-subtle { color: var(--color-text-subtle); }
 .text-inverse { color: var(--color-text-inverse); }
 .text-inverse-secondary { color: var(--color-text-inverse-secondary); }
 .text-link { color: var(--color-text-link); }

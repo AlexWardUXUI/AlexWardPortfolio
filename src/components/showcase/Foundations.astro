@@ -1,0 +1,116 @@
+---
+/** Showcase: Foundations. Spacing scale, radii and shadows rendered from their tokens. */
+import { tokensWhere } from '../../lib/design-system';
+
+const space = tokensWhere('space.', 'primitive');
+const radii = tokensWhere('radius.', 'primitive');
+const shadows = tokensWhere('shadow.', 'semantic').filter((t) => t.path !== 'shadow.none');
+---
+
+<div class="foundations">
+  <div class="panel">
+    <h3 class="type-label text-muted">Spacing</h3>
+    <ul class="space-list">
+      {space.map((t) => (
+        <li class="space-row">
+          <code class="type-code">{t.path}</code>
+          <span class="space-bar" style={`width:${t.value}`} />
+        </li>
+      ))}
+    </ul>
+  </div>
+
+  <div class="panel">
+    <h3 class="type-label text-muted">Radius</h3>
+    <ul class="tiles">
+      {radii.map((t) => (
+        <li class="tile">
+          <span class="tile__shape" style={`border-radius:${t.value}`} />
+          <code class="type-code">{t.path}</code>
+          <span class="type-caption text-muted">{String(t.value)}</span>
+        </li>
+      ))}
+    </ul>
+
+    <h3 class="type-label text-muted">Shadow</h3>
+    <ul class="tiles">
+      {shadows.map((t) => (
+        <li class="tile">
+          <span class="tile__shape tile__shape--raised" style={`box-shadow:var(${t.cssVar})`} />
+          <code class="type-code">{t.path}</code>
+          <span class="type-caption text-muted">{t.description ?? ''}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+</div>
+
+<style>
+  .foundations {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--space-24);
+    align-items: start;
+  }
+  .panel {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-16);
+    padding: var(--space-24);
+    border-radius: var(--radius-md);
+    background: var(--color-surface-default);
+    min-width: 0;
+  }
+  h3 {
+    margin: 0;
+  }
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .space-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+  .space-row {
+    display: grid;
+    grid-template-columns: 80px minmax(0, 1fr);
+    align-items: center;
+    gap: var(--space-12);
+  }
+  .space-bar {
+    height: 12px;
+    max-width: 100%;
+    border-radius: 2px;
+    background: var(--color-primary-default);
+  }
+  .tiles {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+    gap: var(--space-20);
+  }
+  .tile {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+    min-width: 0;
+  }
+  .tile__shape {
+    width: 72px;
+    height: 72px;
+    border: 2px solid var(--color-primary-default);
+    background: var(--color-surface-sunken);
+  }
+  .tile__shape--raised {
+    border: 0;
+    border-radius: var(--radius-md);
+    background: var(--color-surface-default);
+  }
+  @media (max-width: 899px) {
+    .foundations {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

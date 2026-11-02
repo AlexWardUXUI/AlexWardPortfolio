@@ -1,12 +1,14 @@
 ---
-/** Page: Home. Composition only; all content lives in src/data. */
+/** Page: Home. Composition only; content lives in src/data, counts come from src/lib. */
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Navbar from '../components/organisms/Navbar.astro';
 import Hero from '../components/organisms/Hero.astro';
 import WorkGrid from '../components/organisms/WorkGrid.astro';
+import SystemTeaser from '../components/organisms/SystemTeaser.astro';
 import ConnectSection from '../components/organisms/ConnectSection.astro';
-import { brand, connect, hero, homeNav, site } from '../data/site';
-import { workGrid } from '../data/projects';
+import { brand, connect, designSystemCopy, hero, homeNav, site } from '../data/site';
+import { workGrid, componentLibrary, aiAssistedDesign, agilent } from '../data/projects';
+import { allTokens, tierCounts, components, componentCounts, caseStudyCount } from '../lib/design-system';
 ---
 
 <BaseLayout title={site.title} description={site.description} surface="page" ogImage={site.ogImage}>
@@ -14,6 +16,26 @@ import { workGrid } from '../data/projects';
   <main>
     <Hero {...hero} />
     <WorkGrid {...workGrid} />
+    <SystemTeaser
+      id="system"
+      eyebrow={designSystemCopy.eyebrow}
+      title={designSystemCopy.title}
+      intro="The site you are looking at is built as a design system. Every card above is the same typed component, fed by data and styled only through tokens."
+      stats={[
+        { value: allTokens.length, label: 'Design tokens', detail: `${tierCounts.primitive} primitive · ${tierCounts.semantic} semantic` },
+        { value: components.length, label: 'Typed components', detail: `${componentCounts.atom} atoms · ${componentCounts.molecule} molecules · ${componentCounts.organism} organisms` },
+        { value: caseStudyCount, label: 'Case studies', detail: 'Written in MDX, checked against one content schema' },
+      ]}
+      playground={{
+        name: 'card-variant',
+        variants: [
+          { id: 'default', label: 'Default', card: componentLibrary },
+          { id: 'highlighted', label: 'Highlighted', card: aiAssistedDesign },
+          { id: 'roles', label: 'With roles', card: agilent },
+        ],
+      }}
+      cta={{ label: 'Explore the design system', href: '/design-system/' }}
+    />
     <ConnectSection {...connect} />
   </main>
 </BaseLayout>

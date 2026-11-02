@@ -1,0 +1,111 @@
+---
+/**
+ * Organism: VariantPlayground
+ * Switches between ProjectCard variants and shows the typed props that produce
+ * each one. CSS only (radio inputs + :has), no client JavaScript. Up to 4 variants.
+ */
+import type { VariantPlaygroundProps } from '../../types/schema';
+import ProjectCard from './ProjectCard.astro';
+import CodeBlock from '../molecules/CodeBlock.astro';
+
+type Props = VariantPlaygroundProps;
+
+const { name, variants } = Astro.props;
+const shown = variants.slice(0, 4);
+
+function toSource(card: (typeof shown)[number]['card']): string {
+  return `const card: ProjectCardProps = ${JSON.stringify(card, null, 2).replace(/"([a-zA-Z]+)":/g, '$1:')};`;
+}
+---
+
+<div class="playground">
+  <fieldset class="playground__controls">
+    <legend class="type-label text-muted">Variant</legend>
+    {shown.map((v, i) => (
+      <label class="seg type-label">
+        <input class="seg__input" type="radio" name={name} value={v.id} checked={i === 0} />
+        <span>{v.label}</span>
+      </label>
+    ))}
+  </fieldset>
+
+  <div class="playground__stage">
+    {shown.map((v) => (
+      <div class="playground__panel">
+        <div class="playground__card">
+          <ProjectCard {...v.card} />
+        </div>
+        <CodeBlock label="src/data/projects.ts" code={toSource(v.card)} />
+      </div>
+    ))}
+  </div>
+</div>
+
+<style>
+  .playground {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-20);
+  }
+  .playground__controls {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-4);
+    margin: 0;
+    padding: var(--space-4);
+    border: 0;
+    border-radius: var(--radius-sm);
+    background: var(--color-surface-default);
+    width: fit-content;
+    max-width: 100%;
+  }
+  .playground__controls legend {
+    float: left;
+    padding: 0 var(--space-8) 0 var(--space-8);
+  }
+  .seg {
+    position: relative;
+    padding: var(--space-6) var(--space-12);
+    border-radius: var(--radius-xs);
+    color: var(--color-text-secondary);
+    cursor: pointer;
+  }
+  .seg__input {
+    position: absolute;
+    opacity: 0;
+    inset: 0;
+    margin: 0;
+    cursor: pointer;
+  }
+  .seg:has(.seg__input:checked) {
+    background: var(--color-text-primary);
+    color: var(--color-text-inverse);
+  }
+  .seg:has(.seg__input:focus-visible) {
+    outline: 2px solid var(--color-border-focus);
+    outline-offset: 2px;
+  }
+
+  .playground__panel {
+    display: none;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--space-24);
+    align-items: start;
+  }
+  /* Show the panel whose position matches the checked radio */
+  .playground:has(.seg:nth-of-type(1) .seg__input:checked) .playground__panel:nth-child(1),
+  .playground:has(.seg:nth-of-type(2) .seg__input:checked) .playground__panel:nth-child(2),
+  .playground:has(.seg:nth-of-type(3) .seg__input:checked) .playground__panel:nth-child(3),
+  .playground:has(.seg:nth-of-type(4) .seg__input:checked) .playground__panel:nth-child(4) {
+    display: grid;
+  }
+  .playground__card {
+    max-width: 680px;
+  }
+  @media (max-width: 899px) {
+    .playground__panel {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

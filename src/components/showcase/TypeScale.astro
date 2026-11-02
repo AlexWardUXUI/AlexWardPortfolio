@@ -1,0 +1,74 @@
+---
+/** Showcase: TypeScale. A live specimen of every typography token with its resolved values. */
+import { tokensWhere } from '../../lib/design-system';
+
+const styles = tokensWhere('typography.', 'semantic').map((t) => {
+  const v = t.value as Record<string, unknown>;
+  const name = t.path.replace('typography.', '');
+  return {
+    name,
+    path: t.path,
+    description: t.description,
+    meta: `${v.fontSize} / ${v.lineHeight} · ${v.fontWeight} · ${v.letterSpacing}`,
+  };
+});
+const sample = (name: string) =>
+  name === 'display' ? 'Design system' : name.startsWith('heading') ? 'Service and product design' : 'Shared foundations with local flexibility';
+---
+
+<ul class="type-scale">
+  {styles.map((s) => (
+    <li class="type-scale__row">
+      <div class="type-scale__meta">
+        <code class="type-code">{s.path}</code>
+        <span class="type-caption">{s.meta}</span>
+      </div>
+      <p class:list={['type-scale__sample', `type-${s.name}`]}>{sample(s.name)}</p>
+    </li>
+  ))}
+</ul>
+
+<style>
+  .type-scale {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-radius: var(--radius-md);
+    background: var(--color-surface-default);
+  }
+  .type-scale__row {
+    display: grid;
+    grid-template-columns: 240px minmax(0, 1fr);
+    gap: var(--space-24);
+    align-items: baseline;
+    padding: var(--space-16);
+    border-bottom: 1px solid var(--color-border-default);
+  }
+  .type-scale__row:last-child {
+    border-bottom: 0;
+  }
+  .type-scale__meta {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    color: var(--color-text-muted);
+  }
+  .type-scale__meta code {
+    color: var(--color-text-primary);
+  }
+  .type-scale__sample {
+    min-width: 0;
+    color: var(--color-text-primary);
+    overflow-wrap: anywhere;
+  }
+  @media (max-width: 899px) {
+    .type-scale__row {
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--space-8);
+    }
+    .type-scale__sample.type-display {
+      font-size: var(--font-size-4xl);
+      letter-spacing: var(--font-letter-spacing-tighter);
+    }
+  }
+</style>

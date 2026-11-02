@@ -1,0 +1,403 @@
+---
+/**
+ * Page: Design system. Documentation generated at build time from tokens.ts,
+ * schema.ts, content.config.ts, the component sources and the case study MDX.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/organisms/Navbar.astro';
+import CaseHeader from '../components/organisms/CaseHeader.astro';
+import Text from '../components/atoms/Text.astro';
+import Code from '../components/atoms/Code.astro';
+import Stat from '../components/molecules/Stat.astro';
+import CodeBlock from '../components/molecules/CodeBlock.astro';
+import ContrastBadge from '../components/molecules/ContrastBadge.astro';
+import ChipGroup from '../components/molecules/ChipGroup.astro';
+import RoleList from '../components/molecules/RoleList.astro';
+import Pill from '../components/atoms/Pill.astro';
+import DocSection from '../components/showcase/DocSection.astro';
+import AliasChain from '../components/showcase/AliasChain.astro';
+import ColorTable from '../components/showcase/ColorTable.astro';
+import TypeScale from '../components/showcase/TypeScale.astro';
+import Foundations from '../components/showcase/Foundations.astro';
+import ComponentCatalogue from '../components/showcase/ComponentCatalogue.astro';
+import { brand, designSystemNav, designSystemCopy } from '../data/site';
+import {
+  allTokens,
+  tierCounts,
+  textColorRows,
+  brandColorRows,
+  contrastFixes,
+  components,
+  componentCounts,
+  contentSchema,
+  mdxComponents,
+  mdxExcerpt,
+  caseStudyCount,
+} from '../lib/design-system';
+
+const sections = [
+  { id: 'principles', label: 'Principles' },
+  { id: 'tokens', label: 'Tokens' },
+  { id: 'colour', label: 'Colour' },
+  { id: 'type', label: 'Typography' },
+  { id: 'foundations', label: 'Space, radius, shadow' },
+  { id: 'components', label: 'Components' },
+  { id: 'schema', label: 'Content schema' },
+  { id: 'audit', label: 'Audit' },
+];
+
+const tokenSample = `// tokens/semantic.json
+"text": {
+  "link": { "$type": "color", "$value": "{color.primary.default}" }
+}
+
+// generated: src/styles/tokens.css
+--color-text-link: var(--color-primary-default);
+
+// generated: src/tokens/tokens.ts
+token('color.text.link') // → "var(--color-text-link)"`;
+
+const mdxSample = mdxExcerpt('shotscope.mdx', 40);
+const maxFiles = Math.max(...mdxComponents.map((c) => c.files), 1);
+
+const principles = [
+  {
+    title: 'Tokens before values',
+    text: 'Components never hold a raw colour or shadow. They read semantic tokens, and spacing comes from one scale, so a change in tokens/*.json reaches every page at once.',
+  },
+  {
+    title: 'Schemas before markup',
+    text: 'Every component declares its props in one TypeScript file, and every case study is checked against one content schema, so a missing title or image alt text fails the build.',
+  },
+  {
+    title: 'Accessible by default',
+    text: 'Every text colour is measured against its background below. The audit fixed three failing colours by changing tokens, not components, and removed the fourth with the gradient banner it sat on.',
+  },
+];
+---
+
+<BaseLayout title={designSystemCopy.seo.title} description={designSystemCopy.seo.description} surface="page" fonts={['mono']}>
+  <Navbar brand={brand} links={designSystemNav} />
+  <main class="ds">
+    <div class="ds__column">
+      <div class="ds__intro">
+        <CaseHeader eyebrow={designSystemCopy.eyebrow} title={designSystemCopy.title} />
+        <Text style="lead-sm" color="emphasis">{designSystemCopy.intro}</Text>
+      </div>
+
+      <div class="ds__stats">
+        <Stat value={allTokens.length} label="Design tokens" detail={`${tierCounts.primitive} primitive · ${tierCounts.semantic} semantic`} />
+        <Stat value={components.length} label="Typed components" detail={`${componentCounts.atom} atoms · ${componentCounts.molecule} molecules · ${componentCounts.organism} organisms`} />
+        <Stat value={caseStudyCount} label="Case studies" detail="Written in MDX, checked against one content schema" />
+      </div>
+
+      <nav class="ds__toc" aria-label="On this page">
+        <ul>
+          {sections.map((s) => <li><a class="type-label" href={`#${s.id}`}>{s.label}</a></li>)}
+        </ul>
+      </nav>
+
+      <DocSection id="principles" title="Principles">
+        <ul class="cards">
+          {principles.map((p) => (
+            <li class="card">
+              <h3 class="type-heading-sm text-primary">{p.title}</h3>
+              <p class="type-body text-secondary">{p.text}</p>
+            </li>
+          ))}
+        </ul>
+      </DocSection>
+
+      <DocSection
+        id="tokens"
+        title="Two tiers of tokens"
+        intro="Tokens are written in the W3C Design Tokens (DTCG) JSON format, so they can sync with Figma variables. A build script turns them into CSS custom properties and a typed TypeScript module. Aliases stay as var() references, so you can trace any value in the browser."
+      >
+        <ul class="cards cards--2">
+          <li class="card">
+            <h3 class="type-heading-sm text-primary">Primitive <span class="text-muted">({tierCounts.primitive})</span></h3>
+            <p class="type-body text-secondary">Raw values: the palette, type scale, spacing, radii and sizes. Components never reference these for colour or type.</p>
+          </li>
+          <li class="card">
+            <h3 class="type-heading-sm text-primary">Semantic <span class="text-muted">({tierCounts.semantic})</span></h3>
+            <p class="type-body text-secondary">Named by purpose: <Code>color.primary</Code>, <Code>color.text.muted</Code>, <Code>typography.body</Code>. This is the layer a rebrand changes, and the only one components use for colour, type and shadow.</p>
+          </li>
+        </ul>
+        <div class="stack">
+          <Text style="label" color="muted">How a token resolves</Text>
+          <AliasChain path="color.text.link" />
+          <AliasChain path="color.border.focus" />
+          <AliasChain path="color.text.muted" />
+        </div>
+        <CodeBlock label="One token, three outputs" code={tokenSample} />
+      </DocSection>
+
+      <DocSection
+        id="colour"
+        title="Colour"
+        intro="Contrast ratios are calculated from the token values when the site is built. AA needs 4.5:1 for normal text; the muted grey and link blue were chosen to clear it."
+      >
+        <ColorTable caption="Brand colours" rows={brandColorRows} contrastLabel="Contrast" />
+        <ColorTable caption="Text colours" rows={textColorRows} contrastLabel="On its surface" />
+      </DocSection>
+
+      <DocSection id="type" title="Typography" intro="One family, Inter, in fifteen semantic styles. Each style is a composite token, emitted as a utility class such as .type-body.">
+        <TypeScale />
+      </DocSection>
+
+      <DocSection id="foundations" title="Space, radius and shadow" intro="A 4px spacing scale with two half steps for compact components. Each radius and shadow has one documented role.">
+        <Foundations />
+      </DocSection>
+
+      <DocSection
+        id="components"
+        title="Components"
+        intro="Grouped by atomic level. Open any component to see the props interface it must satisfy and every token its styles use. This list is generated by reading the component files themselves."
+      >
+        <div class="specimen">
+          <Text style="label" color="muted">Live atoms and molecules</Text>
+          <div class="specimen__row">
+            <div class="specimen__media">
+              <ChipGroup chips={[{ label: 'Figma', icon: { src: '/assets/img/icons/figma.png', alt: 'Figma logo', decorative: true } }, { label: 'Design maturity' }]} />
+            </div>
+            <Pill label="Highlighted work" />
+            <RoleList roles={['Lead designer', 'User research', 'Prototypes']} />
+          </div>
+        </div>
+        <ComponentCatalogue components={components} />
+      </DocSection>
+
+      <DocSection
+        id="schema"
+        title="Content schema"
+        intro="Case studies are Markdown (MDX) files: prose stays plain text, and a few components drop in for figures, galleries and columns. Frontmatter is validated against one schema, so a missing title or image alt text fails the build."
+      >
+        <div class="split">
+          <CodeBlock label="src/content.config.ts" code={contentSchema} />
+          <div class="usage">
+            <Text style="label" color="muted">Components used inside case study MDX</Text>
+            <ul class="usage__list">
+              {mdxComponents.map((c) => (
+                <li class="usage__row">
+                  <code class="type-code">{c.name}</code>
+                  <span class="usage__bar" style={`width:${(c.files / maxFiles) * 100}%`} />
+                  <span class="type-caption text-secondary usage__count">{c.files}/{caseStudyCount}</span>
+                </li>
+              ))}
+            </ul>
+            <Text style="caption" color="muted">Files that import each component, out of {caseStudyCount} case studies.</Text>
+          </div>
+        </div>
+        <CodeBlock label="src/content/case-studies/shotscope.mdx" code={mdxSample} />
+      </DocSection>
+
+      <DocSection
+        id="audit"
+        title="Audit fixes"
+        intro="The original Framer site was audited before this system was built. Four text colours failed WCAG AA. Three were fixed with a single token change each; the fourth, white text on a gradient banner, went when the banner was replaced with a standard heading."
+      >
+        <div class="table-wrap" tabindex="0">
+          <table class="fixes">
+            <thead class="type-label">
+              <tr>
+                <th scope="col">Where</th>
+                <th scope="col">Before</th>
+                <th scope="col">After</th>
+              </tr>
+            </thead>
+            <tbody class="type-caption">
+              {contrastFixes.map((f) => (
+                <tr>
+                  <th scope="row" class="text-primary">{f.use}</th>
+                  <td><span class="fix"><span class="swatch" style={`background:${f.before}`} /><code class="type-code">{f.before}</code><ContrastBadge ratio={f.beforeRatio} /></span></td>
+                  <td><span class="fix"><span class="swatch" style={`background:${f.after}`} /><code class="type-code">{f.after}</code><ContrastBadge ratio={f.afterRatio} /></span></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <Text color="secondary">
+          Also consolidated: two H2 styles into one, fifteen neutrals into ten, nine letter-spacings into six and seven line heights into five. The component token tier was removed, since one site gains nothing from it.
+        </Text>
+      </DocSection>
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  .ds {
+    padding: calc(var(--size-nav-height) + var(--space-48)) var(--space-24) var(--space-96);
+    display: flex;
+    justify-content: center;
+  }
+  .ds__column {
+    width: 100%;
+    max-width: var(--size-grid-width);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-40);
+  }
+  .ds__intro {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-20);
+    max-width: var(--size-content-width);
+  }
+  .ds__stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-24);
+    padding-block: var(--space-24);
+    border-block: 1px solid var(--color-border-default);
+  }
+  .ds__toc ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-8);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .ds__toc a {
+    display: inline-block;
+    padding: var(--space-6) var(--space-12);
+    border-radius: var(--radius-sm);
+    background: var(--color-surface-default);
+    color: var(--color-text-link);
+  }
+  .ds__toc a:hover {
+    text-decoration: underline;
+  }
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-16);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .cards--2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+    padding: var(--space-24);
+    border-radius: var(--radius-md);
+    background: var(--color-surface-default);
+  }
+  .card h3,
+  .card p {
+    margin: 0;
+  }
+  .stack {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-12);
+  }
+  .specimen {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-16);
+    padding: var(--space-24);
+    border-radius: var(--radius-md);
+    background: var(--color-surface-default);
+  }
+  .specimen__row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-24);
+  }
+  .specimen__media {
+    padding: var(--space-12);
+    border-radius: var(--radius-md);
+    background: var(--color-surface-inverse);
+  }
+  .split {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--space-24);
+    align-items: start;
+  }
+  .usage {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-12);
+    padding: var(--space-24);
+    border-radius: var(--radius-md);
+    background: var(--color-surface-default);
+  }
+  .usage__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .usage__row {
+    display: grid;
+    grid-template-columns: 96px minmax(0, 1fr) 40px;
+    align-items: center;
+    gap: var(--space-12);
+  }
+  .usage__bar {
+    height: 12px;
+    border-radius: 2px;
+    background: var(--color-primary-default);
+  }
+  .usage__count {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+  .table-wrap {
+    overflow-x: auto;
+    border-radius: var(--radius-md);
+    background: var(--color-surface-default);
+  }
+  .fixes {
+    width: 100%;
+    min-width: 640px;
+    border-collapse: collapse;
+  }
+  .fixes th,
+  .fixes td {
+    padding: var(--space-12) var(--space-16);
+    text-align: left;
+    border-bottom: 1px solid var(--color-border-default);
+    font-weight: var(--font-weight-regular);
+  }
+  .fixes thead th {
+    color: var(--color-text-muted);
+    font-weight: var(--font-weight-medium);
+  }
+  .fixes tbody tr:last-child > * {
+    border-bottom: 0;
+  }
+  .fix {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-8);
+  }
+  .swatch {
+    width: 20px;
+    height: 20px;
+    border-radius: var(--radius-xs);
+    box-shadow: inset 0 0 0 1px var(--color-border-default);
+  }
+  @media (max-width: 899px) {
+    .ds__stats,
+    .cards,
+    .cards--2,
+    .split {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+  @media (max-width: 599px) {
+    .ds {
+      padding: calc(var(--size-nav-height) + var(--space-32)) var(--space-16) var(--space-64);
+    }
+  }
+</style>

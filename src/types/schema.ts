@@ -7,6 +7,8 @@
  * interfaces, so invalid content fails `astro check` before it reaches the page.
  */
 
+import type { CollectionEntry } from 'astro:content';
+
 /* -------------------------------------------------------------------------- */
 /* Shared primitives                                                          */
 /* -------------------------------------------------------------------------- */
@@ -14,8 +16,13 @@
 /** An image in /public. `src` is root-relative, e.g. "/assets/img/home/hero.png". */
 export interface ImageAsset {
   src: string;
-  /** Required. Use "" only for purely decorative images. */
+  /** Required and never empty: describe what the image shows. */
   alt: string;
+  /**
+   * Hide from screen readers when the image repeats adjacent text (e.g. a logo
+   * beside its name). The alt stays in the data for documentation and previews.
+   */
+  decorative?: boolean;
   width?: number;
   height?: number;
 }
@@ -41,7 +48,6 @@ export type TypeStyle =
   | 'heading-xl'
   | 'heading-lg'
   | 'heading-md'
-  | 'heading-md-alt'
   | 'heading-sm'
   | 'eyebrow'
   | 'lead'
@@ -51,21 +57,16 @@ export type TypeStyle =
   | 'brand'
   | 'label'
   | 'label-tight'
-  | 'caption';
+  | 'caption'
+  | 'code';
 
 /** Semantic text colours. Mirrors tokens/semantic.json > color.text. */
 export type TextColor =
   | 'primary'
-  | 'heading'
   | 'display'
-  | 'hero'
-  | 'hero-muted'
   | 'emphasis'
   | 'secondary'
-  | 'list'
   | 'muted'
-  | 'tertiary'
-  | 'subtle'
   | 'inverse'
   | 'inverse-secondary'
   | 'link';
@@ -73,7 +74,7 @@ export type TextColor =
 export interface HeadingProps {
   level: 1 | 2 | 3;
   /** Visual style is independent of level so document outline and appearance never fight. */
-  style: Extract<TypeStyle, 'display' | 'heading-xl' | 'heading-lg' | 'heading-md' | 'heading-md-alt' | 'heading-sm'>;
+  style: Extract<TypeStyle, 'display' | 'heading-xl' | 'heading-lg' | 'heading-md' | 'heading-sm'>;
   color?: TextColor;
   align?: 'start' | 'center';
   class?: string;
@@ -112,12 +113,12 @@ export interface PillProps {
   label: string;
 }
 
-export interface RoleTagProps {
-  label: string;
-}
-
 export interface RichTextProps {
   content: RichText;
+}
+
+export interface CodeProps {
+  class?: string;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -132,12 +133,8 @@ export interface RoleListProps {
   roles: string[];
 }
 
-export interface CardMediaProps {
-  image: ImageAsset;
-  chips?: ChipProps[];
-}
-
-export interface BrandProps {
+/** Brand shown in the Navbar. */
+export interface Brand {
   name: string;
   tagline: string;
   href: string;
@@ -153,18 +150,26 @@ export interface FigureProps {
   loading?: 'lazy' | 'eager';
 }
 
-export interface ListProps {
-  items: RichText[];
-  tone?: 'default' | 'strong';
+export interface ColumnsProps {
+  /** sm = 10px (image pairs), md = 16px (text columns). */
+  gap?: 'sm' | 'md';
 }
 
-export interface BannerProps {
-  title: string;
+export interface CodeBlockProps {
+  code: string;
+  /** Shown above the code, e.g. a file path. */
+  label?: string;
 }
 
-export interface MetaRowProps {
-  start: string;
-  end: string;
+export interface StatProps {
+  value: string | number;
+  label: string;
+  detail?: string;
+}
+
+export interface ContrastBadgeProps {
+  /** WCAG contrast ratio, e.g. 4.74. Null renders nothing. */
+  ratio: number | null;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -178,7 +183,7 @@ export interface NavLinkItem {
 }
 
 export interface NavbarProps {
-  brand: BrandProps;
+  brand: Brand;
   links: NavLinkItem[];
 }
 
@@ -234,40 +239,38 @@ export interface GalleryProps {
   itemFit?: 'cover' | 'contain';
 }
 
-/* -------------------------------------------------------------------------- */
-/* Content blocks: the case study schema                                      */
-/* -------------------------------------------------------------------------- */
-
-export type Block =
-  | { type: 'heading'; level: 2 | 3; text: string }
-  | { type: 'paragraph'; text: RichText }
-  | { type: 'list'; items: RichText[]; tone?: 'default' | 'strong' }
-  | ({ type: 'figure' } & FigureProps)
-  | { type: 'figurePair'; images: [ImageAsset, ImageAsset] }
-  | ({ type: 'gallery' } & GalleryProps)
-  | { type: 'banner'; title: string }
-  | { type: 'meta'; text: string }
-  | ({ type: 'metaRow' } & MetaRowProps)
-  | { type: 'columns'; columns: [Block[], Block[]] };
-
-export type BlockType = Block['type'];
-
-export interface BlockRendererProps {
-  blocks: Block[];
-  /** H2 treatment for the page. "bold" = heading-md, "semibold" = heading-md-alt. */
-  headingStyle: 'bold' | 'semibold';
+export interface PlaygroundVariant {
+  id: string;
+  label: string;
+  card: ProjectCardProps;
 }
 
-export interface CaseStudy {
-  /** URL segment; matches the old Framer slug so existing links keep working. */
-  slug: string;
-  seo: { title: string; description: string };
+export interface VariantPlaygroundProps {
+  /** Radio group name; must be unique on the page. */
+  name: string;
+  variants: PlaygroundVariant[];
+}
+
+export interface SystemTeaserProps {
+  id?: string;
   eyebrow: string;
   title: string;
-  headingStyle: BlockRendererProps['headingStyle'];
-  blocks: Block[];
-  footer: CaseFooterProps;
+  intro: string;
+  /** Counted facts derived from the source at build time. */
+  stats: StatProps[];
+  cta: { label: string; href: string };
+  playground: VariantPlaygroundProps;
 }
+
+/* -------------------------------------------------------------------------- */
+/* Case studies                                                               */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * Case study frontmatter. The runtime schema that enforces this lives in
+ * src/content.config.ts (zod); this type is inferred from it so the two can't drift.
+ */
+export type CaseStudy = CollectionEntry<'caseStudies'>['data'];
 
 /* -------------------------------------------------------------------------- */
 /* Templates                                                                  */
@@ -279,6 +282,8 @@ export interface BaseLayoutProps {
   /** Sets the page background token. */
   surface?: 'page' | 'default';
   ogImage?: string;
+  /** Extra font families to load. Inter always loads. */
+  fonts?: 'mono'[];
 }
 
 export interface CaseStudyLayoutProps {
