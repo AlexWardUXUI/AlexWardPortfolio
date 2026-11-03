@@ -6,9 +6,9 @@ const sketch: ChipProps = { label: 'Sketch', icon: { src: '/assets/img/icons/ske
 
 export const componentLibrary: ProjectCardProps = {
   href: '/sharedcomponent-library/',
-  title: 'Implementing a design system',
+  title: 'TCG: Implementing a design system',
   description: 'I helped the team build a more consistent and scalable way to design and deliver product experiences.',
-  image: { src: '/assets/img/work/component-library.svg', alt: 'Diagram of a component model: shared foundations, configurable shared components and product-specific compositions' },
+  image: { src: '/assets/img/component-library/tcg-card.svg', alt: 'Exploded view of design system layers: foundation tokens, shared components and a product screen' },
   chips: [figma, { label: 'Design maturity' }],
   size: 'narrow',
 };

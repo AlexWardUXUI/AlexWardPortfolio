@@ -2,7 +2,9 @@
 /**
  * Organism: VariantPlayground
  * Switches between ProjectCard variants and shows the typed props that produce
- * each one. CSS only (radio inputs + :has), no client JavaScript. Up to 4 variants.
+ * each one. CSS only, no client JavaScript: visually hidden radio inputs sit before
+ * the controls and panels, and the general sibling combinator (~) shows the panel
+ * that matches the checked input. Works in every browser. Up to 4 variants.
  */
 import type { VariantPlaygroundProps } from '../../types/schema';
 import ProjectCard from './ProjectCard.astro';
@@ -12,6 +14,7 @@ type Props = VariantPlaygroundProps;
 
 const { name, variants } = Astro.props;
 const shown = variants.slice(0, 4);
+const idFor = (id: string) => `${name}-${id}`;
 
 function toSource(card: (typeof shown)[number]['card']): string {
   return `const card: ProjectCardProps = ${JSON.stringify(card, null, 2).replace(/"([a-zA-Z]+)":/g, '$1:')};`;
@@ -19,15 +22,18 @@ function toSource(card: (typeof shown)[number]['card']): string {
 ---
 
 <div class="playground">
-  <fieldset class="playground__controls">
-    <legend class="type-label text-muted">Variant</legend>
-    {shown.map((v, i) => (
-      <label class="seg type-label">
-        <input class="seg__input" type="radio" name={name} value={v.id} checked={i === 0} />
-        <span>{v.label}</span>
-      </label>
-    ))}
-  </fieldset>
+  {shown.map((v, i) => (
+    <input class="playground__input" type="radio" name={name} id={idFor(v.id)} value={v.id} checked={i === 0} />
+  ))}
+
+  <div class="playground__bar">
+    <span class="playground__legend type-caption text-muted" id={`${name}-legend`}>Switch variant</span>
+    <div class="playground__controls" role="radiogroup" aria-labelledby={`${name}-legend`}>
+      {shown.map((v) => (
+        <label class="seg type-label" for={idFor(v.id)}>{v.label}</label>
+      ))}
+    </div>
+  </div>
 
   <div class="playground__stage">
     {shown.map((v) => (
@@ -43,48 +49,55 @@ function toSource(card: (typeof shown)[number]['card']): string {
 
 <style>
   .playground {
+    position: relative;
     display: flex;
     flex-direction: column;
     gap: var(--space-20);
   }
+
+  /* Visually hidden but focusable, so arrow keys move between variants */
+  .playground__input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
   .playground__controls {
     display: inline-flex;
     flex-wrap: wrap;
     align-items: center;
     gap: var(--space-4);
-    margin: 0;
     padding: var(--space-4);
-    border: 0;
     border-radius: var(--radius-sm);
     background: var(--color-surface-default);
     width: fit-content;
     max-width: 100%;
   }
-  .playground__controls legend {
-    float: left;
-    padding: 0 var(--space-8) 0 var(--space-8);
+  .playground__bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-12);
+  }
+  .playground__legend {
+    text-transform: uppercase;
+    letter-spacing: var(--font-letter-spacing-wide);
   }
   .seg {
-    position: relative;
     padding: var(--space-6) var(--space-12);
     border-radius: var(--radius-xs);
     color: var(--color-text-secondary);
     cursor: pointer;
+    user-select: none;
   }
-  .seg__input {
-    position: absolute;
-    opacity: 0;
-    inset: 0;
-    margin: 0;
-    cursor: pointer;
-  }
-  .seg:has(.seg__input:checked) {
-    background: var(--color-text-primary);
-    color: var(--color-text-inverse);
-  }
-  .seg:has(.seg__input:focus-visible) {
-    outline: 2px solid var(--color-border-focus);
-    outline-offset: 2px;
+  .seg:hover {
+    color: var(--color-text-primary);
   }
 
   .playground__panel {
@@ -93,13 +106,29 @@ function toSource(card: (typeof shown)[number]['card']): string {
     gap: var(--space-24);
     align-items: start;
   }
-  /* Show the panel whose position matches the checked radio */
-  .playground:has(.seg:nth-of-type(1) .seg__input:checked) .playground__panel:nth-child(1),
-  .playground:has(.seg:nth-of-type(2) .seg__input:checked) .playground__panel:nth-child(2),
-  .playground:has(.seg:nth-of-type(3) .seg__input:checked) .playground__panel:nth-child(3),
-  .playground:has(.seg:nth-of-type(4) .seg__input:checked) .playground__panel:nth-child(4) {
+
+  /* Checked input n: highlight label n and show panel n */
+  .playground__input:nth-of-type(1):checked ~ .playground__bar .seg:nth-of-type(1),
+  .playground__input:nth-of-type(2):checked ~ .playground__bar .seg:nth-of-type(2),
+  .playground__input:nth-of-type(3):checked ~ .playground__bar .seg:nth-of-type(3),
+  .playground__input:nth-of-type(4):checked ~ .playground__bar .seg:nth-of-type(4) {
+    background: var(--color-text-primary);
+    color: var(--color-text-inverse);
+  }
+  .playground__input:nth-of-type(1):focus-visible ~ .playground__bar .seg:nth-of-type(1),
+  .playground__input:nth-of-type(2):focus-visible ~ .playground__bar .seg:nth-of-type(2),
+  .playground__input:nth-of-type(3):focus-visible ~ .playground__bar .seg:nth-of-type(3),
+  .playground__input:nth-of-type(4):focus-visible ~ .playground__bar .seg:nth-of-type(4) {
+    outline: 2px solid var(--color-border-focus);
+    outline-offset: 2px;
+  }
+  .playground__input:nth-of-type(1):checked ~ .playground__stage .playground__panel:nth-child(1),
+  .playground__input:nth-of-type(2):checked ~ .playground__stage .playground__panel:nth-child(2),
+  .playground__input:nth-of-type(3):checked ~ .playground__stage .playground__panel:nth-child(3),
+  .playground__input:nth-of-type(4):checked ~ .playground__stage .playground__panel:nth-child(4) {
     display: grid;
   }
+
   .playground__card {
     max-width: 680px;
   }
