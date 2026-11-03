@@ -1,18 +1,22 @@
 ---
-/** Page: Case study. One static route per entry in src/data/case-studies. */
+/** Page: Case study. One static route per MDX file in src/content/case-studies. */
 import type { GetStaticPaths } from 'astro';
-import type { CaseStudy } from '../types/schema';
+import { getCollection, render, type CollectionEntry } from 'astro:content';
 import CaseStudyLayout from '../layouts/CaseStudyLayout.astro';
-import { caseStudies } from '../data/case-studies';
 
-export const getStaticPaths = (() =>
-  caseStudies.map((study) => ({ params: { slug: study.slug }, props: { study } }))) satisfies GetStaticPaths;
+export const getStaticPaths = (async () => {
+  const studies = await getCollection('caseStudies');
+  return studies.map((entry: CollectionEntry<'caseStudies'>) => ({ params: { slug: entry.data.slug }, props: { entry } }));
+}) satisfies GetStaticPaths;
 
 interface Props {
-  study: CaseStudy;
+  entry: CollectionEntry<'caseStudies'>;
 }
 
-const { study } = Astro.props;
+const { entry } = Astro.props;
+const { Content } = await render(entry);
 ---
 
-<CaseStudyLayout study={study} />
+<CaseStudyLayout study={entry.data}>
+  <Content />
+</CaseStudyLayout>

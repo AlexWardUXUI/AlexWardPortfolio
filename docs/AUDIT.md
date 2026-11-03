@@ -1,6 +1,6 @@
 # UI audit
 
-Review of the portfolio as migrated from Framer, done before componentising. Every value below was measured from the live Framer site's computed styles. Fixes marked **Done** are in this refactor. The rest are recommendations, left alone so the site still matches the original.
+Review of the portfolio as migrated from Framer, done before componentising. Every value below was measured from the live Framer site's computed styles. Fixes marked **Done** are applied. The live, generated version of these numbers is on the site at /design-system/#audit.
 
 ## 1. Inventory
 
@@ -20,8 +20,8 @@ Review of the portfolio as migrated from Framer, done before componentising. Eve
 ### Colour
 
 1. **Two link blues.** Home uses `#0099ff`, case-study nav uses `#3899ff` (3.0:1 vs 2.9:1 contrast). **Done:** both now use `color.primary.default`. This is the only visible change from the Framer site.
-2. **Near-duplicate neutrals.** `#888888` / `#8c8c8c` and `#333333` / `#313233` cannot be told apart. They are kept as separate primitives so nothing shifts, with descriptions marking them as merge candidates.
-3. **Three different heading blacks.** `#000000` (card titles, H2), `#111111` (brand, connect), `#151719` (hero) and navy `#001122` (case titles). Recommend two: `text.heading` and `text.display`.
+2. **Near-duplicate neutrals.** `#888888` / `#8c8c8c` and `#333333` / `#313233` cannot be told apart. **Done:** neutrals reduced from 15 to 10.
+3. **Three different heading blacks.** `#000000` (card titles, H2), `#111111` (brand, connect), `#151719` (hero) and navy `#001122` (case titles). **Done:** two remain, `text.primary` (#111111) and `text.display` (navy).
 
 ### Accessibility (WCAG 2.2 AA)
 
@@ -35,16 +35,18 @@ Review of the portfolio as migrated from Framer, done before componentising. Eve
 | White on banner gradient | 2.59 | 3.0 (large) | **Fail** |
 | White on purple pill | 5.61 | 4.5 | Pass |
 
-Recommended one-line token fixes: `color.blue.500` to `#0077cc` (4.66:1), `color.neutral.300` and `400` to `#767676` (4.54:1), and darken the banner gradient stops. Because components only read tokens, each fix lands everywhere at once.
+**Done (Redesign branch):** links now `#007acc` (4.51:1), role tags, metadata and eyebrows now `#737373` (4.74:1), each a token change with no component code touched. The gradient banner (white text 2.59:1) was later removed and replaced with a standard H2, along with its accent gradient tokens.
+
+**Done:** every image now has descriptive alt text (the Framer site left all card images and tool icons blank). `alt` can no longer be empty: the content schema and the Image atom both fail the build if it is. Logos that sit beside their own name are marked `decorative: true`, which keeps the alt in the data but hides the image from screen readers so the name isn't read twice.
 
 ### Typography
 
-4. **Two H2 styles across case studies.** Four pages use bold black 24/1.4; onboarding and Shotscope use semibold navy 24/1.5. Kept as `headingStyle: 'bold' | 'semibold'` on the CaseStudy schema. Recommend choosing one.
-5. **Letter-spacing sprawl.** Nine values where five would do (-3.8, -1.5, -0.8, 0, 1).
+4. **Two H2 styles across case studies.** Four pages used bold black 24/1.4; onboarding and Shotscope used semibold navy 24/1.5. **Done:** one style (`typography.heading-md`); the `headingStyle` prop was removed from the schema.
+5. **Letter-spacing sprawl.** **Done:** nine values reduced to six; seven line heights reduced to five.
 
 ### Spacing and layout
 
-6. **Off-scale spacing.** Chip gap 15px (**Done:** normalised to 16px), card gap 18px, case top offset 50px, hero left padding 184px. Recommend a 4px base scale and removing 18 and 50.
+6. **Off-scale spacing.** **Done:** 4px base scale with 2px half steps; 15 and 18 became 16, 50 became 48, and the hero's 184px inset moved to a named size token.
 7. **Hero is offset left, not centred** (184px left, 60px right). Intentional in Framer but brittle between 1280px and 1440px.
 
 ### Semantics and markup

@@ -11,7 +11,7 @@ const { label, icon, iconFit = 'cover' } = Astro.props;
 ---
 
 <span class="chip type-caption">
-  {icon && <img class:list={['chip__icon', `chip__icon--${iconFit}`]} src={icon.src} alt={icon.alt} width="20" height="20" />}
+  {icon && <img class:list={['chip__icon', `chip__icon--${iconFit}`]} src={icon.src} alt={icon.decorative ? '' : icon.alt} aria-hidden={icon.decorative ? 'true' : undefined} width="20" height="20" />}
   {label}
 </span>
 
@@ -19,21 +19,21 @@ const { label, icon, iconFit = 'cover' } = Astro.props;
   .chip {
     display: inline-flex;
     align-items: center;
-    gap: var(--chip-gap);
-    padding: var(--chip-padding-y) var(--chip-padding-x);
-    border-radius: var(--chip-radius);
-    background: var(--chip-background);
+    gap: var(--space-6);
+    padding: var(--space-6) var(--space-8);
+    border-radius: var(--radius-sm);
+    background: var(--color-surface-overlay);
     -webkit-backdrop-filter: blur(6px);
     backdrop-filter: blur(6px);
-    box-shadow: var(--chip-shadow);
-    color: var(--chip-text);
+    box-shadow: var(--shadow-chip);
+    color: var(--color-text-inverse);
     text-transform: uppercase;
     white-space: nowrap;
   }
   .chip__icon {
-    width: var(--chip-icon-size);
-    height: var(--chip-icon-size);
-    border-radius: var(--chip-icon-radius);
+    width: var(--size-icon-sm);
+    height: var(--size-icon-sm);
+    border-radius: var(--radius-xs);
   }
   .chip__icon--cover {
     object-fit: cover;

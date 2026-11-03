@@ -1,0 +1,26 @@
+---
+/** Molecule: Stat. A counted fact with a label and optional breakdown. */
+import type { StatProps } from '../../types/schema';
+import Text from '../atoms/Text.astro';
+
+type Props = StatProps;
+
+const { value, label, detail } = Astro.props;
+---
+
+<div class="stat">
+  <Text as="span" style="heading-xl" color="primary" class="stat__value">{value}</Text>
+  <Text as="span" style="label" color="primary">{label}</Text>
+  {detail && <Text as="span" style="caption" color="muted">{detail}</Text>}
+</div>
+
+<style>
+  .stat {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+  .stat :global(.stat__value) {
+    font-variant-numeric: tabular-nums;
+  }
+</style>

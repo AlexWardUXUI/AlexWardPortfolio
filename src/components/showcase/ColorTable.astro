@@ -1,0 +1,93 @@
+---
+/** Showcase: ColorTable. Colour tokens with alias, value and measured contrast. */
+import type { ColorRow } from '../../lib/design-system';
+import ContrastBadge from '../molecules/ContrastBadge.astro';
+
+interface Props {
+  rows: ColorRow[];
+  caption: string;
+  /** Header for the contrast column, e.g. "On white". */
+  contrastLabel: string;
+}
+
+const { rows, caption, contrastLabel } = Astro.props;
+---
+
+<div class="table-wrap" tabindex="0">
+  <table class="table">
+    <caption class="type-label">{caption}</caption>
+    <thead>
+      <tr class="type-label">
+        <th scope="col">Token</th>
+        <th scope="col">Alias of</th>
+        <th scope="col">Value</th>
+        <th scope="col">{contrastLabel}</th>
+        <th scope="col">Used for</th>
+      </tr>
+    </thead>
+    <tbody class="type-caption">
+      {rows.map((r) => (
+        <tr>
+          <th scope="row">
+            <span class="swatch" style={`background:${r.hex}`} />
+            <code class="type-code">{r.token.path}</code>
+          </th>
+          <td><code class="type-code">{r.token.aliasOf ?? '–'}</code></td>
+          <td><code class="type-code">{r.hex}</code></td>
+          <td><ContrastBadge ratio={r.ratio} /></td>
+          <td class="table__desc">{r.token.description ?? ''}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+
+<style>
+  .table-wrap {
+    overflow-x: auto;
+    border-radius: var(--radius-md);
+    background: var(--color-surface-default);
+  }
+  .table {
+    width: 100%;
+    min-width: 760px;
+    border-collapse: collapse;
+    color: var(--color-text-secondary);
+  }
+  caption {
+    padding: var(--space-12) var(--space-16) 0;
+    text-align: left;
+    color: var(--color-text-muted);
+  }
+  th,
+  td {
+    padding: var(--space-10) var(--space-16);
+    text-align: left;
+    vertical-align: middle;
+    border-bottom: 1px solid var(--color-border-default);
+    font-weight: var(--font-weight-regular);
+  }
+  thead th {
+    color: var(--color-text-muted);
+    font-weight: var(--font-weight-medium);
+  }
+  tbody tr:last-child > * {
+    border-bottom: 0;
+  }
+  tbody th {
+    display: flex;
+    align-items: center;
+    gap: var(--space-10);
+    color: var(--color-text-primary);
+  }
+  .swatch {
+    flex: 0 0 auto;
+    width: 24px;
+    height: 24px;
+    border-radius: var(--radius-xs);
+    box-shadow: inset 0 0 0 1px var(--color-border-default);
+  }
+  .table__desc {
+    max-width: 280px;
+  }
+</style>

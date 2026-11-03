@@ -1,0 +1,74 @@
+---
+/**
+ * Organism: SystemTeaser
+ * Home page section introducing the design system behind the site: counted
+ * facts, a live variant playground and a link to the full documentation.
+ */
+import type { SystemTeaserProps } from '../../types/schema';
+import Heading from '../atoms/Heading.astro';
+import Text from '../atoms/Text.astro';
+import Link from '../atoms/Link.astro';
+import Stat from '../molecules/Stat.astro';
+import VariantPlayground from './VariantPlayground.astro';
+
+type Props = SystemTeaserProps;
+
+const { id, eyebrow, title, intro, stats, cta, playground } = Astro.props;
+---
+
+<section class="teaser" id={id} aria-labelledby={id ? `${id}-title` : undefined}>
+  <div class="teaser__inner">
+    <header class="teaser__header">
+      <Text style="eyebrow" color="muted">{eyebrow}</Text>
+      <Heading level={2} style="heading-xl" color="primary"><span id={id ? `${id}-title` : undefined}>{title}</span></Heading>
+      <Text style="lead-sm" color="emphasis">{intro}</Text>
+    </header>
+
+    <div class="teaser__stats">
+      {stats.map((s) => <Stat {...s} />)}
+    </div>
+
+    <VariantPlayground {...playground} />
+
+    <Text style="nav-link"><Link href={cta.href}>{cta.label} →</Link></Text>
+  </div>
+</section>
+
+<style>
+  .teaser {
+    padding: var(--space-72) var(--space-40) var(--space-88);
+    background: var(--color-surface-page);
+    border-top: 1px solid var(--color-border-default);
+    scroll-margin-top: var(--size-nav-height);
+  }
+  .teaser__inner {
+    max-width: var(--size-grid-width);
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-40);
+  }
+  .teaser__header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-12);
+    max-width: 680px;
+  }
+  .teaser__stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-24);
+    padding-block: var(--space-24);
+    border-block: 1px solid var(--color-border-default);
+  }
+  @media (max-width: 899px) {
+    .teaser {
+      padding: var(--space-56) var(--space-16) var(--space-64);
+    }
+  }
+  @media (max-width: 599px) {
+    .teaser__stats {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

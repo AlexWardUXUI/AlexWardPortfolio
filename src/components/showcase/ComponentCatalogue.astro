@@ -1,0 +1,154 @@
+---
+/**
+ * Showcase: ComponentCatalogue. Every site component grouped by atomic level, with its
+ * props schema (pulled from schema.ts) and the tokens found in its source.
+ */
+import type { ComponentDoc, Level } from '../../lib/design-system';
+import CodeBlock from '../molecules/CodeBlock.astro';
+
+interface Props {
+  components: ComponentDoc[];
+}
+
+const { components } = Astro.props;
+const levels: { level: Level; title: string; blurb: string }[] = [
+  { level: 'atom', title: 'Atoms', blurb: 'Single-purpose elements. No other components inside.' },
+  { level: 'molecule', title: 'Molecules', blurb: 'Small groups of atoms with one job.' },
+  { level: 'organism', title: 'Organisms', blurb: 'Page sections composed from atoms and molecules.' },
+];
+---
+
+<div class="catalogue">
+  {levels.map(({ level, title, blurb }) => {
+    const items = components.filter((c) => c.level === level);
+    return (
+      <div class="catalogue__level">
+        <div class="catalogue__level-head">
+          <h3 class="type-heading-sm text-primary">{title} <span class="text-muted">({items.length})</span></h3>
+          <p class="type-caption text-muted">{blurb}</p>
+        </div>
+        <div class="catalogue__items">
+          {items.map((c) => (
+            <details class="item" id={`component-${c.name.toLowerCase()}`}>
+              <summary class="item__summary">
+                <span class="type-label text-primary">{c.name}</span>
+                <span class="item__desc type-caption text-secondary">{c.summary}</span>
+              </summary>
+              <div class="item__body">
+                {c.propsSource && <CodeBlock label={`${c.propsType} · src/types/schema.ts`} code={c.propsSource} />}
+                <dl class="item__meta type-caption">
+                  <div>
+                    <dt class="text-muted">File</dt>
+                    <dd><code class="type-code">{c.file}</code></dd>
+                  </div>
+                  {c.uses.length > 0 && (
+                    <div>
+                      <dt class="text-muted">Composes</dt>
+                      <dd class="text-secondary">{c.uses.join(', ')}</dd>
+                    </div>
+                  )}
+                  <div>
+                    <dt class="text-muted">Tokens ({c.tokens.length})</dt>
+                    <dd class="item__tokens">
+                      {c.tokens.length > 0 ? c.tokens.map((t) => <code class="type-code">{t}</code>) : <span class="text-secondary">Inherits only</span>}
+                    </dd>
+                  </div>
+                </dl>
+              </div>
+            </details>
+          ))}
+        </div>
+      </div>
+    );
+  })}
+</div>
+
+<style>
+  .catalogue {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-32);
+  }
+  .catalogue__level {
+    display: grid;
+    grid-template-columns: 200px minmax(0, 1fr);
+    gap: var(--space-24);
+    align-items: start;
+  }
+  .catalogue__level-head {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+  h3,
+  p {
+    margin: 0;
+  }
+  .catalogue__items {
+    display: flex;
+    flex-direction: column;
+    border-radius: var(--radius-md);
+    background: var(--color-surface-default);
+    min-width: 0;
+  }
+  .item + .item {
+    border-top: 1px solid var(--color-border-default);
+  }
+  .item__summary {
+    display: grid;
+    grid-template-columns: 160px minmax(0, 1fr);
+    gap: var(--space-16);
+    align-items: baseline;
+    padding: var(--space-12) var(--space-16);
+    cursor: pointer;
+    list-style-position: inside;
+  }
+  .item__summary::-webkit-details-marker {
+    display: none;
+  }
+  .item__summary:hover .type-label {
+    color: var(--color-text-link);
+  }
+  .item__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-16);
+    padding: 0 var(--space-16) var(--space-16);
+    min-width: 0;
+  }
+  .item__meta {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+    margin: 0;
+  }
+  .item__meta > div {
+    display: grid;
+    grid-template-columns: 100px minmax(0, 1fr);
+    gap: var(--space-12);
+  }
+  dd {
+    margin: 0;
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+  .item__tokens {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-6);
+  }
+  @media (max-width: 899px) {
+    .catalogue__level {
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--space-12);
+    }
+    .item__summary {
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--space-4);
+    }
+    .item__meta > div {
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--space-4);
+    }
+  }
+</style>

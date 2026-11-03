@@ -1,0 +1,20 @@
+---
+/** Atom: Code. Inline monospace text for token names, prop names and file paths. */
+import type { CodeProps } from '../../types/schema';
+
+type Props = CodeProps;
+
+const { class: className } = Astro.props;
+---
+
+<code class:list={['code type-code', className]}><slot /></code>
+
+<style>
+  .code {
+    padding: 1px var(--space-6);
+    border-radius: var(--radius-xs);
+    background: var(--color-surface-sunken);
+    color: var(--color-text-emphasis);
+    white-space: nowrap;
+  }
+</style>

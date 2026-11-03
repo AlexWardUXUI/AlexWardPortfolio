@@ -11,7 +11,7 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
-const TIERS = ['primitive', 'semantic', 'component'];
+const TIERS = ['primitive', 'semantic'];
 
 /** @typedef {{ path: string[], type: string, value: unknown, description?: string, tier: string, extensions?: Record<string, unknown> }} Token */
 
@@ -121,7 +121,7 @@ writeFileSync(join(root, 'src/styles/tokens.css'), css);
 // ---- Emit TS ---------------------------------------------------------------
 const entries = [...tokens.entries()];
 const ts = `${header.replace('/*', '//').replace(' */', '')}
-export type TokenTier = 'primitive' | 'semantic' | 'component';
+export type TokenTier = ${TIERS.map((t) => `'${t}'`).join(' | ')};
 export type TokenType = ${[...new Set(entries.map(([, t]) => t.type))].map((x) => `'${x}'`).join(' | ')};
 
 export interface TokenMeta {
@@ -141,7 +141,7 @@ ${entries.map(([k]) => `  '${k}',`).join('\n')}
 
 export type TokenPath = (typeof tokenPaths)[number];
 
-/** Semantic and component tokens only: the ones components are allowed to use. */
+/** Semantic tokens only: the ones components use for colour, type and shadow. */
 export type UsableTokenPath = Exclude<TokenPath, ${entries.filter(([, t]) => t.tier === 'primitive').length ? `'${entries.filter(([, t]) => t.tier === 'primitive').map(([k]) => k).join("' | '")}'` : 'never'}>;
 
 /** Returns the CSS var() reference for a token, e.g. token('color.primary.default'). */

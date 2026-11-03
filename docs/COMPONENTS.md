@@ -1,78 +1,70 @@
 # Component inventory
 
-Atomic design levels. Every component's props are a TypeScript interface in `src/types/schema.ts`; components import them as `type Props = ...Props`, so `astro check` rejects any invalid usage or content.
+The live, always-current version of this document is the site's own **/design-system/** page, generated at build time from the token files, `schema.ts`, `content.config.ts` and the component sources (`src/lib/design-system.ts`). This file is a summary.
 
-Components read **only** semantic or component tokens (never primitives). Changing a value in `tokens/*.json` and running `npm run tokens` updates every component.
+Every component's props are a TypeScript interface in `src/types/schema.ts`. Components take colour, type and shadow only from **semantic** tokens; spacing and sizes come from the primitive scales.
 
-## Atoms
+## Atoms (8)
 
-| Component | Props interface | Variants / key props | Tokens used |
-|---|---|---|---|
-| Heading | `HeadingProps` | `level` 1-3 (semantics) separate from `style` (6 typography tokens), `color`, `align` | `typography.*`, `color.text.*` |
-| Text | `TextProps` | `as` p/span/div, `style` (any of 15 typography tokens), `color` | `typography.*`, `color.text.*` |
-| Link | `LinkProps` | `variant` inline / nav; external links open in a new tab | `color.text.link`, `nav.link` |
-| Image | `ImageProps` | `fit` cover / contain, `loading` | none |
-| Chip | `ChipProps` | optional `icon`, `iconFit` | `chip.*` |
-| Pill | `PillProps` | `label` | `pill.*` |
-| RoleTag | `RoleTagProps` | `label` | `role.text` |
-| RichText | `RichTextProps` | renders `string`, `{ strong }`, `{ link }` nodes | via Link |
-
-## Molecules
-
-| Component | Props interface | Composition |
+| Component | Props | Notes |
 |---|---|---|
-| ChipGroup | `ChipGroupProps` | Chip[] |
-| RoleList | `RoleListProps` | RoleTag[] with `role.divider` |
-| CardMedia | `CardMediaProps` | Image + ChipGroup, `card.media-*` |
-| Brand | `BrandProps` | name + tagline (tagline hides under 600px) |
-| Figure | `FigureProps` | Image in a rounded frame; `width` content / wide, `aspect`, `fit` |
-| FigurePair | `{ images: [ImageAsset, ImageAsset] }` | Figure x 2 |
-| List | `ListProps` | RichText items; `tone` default / strong |
-| Banner | `BannerProps` | Heading on `gradient.accent` |
-| MetaRow | `MetaRowProps` | two Text labels, opposite edges |
+| Heading | `HeadingProps` | `level` (h1-h3) is separate from `style`, so the outline stays correct |
+| Text | `TextProps` | any typography token and text colour |
+| Link | `LinkProps` | `inline` or `nav`; external links open in a new tab |
+| Image | `ImageProps` | explicit `cover` / `contain`; alt text required, `decorative` hides from screen readers |
+| Chip | `ChipProps` | translucent tag over imagery, optional icon |
+| Pill | `PillProps` | secondary-colour badge |
+| RichText | `RichTextProps` | renders `string`, `{ strong }`, `{ link }` nodes |
+| Code | `CodeProps` | inline monospace |
 
-## Organisms
+## Molecules (7)
 
-| Component | Props interface | Composition |
+| Component | Props | Notes |
 |---|---|---|
-| Navbar | `NavbarProps` | Brand + Link[] |
-| Hero | `HeroProps` | Heading + Text + Image |
-| ProjectCard | `ProjectCardProps` | CardMedia + Heading + Pill or RoleList + Text; `tone` light / dark, `size` narrow / wide; hover + focus shadow |
-| WorkGrid | `WorkGridProps` | rows of 2 ProjectCards; columns derived from card `size` |
-| ConnectSection | `ConnectSectionProps` | Heading + Text with RichText |
-| CaseHeader | `CaseHeaderProps` | Text (eyebrow) + Heading (display) |
-| BlockRenderer | `BlockRendererProps` | maps the `Block` union to components; exhaustive at compile time |
-| Gallery | `GalleryProps` | sunken panel, feature Figure + 2 or 3 column row |
-| CaseFooter | `CaseFooterProps` | two label Texts |
+| ChipGroup | `ChipGroupProps` | wrapping row of Chips |
+| RoleList | `RoleListProps` | muted role labels with dividers |
+| Figure | `FigureProps` | rounded media; `width` content / wide |
+| Columns | `ColumnsProps` | two columns in MDX; stacks on tablet |
+| CodeBlock | `CodeBlockProps` | labelled, scrollable code |
+| Stat | `StatProps` | counted value, label, detail |
+| ContrastBadge | `ContrastBadgeProps` | WCAG ratio with pass / fail |
+
+## Organisms (10)
+
+| Component | Props | Notes |
+|---|---|---|
+| Navbar | `NavbarProps` | fixed bar with brand and links |
+| Hero | `HeroProps` | headline, intro, elevated image |
+| ProjectCard | `ProjectCardProps` | `tone` light / dark, optional badge or roles, hover shadow |
+| WorkGrid | `WorkGridProps` | rows of two cards; widths from each card's `size` |
+| ConnectSection | `ConnectSectionProps` | closing call to action |
+| CaseHeader | `CaseHeaderProps` | eyebrow and display title |
+| Gallery | `GalleryProps` | sunken panel: feature image over 2 or 3 images |
+| CaseFooter | `CaseFooterProps` | label and contact prompt |
+| VariantPlayground | `VariantPlaygroundProps` | CSS-only switcher for ProjectCard variants |
+| SystemTeaser | `SystemTeaserProps` | home section linking to /design-system/ |
 
 ## Templates and pages
 
 | File | Role |
 |---|---|
-| `layouts/BaseLayout.astro` | Document shell, meta, fonts, `surface` |
-| `layouts/CaseStudyLayout.astro` | Navbar + CaseHeader + BlockRenderer + CaseFooter |
-| `pages/index.astro` | Home: Navbar, Hero, WorkGrid, ConnectSection |
-| `pages/[slug].astro` | One route per `CaseStudy` in `src/data/case-studies` |
+| `layouts/BaseLayout.astro` | Document shell, meta, fonts, favicon |
+| `layouts/CaseStudyLayout.astro` | Header, hero, MDX body (with prose styles), footer |
+| `pages/index.astro` | Home |
+| `pages/[slug].astro` | One route per MDX file in `src/content/case-studies` |
+| `pages/design-system.astro` | Generated documentation; uses `components/showcase/*` (docs only, not counted) |
 
-## Case study block schema
+## Case studies
 
-`CaseStudy.blocks` is a `Block[]`, a discriminated union on `type`:
-
-`heading` · `paragraph` · `list` · `figure` · `figurePair` · `gallery` · `banner` · `meta` · `metaRow` · `columns` (nests `Block[]`)
-
-To add a block: extend `Block` in `schema.ts`, then add a `case` in `BlockRenderer.astro`. The `assertNever` default makes the build fail until you do.
+Each case study is `src/content/case-studies/<slug>.mdx`. Frontmatter is validated by the zod schema in `src/content.config.ts` (title, SEO, hero image, optional tags or period, footer label). The body is Markdown; import `Figure`, `Gallery` or `Columns` where needed.
 
 ## Tokens
 
-Three tiers in `tokens/` (W3C DTCG format), built by `scripts/build-tokens.mjs`:
+Two tiers in `tokens/` (W3C DTCG format), built by `scripts/build-tokens.mjs`:
 
 | Tier | File | Count | Purpose |
 |---|---|---|---|
-| Primitive | `primitive.json` | 106 | Raw values (palette, type scale, spacing, radius, sizes, breakpoints, motion) |
-| Semantic | `semantic.json` | 50 | Purpose names: `color.primary`, `color.secondary`, `color.text.*`, `color.surface.*`, typography styles, shadows, gradients |
-| Component | `component.json` | 38 | Per-component decisions: `card.*`, `chip.*`, `pill.*`, `nav.*`, `panel.*` |
+| Primitive | `primitive.json` | 98 | Raw values: palette, type scale, spacing, radius, sizes, breakpoints, motion |
+| Semantic | `semantic.json` | 47 | Purpose names: `color.primary`, `color.text.*`, `color.surface.*`, typography styles, shadows, gradients |
 
-Outputs:
-
-- `src/styles/tokens.css`: CSS custom properties. Aliases stay as `var()` chains, so the tiers are visible in DevTools. Plus one `.type-*` class per typography token.
-- `src/tokens/tokens.ts`: `TokenPath` union, `token()` helper (typed to semantic and component tokens only), full metadata for every token (tier, type, alias, resolved value, description). This file is the data source for a future design-system section on the site.
+The third, component tier was removed: on a single site most component tokens were one-to-one renames of a semantic token.

@@ -1,0 +1,97 @@
+---
+/** Showcase: AliasChain. Shows how a component token resolves through the tiers to a raw value. */
+import type { TokenPath } from '../../tokens/tokens';
+import { aliasChain } from '../../lib/design-system';
+
+interface Props {
+  path: TokenPath;
+}
+
+const chain = aliasChain(Astro.props.path);
+const last = chain[chain.length - 1];
+type Layer = { offsetX: string; offsetY: string; blur: string; spread: string; color: string };
+function format(value: unknown): string {
+  if (typeof value === 'string' || typeof value === 'number') return String(value);
+  if (Array.isArray(value) && value.every((l) => l && typeof l === 'object' && 'offsetX' in l)) {
+    return (value as Layer[]).map((l) => `${l.offsetX} ${l.offsetY} ${l.blur} ${l.spread} ${l.color}`).join(', ');
+  }
+  return JSON.stringify(value);
+}
+const raw = last ? format(last.value) : '';
+const isColor = last?.type === 'color';
+---
+
+<ol class="chain">
+  {chain.map((t, i) => (
+    <li class="chain__item">
+      {i > 0 && <span class="chain__arrow" aria-hidden="true">→</span>}
+      <span class="chain__step">
+        <span class="chain__tier type-caption">{t.tier}</span>
+        <code class="type-code">{t.path}</code>
+      </span>
+    </li>
+  ))}
+  <li class="chain__item">
+    <span class="chain__arrow" aria-hidden="true">→</span>
+    <span class="chain__step chain__step--value">
+      <span class="chain__tier type-caption">value</span>
+      <span class="chain__value type-code">
+        {isColor && <span class="chain__swatch" style={`background:${raw}`} />}
+        {raw}
+      </span>
+    </span>
+  </li>
+</ol>
+
+<style>
+  .chain {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    gap: var(--space-8);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .chain__step {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    padding: var(--space-8) var(--space-12);
+    border-radius: var(--radius-sm);
+    background: var(--color-surface-default);
+    min-width: 0;
+  }
+  .chain__item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-8);
+    min-width: 0;
+  }
+  .chain__arrow {
+    color: var(--color-text-muted);
+  }
+  .chain__step--value {
+    background: var(--color-text-primary);
+    color: var(--color-text-inverse);
+  }
+  .chain__tier {
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: var(--font-letter-spacing-wide);
+  }
+  .chain__step--value .chain__tier {
+    color: var(--color-text-inverse-secondary);
+  }
+  .chain__value {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-6);
+  }
+  .chain__swatch {
+    width: 12px;
+    height: 12px;
+    border-radius: var(--radius-xs);
+    border: 1px solid var(--color-text-inverse);
+  }
+</style>

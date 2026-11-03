@@ -12,8 +12,8 @@ const { title, intro, image } = Astro.props;
 
 <section class="hero">
   <div class="hero__text">
-    <Heading level={1} style="heading-lg" color="hero">{title}</Heading>
-    <Text style="lead" color="hero-muted">{intro}</Text>
+    <Heading level={1} style="heading-lg" color="primary">{title}</Heading>
+    <Text style="lead" color="emphasis">{intro}</Text>
   </div>
   <div class="hero__media">
     <Image {...image} loading="eager" />
@@ -23,7 +23,7 @@ const { title, intro, image } = Astro.props;
 <style>
   .hero {
     min-height: var(--size-hero-min-height);
-    padding: var(--space-120) var(--space-60) var(--space-64) var(--space-184);
+    padding: var(--space-120) var(--space-60) var(--space-64) var(--size-hero-offset);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -41,9 +41,9 @@ const { title, intro, image } = Astro.props;
     width: var(--size-hero-media);
     aspect-ratio: 1 / 1;
     flex: 0 0 auto;
-    border-radius: var(--hero-media-radius);
+    border-radius: var(--radius-2xl);
     overflow: hidden;
-    box-shadow: var(--hero-media-shadow);
+    box-shadow: var(--shadow-elevated);
   }
 
   /* xl */

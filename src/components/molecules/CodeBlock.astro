@@ -1,0 +1,34 @@
+---
+/** Molecule: CodeBlock. Scrollable code sample with an optional file label. */
+import type { CodeBlockProps } from '../../types/schema';
+
+type Props = CodeBlockProps;
+
+const { code, label } = Astro.props;
+---
+
+<figure class="code-block">
+  {label && <figcaption class="code-block__label type-code">{label}</figcaption>}
+  <pre class="code-block__pre type-code" tabindex="0"><code>{code}</code></pre>
+</figure>
+
+<style>
+  .code-block {
+    margin: 0;
+    min-width: 0;
+    border-radius: var(--radius-md);
+    background: var(--color-surface-sunken);
+    overflow: hidden;
+  }
+  .code-block__label {
+    padding: var(--space-8) var(--space-16);
+    border-bottom: 1px solid var(--color-surface-default);
+    color: var(--color-text-muted);
+  }
+  .code-block__pre {
+    margin: 0;
+    padding: var(--space-16);
+    overflow-x: auto;
+    color: var(--color-text-emphasis);
+  }
+</style>

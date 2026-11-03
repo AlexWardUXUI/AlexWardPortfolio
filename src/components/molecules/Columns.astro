@@ -1,0 +1,42 @@
+---
+/**
+ * Molecule: Columns
+ * Two equal columns that stack on tablets. Each direct child is one column and
+ * lays out its own content in a vertical flow. Used in case study MDX.
+ */
+import type { ColumnsProps } from '../../types/schema';
+
+type Props = ColumnsProps;
+
+const { gap = 'md' } = Astro.props;
+---
+
+<div class:list={['columns', `columns--${gap}`]}>
+  <slot />
+</div>
+
+<style>
+  .columns {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: start;
+  }
+  .columns--sm {
+    gap: var(--space-10);
+  }
+  .columns--md {
+    gap: var(--space-16);
+  }
+  .columns > :global(div:not(.figure)) {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-20);
+    min-width: 0;
+  }
+  @media (max-width: 899px) {
+    .columns {
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--space-32);
+    }
+  }
+</style>

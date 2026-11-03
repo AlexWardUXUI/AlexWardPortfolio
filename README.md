@@ -2,10 +2,10 @@
 
 Astro + TypeScript rebuild of the portfolio, structured as a small design system:
 
-- **Tokens** in W3C DTCG JSON (`tokens/`), three tiers: primitive, semantic, component
+- **Tokens** in W3C DTCG JSON (`tokens/`), two tiers: primitive and semantic
 - **Components** organised by atomic level (`src/components/atoms|molecules|organisms`)
 - **Schemas** for every component and for case study content (`src/types/schema.ts`)
-- **Content** as typed data (`src/data/`), separate from presentation
+- **Case studies** in MDX (`src/content/case-studies/`), frontmatter validated by `src/content.config.ts`
 
 Ships static HTML and CSS only. No client-side JavaScript.
 
@@ -22,29 +22,29 @@ npm run tokens    # rebuild tokens.css and tokens.ts after editing tokens/*.json
 ## Structure
 
 ```
-tokens/                 primitive.json, semantic.json, component.json (source of truth)
-scripts/build-tokens.mjs
+tokens/                    primitive.json, semantic.json (source of truth)
+scripts/build-tokens.mjs   generates src/styles/tokens.css and src/tokens/tokens.ts
 src/
-  styles/tokens.css     generated
-  styles/global.css     reset + text colour utilities
-  tokens/tokens.ts      generated, typed token metadata
-  types/schema.ts       props for every component + CaseStudy/Block schema
-  components/atoms/     Heading, Text, Link, Image, Chip, Pill, RoleTag, RichText
-  components/molecules/ ChipGroup, RoleList, CardMedia, Brand, Figure, FigurePair, List, Banner, MetaRow
-  components/organisms/ Navbar, Hero, ProjectCard, WorkGrid, ConnectSection, CaseHeader, BlockRenderer, Gallery, CaseFooter
-  layouts/              BaseLayout, CaseStudyLayout
-  pages/                index.astro, [slug].astro
-  data/                 site.ts, projects.ts, case-studies/*.ts
-public/assets/img/      images, grouped per page
-docs/AUDIT.md           UI review findings and contrast checks
-docs/COMPONENTS.md      component and token inventory
+  content.config.ts        case study frontmatter schema
+  content/case-studies/    one .mdx file per case study
+  types/schema.ts          props for every component
+  components/atoms/        Heading, Text, Link, Image, Chip, Pill, RichText, Code
+  components/molecules/    ChipGroup, RoleList, Figure, Columns, CodeBlock, Stat, ContrastBadge
+  components/organisms/    Navbar, Hero, ProjectCard, WorkGrid, ConnectSection, CaseHeader, Gallery, CaseFooter, VariantPlayground, SystemTeaser
+  components/showcase/     docs-only components for /design-system/
+  layouts/                 BaseLayout, CaseStudyLayout
+  pages/                   index.astro, [slug].astro, design-system.astro
+  data/                    site.ts (nav, hero, copy), projects.ts (home cards)
+  lib/                     design-system.ts (build-time docs data), color.ts (contrast)
+public/assets/img/         images, grouped per page
+docs/                      AUDIT.md, COMPONENTS.md
 ```
 
 ## Editing content
 
 - Home cards: `src/data/projects.ts`
-- A case study: `src/data/case-studies/<name>.ts`
-- New case study: add a file, export a `CaseStudy`, add it to `src/data/case-studies/index.ts`. The route is created from its `slug`.
+- A case study: edit `src/content/case-studies/<slug>.mdx`. Write Markdown; use `<Figure>`, `<Gallery>` or `<Columns>` for media and layout.
+- New case study: copy an existing `.mdx`, change the frontmatter (`slug` sets the URL), and add a card in `projects.ts`.
 
 ## Deploy
 

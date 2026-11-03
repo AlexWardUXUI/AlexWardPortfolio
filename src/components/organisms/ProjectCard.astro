@@ -1,27 +1,36 @@
 ---
 /**
  * Organism: ProjectCard
- * Whole-card link to a case study. Variants: tone (light | dark), optional badge
- * (Pill) or roles (RoleList) beside the title. Shows a hover/focus shadow.
+ * Whole-card link to a case study: image with chips, title, optional badge
+ * (Pill) or roles (RoleList), and a description. Variants: tone (light | dark).
+ * Shows a shadow on hover and keyboard focus.
  */
 import type { ProjectCardProps } from '../../types/schema';
-import CardMedia from '../molecules/CardMedia.astro';
-import RoleList from '../molecules/RoleList.astro';
+import Image from '../atoms/Image.astro';
 import Heading from '../atoms/Heading.astro';
 import Text from '../atoms/Text.astro';
 import Pill from '../atoms/Pill.astro';
+import ChipGroup from '../molecules/ChipGroup.astro';
+import RoleList from '../molecules/RoleList.astro';
 
 type Props = ProjectCardProps;
 
-const { href, title, description, image, chips, tone = 'light', badge, roles } = Astro.props;
+const { href, title, description, image, chips = [], tone = 'light', badge, roles } = Astro.props;
 const dark = tone === 'dark';
 ---
 
 <a class:list={['card', `card--${tone}`]} href={href}>
-  <CardMedia image={image} chips={chips} />
+  <div class="card__media">
+    <Image {...image} />
+    {chips.length > 0 && (
+      <div class="card__chips">
+        <ChipGroup chips={chips} />
+      </div>
+    )}
+  </div>
   <div class="card__body">
     <div class="card__head">
-      <Heading level={2} style="heading-md" color={dark ? 'inverse' : 'heading'}>{title}</Heading>
+      <Heading level={2} style="heading-md" color={dark ? 'inverse' : 'primary'}>{title}</Heading>
       {badge && <Pill label={badge} />}
       {roles && roles.length > 0 && <RoleList roles={roles} />}
     </div>
@@ -33,32 +42,44 @@ const dark = tone === 'dark';
   .card {
     display: flex;
     flex-direction: column;
-    gap: var(--card-gap);
-    padding-bottom: var(--card-padding);
-    border-radius: var(--card-radius);
+    gap: var(--space-16);
+    padding-bottom: var(--space-24);
+    border-radius: var(--radius-xl);
     overflow: hidden;
-    box-shadow: var(--card-shadow-rest);
+    box-shadow: var(--shadow-none);
     transition: box-shadow var(--motion-transition-base);
   }
   .card--light {
-    background: var(--card-background);
+    background: var(--color-surface-default);
   }
   .card--dark {
-    background: var(--card-background-inverse);
+    background: var(--color-surface-inverse);
   }
   .card:hover,
   .card:focus-visible {
-    box-shadow: var(--card-shadow-hover);
+    box-shadow: var(--shadow-hover);
   }
   .card:focus-visible {
     outline: 2px solid var(--color-border-focus);
     outline-offset: 4px;
   }
+  .card__media {
+    position: relative;
+    height: var(--size-card-media);
+    border-radius: var(--radius-xl) var(--radius-xl) var(--radius-md) var(--radius-md);
+    overflow: hidden;
+  }
+  .card__chips {
+    position: absolute;
+    left: var(--space-20);
+    right: var(--space-20);
+    bottom: var(--space-12);
+  }
   .card__body {
     display: flex;
     flex-direction: column;
     gap: var(--space-10);
-    padding: 0 var(--card-padding);
+    padding: 0 var(--space-24);
   }
   .card__head {
     display: flex;
@@ -66,5 +87,10 @@ const dark = tone === 'dark';
     justify-content: space-between;
     flex-wrap: wrap;
     gap: var(--space-10);
+  }
+  @media (max-width: 599px) {
+    .card__media {
+      height: 240px;
+    }
   }
 </style>

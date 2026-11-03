@@ -1,0 +1,34 @@
+---
+/** Molecule: ContrastBadge. WCAG contrast ratio with a pass or fail state for normal-size text. */
+import type { ContrastBadgeProps } from '../../types/schema';
+import { wcagLevel } from '../../lib/color';
+
+type Props = ContrastBadgeProps;
+
+const { ratio } = Astro.props;
+const level = ratio === null ? null : wcagLevel(ratio);
+const pass = level === 'AA' || level === 'AAA';
+---
+
+{ratio !== null && (
+  <span class:list={['badge type-label', pass ? 'badge--pass' : 'badge--fail']}>
+    {ratio.toFixed(2)}:1 · {level}
+  </span>
+)}
+
+<style>
+  .badge {
+    display: inline-flex;
+    padding: 0 var(--space-8);
+    border: 1px solid currentColor;
+    border-radius: var(--radius-sm);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+  .badge--pass {
+    color: var(--color-status-pass);
+  }
+  .badge--fail {
+    color: var(--color-status-fail);
+  }
+</style>

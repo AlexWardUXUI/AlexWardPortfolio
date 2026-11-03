@@ -2,17 +2,23 @@
 /**
  * Atom: Image
  * Fills its container. Fit is explicit so cropping is a design decision, not an accident.
+ * Alt text is required; decorative images keep their alt in data but are hidden from screen readers.
  */
 import type { ImageProps } from '../../types/schema';
 
 type Props = ImageProps;
 
-const { src, alt, width, height, fit = 'cover', loading = 'lazy', class: className } = Astro.props;
+const { src, alt, decorative = false, width, height, fit = 'cover', loading = 'lazy', class: className } = Astro.props;
+
+if (!alt.trim()) {
+  throw new Error(`Image "${src}" has no alt text. Describe the image, and add decorative: true if it only repeats nearby text.`);
+}
 ---
 
 <img
   src={src}
-  alt={alt}
+  alt={decorative ? '' : alt}
+  aria-hidden={decorative ? 'true' : undefined}
   width={width}
   height={height}
   loading={loading}
