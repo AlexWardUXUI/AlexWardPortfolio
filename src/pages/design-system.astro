@@ -25,7 +25,6 @@ import {
   tierCounts,
   textColorRows,
   brandColorRows,
-  contrastFixes,
   glassRows,
   components,
   componentCounts,
@@ -44,7 +43,6 @@ const sections = [
   { id: 'elevation', label: 'Elevation and glass' },
   { id: 'components', label: 'Components' },
   { id: 'schema', label: 'Content schema' },
-  { id: 'audit', label: 'Audit' },
 ];
 
 const tokenSample = `// tokens/semantic.json
@@ -142,7 +140,7 @@ const principles = [
         <ColorTable caption="Text colours" rows={textColorRows} contrastLabel="On darkest surface" />
       </DocSection>
 
-      <DocSection id="type" title="Typography" intro="One family, Inter, in fifteen semantic styles. Each style is a composite token, emitted as a utility class such as .type-body.">
+      <DocSection id="type" title="Typography" intro={`One family, Inter, in ${allTokens.filter((t) => t.path.startsWith('typography.') && t.tier === 'semantic').length} semantic styles. Each style is a composite token, emitted as a utility class such as .type-body.`}>
         <TypeScale />
       </DocSection>
 
@@ -153,7 +151,7 @@ const principles = [
       <DocSection
         id="elevation"
         title="Elevation and glass"
-        intro="Four elevation levels give depth without borders. Glass is used only where content moves behind it, and its tint is set so the allowed text passes AAA over any backdrop."
+        intro="Four elevation levels give depth without borders. Glass is used only where content moves behind it, and its tint is set so the allowed text passes AAA over the darkest backdrop it can sit on."
       >
         <ul class="elevations">
           {[0, 1, 2, 3].map((n) => (
@@ -243,35 +241,6 @@ const principles = [
         <CodeBlock label="src/content/case-studies/shotscope.mdx" code={mdxSample} />
       </DocSection>
 
-      <DocSection
-        id="audit"
-        title="Audit fixes"
-        intro="The original Framer site was audited before this system was built, then raised from AA to AAA. Every row was fixed with a token change, not a component change. A gradient banner that could not pass was replaced with a standard heading."
-      >
-        <div class="table-wrap" tabindex="0">
-          <table class="fixes">
-            <thead class="type-label">
-              <tr>
-                <th scope="col">Where</th>
-                <th scope="col">Before</th>
-                <th scope="col">After</th>
-              </tr>
-            </thead>
-            <tbody class="type-caption">
-              {contrastFixes.map((f) => (
-                <tr>
-                  <th scope="row" class="text-primary">{f.use}</th>
-                  <td><span class="fix"><span class="sample" style={`color:${f.before};background:${f.beforeOn}`}>Aa</span><code class="type-code">{f.before} on {f.beforeOn}</code><ContrastBadge ratio={f.beforeRatio} /></span></td>
-                  <td><span class="fix"><span class="sample" style={`color:${f.after};background:${f.afterOn}`}>Aa</span><code class="type-code">{f.after} on {f.afterOn}</code><ContrastBadge ratio={f.afterRatio} /></span></td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <Text color="secondary">
-          Also consolidated: two H2 styles into one, fifteen neutrals into ten, nine letter-spacings into six and seven line heights into five. The component token tier was removed, since one site gains nothing from it.
-        </Text>
-      </DocSection>
     </div>
   </main>
 </BaseLayout>
@@ -443,15 +412,6 @@ const principles = [
     display: inline-flex;
     align-items: center;
     gap: var(--space-8);
-  }
-  .sample {
-    display: inline-grid;
-    place-items: center;
-    width: 32px;
-    height: 24px;
-    border-radius: var(--radius-xs);
-    box-shadow: inset 0 0 0 1px var(--color-border-default);
-    font-weight: var(--font-weight-bold);
   }
   .fixes caption {
     padding: var(--space-12) var(--space-16) 0;

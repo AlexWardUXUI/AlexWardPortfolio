@@ -1,11 +1,13 @@
 ---
 /**
  * Template: CaseStudyLayout. Navbar, header, hero, the MDX body and footer in a
- * 900px column. Also styles the Markdown output (headings, paragraphs, lists) with
+ * 900px column, flush on the page. The home page Backdrop sits in the gutters only,
+ * so long-form text keeps the plain page colour behind it. Also styles the Markdown output (headings, paragraphs, lists) with
  * the same typography tokens the components use.
  */
 import type { CaseStudyLayoutProps } from '../types/schema';
 import BaseLayout from './BaseLayout.astro';
+import Backdrop from '../components/atoms/Backdrop.astro';
 import Navbar from '../components/organisms/Navbar.astro';
 import CaseHeader from '../components/organisms/CaseHeader.astro';
 import CaseFooter from '../components/organisms/CaseFooter.astro';
@@ -18,7 +20,8 @@ type Props = CaseStudyLayoutProps;
 const { study } = Astro.props;
 ---
 
-<BaseLayout title={study.seo.title} description={study.seo.description}>
+<BaseLayout title={study.seo.title} description={study.seo.description} surface="page">
+  <Backdrop area="gutters" />
   <Navbar brand={brand} links={caseNav} />
   <main class="case">
     <article class="case__column">

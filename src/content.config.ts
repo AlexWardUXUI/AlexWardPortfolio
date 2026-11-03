@@ -22,7 +22,7 @@ const caseStudies = defineCollection({
     .object({
       /**
        * URL segment. The glob loader turns this into the entry id (it is not kept in
-       * data), so the old Framer URLs like /Shotscope keep working.
+       * data), so older URLs like /Shotscope keep working.
        */
       slug: z.string().optional(),
       title: z.string(),
