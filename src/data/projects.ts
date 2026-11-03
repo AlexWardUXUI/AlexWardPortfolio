@@ -18,7 +18,7 @@ export const aiAssistedDesign: ProjectCardProps = {
   title: 'Giving AI agents the context they need',
   description:
     'AI tools could help companies explore ideas faster, but their outputs were often inconsistent and difficult to assess. I led work to make AI-assisted prototyping more useful.',
-  image: { src: '/assets/img/work/ai-context.png', alt: 'Map of the context files given to AI tools: patterns, research, layout and business function files' },
+  image: { src: '/assets/img/work/ai-context-card.svg', alt: 'File map of the shared context given to AI tools: folders for styles, components, patterns, research and personas, each holding Markdown files' },
   chips: [{ label: 'AI' }, { label: 'Leadership' }, { label: 'Frontier' }],
   tone: 'dark',
   badge: 'Highlighted work',
