@@ -4,16 +4,17 @@
  * and swirl contours in the side gutters. Gives the glass surfaces something
  * to blur. Fades out under the content column so every text colour keeps
  * 7:1 (checked pixel by pixel), drops the swirls below 1100px, and disappears
- * entirely in forced colours and print.
+ * entirely in forced colours and print. area="gutters" keeps the whole
+ * backdrop out of the reading column, for long-form pages.
  */
 import type { BackdropProps } from '../../types/schema';
 
 type Props = BackdropProps;
 
-const { swirls = true } = Astro.props;
+const { swirls = true, area = 'page' } = Astro.props;
 ---
 
-<div class="backdrop" aria-hidden="true">
+<div class:list={['backdrop', `backdrop--${area}`]} aria-hidden="true">
   {swirls && (
     <div class="backdrop__gutters">
       <div class="backdrop__swirls" />
@@ -56,6 +57,12 @@ const { swirls = true } = Astro.props;
     mask-repeat: no-repeat;
     -webkit-mask-position: right 0 top 0, left 0 top 650px, right 0 top 2300px, left 0 top 2950px;
     mask-position: right 0 top 0, left 0 top 650px, right 0 top 2300px, left 0 top 2950px;
+  }
+
+  /* Gutters only: fully transparent across the content column plus a 20px margin */
+  .backdrop--gutters {
+    -webkit-mask-image: linear-gradient(to right, #000 calc(50% - 600px), transparent calc(50% - 470px), transparent calc(50% + 470px), #000 calc(50% + 600px));
+    mask-image: linear-gradient(to right, #000 calc(50% - 600px), transparent calc(50% - 470px), transparent calc(50% + 470px), #000 calc(50% + 600px));
   }
 
   /* Below 1100px the content column reaches the edges: no swirls */

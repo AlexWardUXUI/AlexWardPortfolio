@@ -11,7 +11,7 @@ Every component's props are a TypeScript interface in `src/types/schema.ts`. Com
 | Heading | `HeadingProps` | `level` (h1-h3) is separate from `style`, so the outline stays correct |
 | Text | `TextProps` | any typography token and text colour |
 | Image | `ImageProps` | explicit `cover` / `contain`; alt text required, `decorative` hides from screen readers |
-| Backdrop | `BackdropProps` | decorative home page background: corner glows plus gutter swirls, hidden from screen readers |
+| Backdrop | `BackdropProps` | decorative background: glows plus gutter swirls, hidden from screen readers; `area="gutters"` keeps it out of the reading column (case studies) |
 | Button | `ButtonProps` | glass pill; `primary` (white 90%, brand gradient rim, edge swirls) or `secondary` (light glass, quiet ink edge, swirls on hover only); `<a>` with href, else `<button>`; leading icon, external links get a trailing icon and "opens in a new tab" for screen readers; 44px minimum target; can open a native popover |
 | Icon | `IconProps` | decorative 20px line icons: menu, work, system, home, message, external |
 | Chip | `ChipProps` | dark glass tag over imagery, optional icon |

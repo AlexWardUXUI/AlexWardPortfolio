@@ -289,6 +289,12 @@ export interface BaseLayoutProps {
 export interface BackdropProps {
   /** Swirl contours in the side gutters on top of the corner glows. Default true. */
   swirls?: boolean;
+  /**
+   * page: glows reach across the page (home, where text on the open page is dark enough).
+   * gutters: glows and swirls stay entirely outside the 900px reading column, so
+   * long-form text sits on the plain page colour (case studies). Default page.
+   */
+  area?: 'page' | 'gutters';
 }
 
 export interface CaseStudyLayoutProps {

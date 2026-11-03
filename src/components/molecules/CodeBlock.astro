@@ -1,5 +1,5 @@
 ---
-/** Molecule: CodeBlock. Scrollable code sample with an optional file label. */
+/** Molecule: CodeBlock. Code sample with an optional file label. Long lines wrap rather than scroll. */
 import type { CodeBlockProps } from '../../types/schema';
 
 type Props = CodeBlockProps;
@@ -9,7 +9,7 @@ const { code, label } = Astro.props;
 
 <figure class="code-block">
   {label && <figcaption class="code-block__label type-code">{label}</figcaption>}
-  <pre class="code-block__pre type-code" tabindex="0"><code>{code}</code></pre>
+  <pre class="code-block__pre type-code"><code>{code}</code></pre>
 </figure>
 
 <style>
@@ -25,10 +25,12 @@ const { code, label } = Astro.props;
     border-bottom: 1px solid var(--color-surface-default);
     color: var(--color-text-muted);
   }
+  /* Long lines wrap instead of scrolling sideways: easier to read than strict code formatting */
   .code-block__pre {
     margin: 0;
     padding: var(--space-16);
-    overflow-x: auto;
     color: var(--color-text-emphasis);
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
   }
 </style>

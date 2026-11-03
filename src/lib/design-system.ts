@@ -134,28 +134,6 @@ export const glassRows = [
   })
 );
 
-/** Every contrast fix since the Framer audit, measured with the same function as the live tables. */
-export const contrastFixes = [
-  { use: 'Body text', before: ['#666666', WHITE], after: [v('color.text.secondary'), DARKEST_LIGHT] },
-  { use: 'Links', before: ['#0099ff', WHITE], after: [v('color.text.link'), DARKEST_LIGHT] },
-  { use: 'Role tags', before: ['#b3b3b3', WHITE], after: [v('color.text.muted'), DARKEST_LIGHT] },
-  { use: 'Metadata line', before: ['#8c8c8c', WHITE], after: [v('color.text.muted'), DARKEST_LIGHT] },
-  { use: 'Highlighted pill', before: [WHITE, '#8941d1'], after: [WHITE, v('color.secondary.default')] },
-  {
-    use: 'Chips over images (worst case)',
-    before: [WHITE, composite('rgba(138, 138, 138, 0.6)', WHITE)],
-    after: [WHITE, composite(v('color.surface.glass-dark'), WHITE)],
-  },
-].map((row) => ({
-  use: row.use,
-  before: row.before[0] as string,
-  beforeOn: row.before[1] as string,
-  after: row.after[0] as string,
-  afterOn: row.after[1] as string,
-  beforeRatio: contrast(row.before[0] as string, row.before[1] as string),
-  afterRatio: contrast(row.after[0] as string, row.after[1] as string),
-}));
-
 /* -------------------------------------------------------------------------- */
 /* Components                                                                 */
 /* -------------------------------------------------------------------------- */
