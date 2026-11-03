@@ -27,15 +27,6 @@ export interface ImageAsset {
   height?: number;
 }
 
-/** Inline content that can carry emphasis or links. */
-export type InlineNode =
-  | string
-  | { strong: string }
-  | { link: { href: string; label: string; external?: boolean } };
-
-/** Plain text or a sequence of inline nodes. */
-export type RichText = string | InlineNode[];
-
 export type Tone = 'light' | 'dark';
 
 /* -------------------------------------------------------------------------- */
@@ -45,18 +36,11 @@ export type Tone = 'light' | 'dark';
 /** Semantic typography tokens available to text atoms. Mirrors tokens/semantic.json > typography. */
 export type TypeStyle =
   | 'display'
-  | 'heading-xl'
-  | 'heading-lg'
   | 'heading-md'
   | 'heading-sm'
-  | 'eyebrow'
   | 'lead'
-  | 'lead-sm'
   | 'body'
-  | 'nav-link'
-  | 'brand'
   | 'label'
-  | 'label-tight'
   | 'caption'
   | 'code';
 
@@ -74,7 +58,7 @@ export type TextColor =
 export interface HeadingProps {
   level: 1 | 2 | 3;
   /** Visual style is independent of level so document outline and appearance never fight. */
-  style: Extract<TypeStyle, 'display' | 'heading-xl' | 'heading-lg' | 'heading-md' | 'heading-sm'>;
+  style: Extract<TypeStyle, 'display' | 'heading-md' | 'heading-sm'>;
   color?: TextColor;
   align?: 'start' | 'center';
   class?: string;
@@ -88,12 +72,40 @@ export interface TextProps {
   class?: string;
 }
 
-export interface LinkProps {
-  href: string;
-  /** Opens in a new tab with rel="noopener". Defaults to true for http(s) links. */
-  external?: boolean;
-  variant?: 'inline' | 'nav';
+/** Icons in src/components/atoms/Icon.astro. Always decorative: the label carries the meaning. */
+export type IconName = 'menu' | 'work' | 'system' | 'home' | 'message' | 'external';
+
+export interface IconProps {
+  name: IconName;
   class?: string;
+}
+
+export type ButtonVariant = 'primary' | 'secondary';
+
+/** Glass pill button. Primary: brand gradient rim and swirls. Secondary: quiet ink edge. */
+export interface ButtonProps {
+  /** Visible text. Always shown, so the button never relies on an icon alone. */
+  label: string;
+  /** Leading icon (decorative). */
+  icon?: IconName;
+  /** primary: the main action (one per area). secondary: everything else. Default primary. */
+  variant?: ButtonVariant;
+  /** Renders a link styled as a button. Without it, a real <button>. */
+  href?: string;
+  /** Opens in a new tab, shows a trailing external icon and says so to screen readers. Defaults to true for http(s) links. */
+  external?: boolean;
+  /** id of a [popover] element this button opens and closes (native Popover API, no JS). */
+  popoverTarget?: string;
+  class?: string;
+}
+
+/** A labelled destination rendered as a Button: nav items and calls to action. */
+export interface ButtonLink {
+  label: string;
+  href: string;
+  icon: IconName;
+  external?: boolean;
+  variant?: ButtonVariant;
 }
 
 export interface ImageProps extends ImageAsset {
@@ -113,10 +125,6 @@ export interface PillProps {
   label: string;
 }
 
-export interface RichTextProps {
-  content: RichText;
-}
-
 export interface CodeProps {
   class?: string;
 }
@@ -127,10 +135,6 @@ export interface CodeProps {
 
 export interface ChipGroupProps {
   chips: ChipProps[];
-}
-
-export interface RoleListProps {
-  roles: string[];
 }
 
 /** Brand shown in the Navbar. */
@@ -176,15 +180,9 @@ export interface ContrastBadgeProps {
 /* Organisms                                                                  */
 /* -------------------------------------------------------------------------- */
 
-export interface NavLinkItem {
-  label: string;
-  href: string;
-  external?: boolean;
-}
-
 export interface NavbarProps {
   brand: Brand;
-  links: NavLinkItem[];
+  links: ButtonLink[];
 }
 
 export interface HeroProps {
@@ -205,8 +203,6 @@ export interface ProjectCardProps {
   size: 'narrow' | 'wide';
   /** Purple pill beside the title, e.g. "Highlighted work". */
   badge?: string;
-  /** Muted role tags beside the title, e.g. ["Lead designer", "User research"]. */
-  roles?: string[];
 }
 
 export interface WorkGridProps {
@@ -217,7 +213,8 @@ export interface WorkGridProps {
 
 export interface ConnectSectionProps {
   title: string;
-  text: RichText;
+  text: string;
+  cta: ButtonLink;
   id?: string;
 }
 
@@ -228,7 +225,9 @@ export interface CaseHeaderProps {
 
 export interface CaseFooterProps {
   label: string;
-  cta: RichText;
+  /** Short line before the button, e.g. "Want to learn more?" */
+  prompt: string;
+  cta: ButtonLink;
 }
 
 export interface GalleryProps {
@@ -258,7 +257,7 @@ export interface SystemTeaserProps {
   intro: string;
   /** Counted facts derived from the source at build time. */
   stats: StatProps[];
-  cta: { label: string; href: string };
+  cta: ButtonLink;
   playground: VariantPlaygroundProps;
 }
 
@@ -284,6 +283,12 @@ export interface BaseLayoutProps {
   ogImage?: string;
   /** Extra font families to load. Inter always loads. */
   fonts?: 'mono'[];
+}
+
+/** Decorative page backdrop. Sits behind everything, hidden from assistive tech. */
+export interface BackdropProps {
+  /** Swirl contours in the side gutters on top of the corner glows. Default true. */
+  swirls?: boolean;
 }
 
 export interface CaseStudyLayoutProps {

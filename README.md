@@ -3,6 +3,7 @@
 Astro + TypeScript rebuild of the portfolio, structured as a small design system:
 
 - **Tokens** in W3C DTCG JSON (`tokens/`), two tiers: primitive and semantic
+- **Accessibility:** WCAG AAA (7:1) for all text, including over glass (see `docs/AUDIT.md`)
 - **Components** organised by atomic level (`src/components/atoms|molecules|organisms`)
 - **Schemas** for every component and for case study content (`src/types/schema.ts`)
 - **Case studies** in MDX (`src/content/case-studies/`), frontmatter validated by `src/content.config.ts`
@@ -28,8 +29,8 @@ src/
   content.config.ts        case study frontmatter schema
   content/case-studies/    one .mdx file per case study
   types/schema.ts          props for every component
-  components/atoms/        Heading, Text, Link, Image, Chip, Pill, RichText, Code
-  components/molecules/    ChipGroup, RoleList, Figure, Columns, CodeBlock, Stat, ContrastBadge
+  components/atoms/        Heading, Text, Button, Icon, Image, Chip, Pill, Code, Backdrop
+  components/molecules/    ChipGroup, Figure, Columns, CodeBlock, Stat, ContrastBadge
   components/organisms/    Navbar, Hero, ProjectCard, WorkGrid, ConnectSection, CaseHeader, Gallery, CaseFooter, VariantPlayground, SystemTeaser
   components/showcase/     docs-only components for /design-system/
   layouts/                 BaseLayout, CaseStudyLayout

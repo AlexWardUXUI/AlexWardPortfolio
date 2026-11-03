@@ -1,17 +1,19 @@
 ---
 /** Page: Home. Composition only; content lives in src/data, counts come from src/lib. */
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Backdrop from '../components/atoms/Backdrop.astro';
 import Navbar from '../components/organisms/Navbar.astro';
 import Hero from '../components/organisms/Hero.astro';
 import WorkGrid from '../components/organisms/WorkGrid.astro';
 import SystemTeaser from '../components/organisms/SystemTeaser.astro';
 import ConnectSection from '../components/organisms/ConnectSection.astro';
 import { brand, connect, designSystemCopy, hero, homeNav, site } from '../data/site';
-import { workGrid, componentLibrary, aiAssistedDesign, agilent } from '../data/projects';
+import { workGrid, componentLibrary, aiAssistedDesign } from '../data/projects';
 import { allTokens, tierCounts, components, componentCounts, caseStudyCount } from '../lib/design-system';
 ---
 
 <BaseLayout title={site.title} description={site.description} surface="page" ogImage={site.ogImage}>
+  <Backdrop />
   <Navbar brand={brand} links={homeNav} />
   <main>
     <Hero {...hero} />
@@ -31,10 +33,9 @@ import { allTokens, tierCounts, components, componentCounts, caseStudyCount } fr
         variants: [
           { id: 'default', label: 'Default', card: componentLibrary },
           { id: 'highlighted', label: 'Highlighted', card: aiAssistedDesign },
-          { id: 'roles', label: 'With roles', card: agilent },
         ],
       }}
-      cta={{ label: 'Explore the design system', href: '/design-system/' }}
+      cta={{ label: 'Explore the design system', href: '/design-system/', icon: 'system' }}
     />
     <ConnectSection {...connect} />
   </main>

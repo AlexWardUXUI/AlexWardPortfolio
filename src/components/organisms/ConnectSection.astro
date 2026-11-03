@@ -1,18 +1,19 @@
 ---
-/** Organism: ConnectSection. Centred call to action at the end of the home page. */
+/** Organism: ConnectSection. Centred call to action (title, line of text and a Button) at the end of the home page. */
 import type { ConnectSectionProps } from '../../types/schema';
 import Heading from '../atoms/Heading.astro';
 import Text from '../atoms/Text.astro';
-import RichText from '../atoms/RichText.astro';
+import Button from '../atoms/Button.astro';
 
 type Props = ConnectSectionProps;
 
-const { title, text, id } = Astro.props;
+const { title, text, cta, id } = Astro.props;
 ---
 
 <section class="connect" id={id}>
-  <Heading level={2} style="heading-xl" color="primary" align="center">{title}</Heading>
-  <Text style="lead-sm" color="emphasis" align="center"><RichText content={text} /></Text>
+  <Heading level={2} style="display" color="primary" align="center">{title}</Heading>
+  <Text style="lead" color="emphasis" align="center">{text}</Text>
+  <Button {...cta} />
 </section>
 
 <style>
@@ -32,12 +33,5 @@ const { title, text, id } = Astro.props;
     }
   }
   @media (max-width: 599px) {
-    .connect :global(h2) {
-      font-size: var(--font-size-3xl);
-    }
-    .connect :global(p) {
-      font-size: var(--font-size-lg);
-      line-height: var(--font-line-height-relaxed);
-    }
   }
 </style>

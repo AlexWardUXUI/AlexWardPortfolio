@@ -7,10 +7,6 @@
         "$value": "#ffffff",
         "$description": "Pure white. Cards, nav, connect section."
       },
-      "25": {
-        "$value": "#f7f8f6",
-        "$description": "Hero gradient end."
-      },
       "50": {
         "$value": "#f3f4f2",
         "$description": "Page background behind the work grid."
@@ -24,12 +20,12 @@
         "$description": "Gallery panel background."
       },
       "400": {
-        "$value": "#737373",
-        "$description": "Muted text. Replaces #888888, #8c8c8c and #b3b3b3, which failed WCAG AA (4.74:1 on white)."
+        "$value": "#4e4e4e",
+        "$description": "Muted text (eyebrows, metadata, role tags). 7.11:1 on the darkest light surface (#ededed): WCAG AAA."
       },
       "500": {
-        "$value": "#666666",
-        "$description": "Body copy (5.74:1 on white)."
+        "$value": "#444444",
+        "$description": "Body copy. 8.32:1 on #ededed, 9.74:1 on white: WCAG AAA."
       },
       "700": {
         "$value": "#333333",
@@ -53,36 +49,56 @@
     "blue": {
       "100": {
         "$value": "#c4dcf2",
-        "$description": "Divider between role tags."
+        "$description": "Divider between role tags (non-text)."
       },
-      "500": {
-        "$value": "#0099ff",
-        "$description": "Original Framer link blue (3.0:1 on white, fails AA for text). Kept for reference; not used for text."
+      "700": {
+        "$value": "#005187",
+        "$description": "Links and primary actions. 7.10:1 on #ededed, 8.31:1 on white: WCAG AAA."
       },
-      "600": {
-        "$value": "#007acc",
-        "$description": "Accessible link blue. Same hue as 500, darkened to 4.51:1 on white."
+      "a16": {
+        "$value": "rgba(0, 81, 135, 0.16)",
+        "$description": "Backdrop glow, strongest corner."
+      },
+      "a07": {
+        "$value": "rgba(0, 81, 135, 0.07)",
+        "$description": "Backdrop glow, soft."
+      },
+      "a20": {
+        "$value": "rgba(0, 81, 135, 0.2)",
+        "$description": "Backdrop swirl line (non-text)."
       }
     },
     "purple": {
-      "500": {
-        "$value": "#8941d1",
-        "$description": "Highlighted work pill (white text 5.61:1)."
+      "600": {
+        "$value": "#6a2fb0",
+        "$description": "Highlighted work pill. White text on it reaches 7.94:1: WCAG AAA."
+      },
+      "a14": {
+        "$value": "rgba(106, 47, 176, 0.14)",
+        "$description": "Backdrop glow, strongest corner."
+      },
+      "a07": {
+        "$value": "rgba(106, 47, 176, 0.07)",
+        "$description": "Backdrop glow, soft."
       }
     },
     "green": {
-      "700": {
-        "$value": "#1a7f37",
-        "$description": "Status: pass (5.08:1 on white)."
+      "800": {
+        "$value": "#135b27",
+        "$description": "Status: pass. 7.02:1 on #ededed."
       }
     },
     "red": {
-      "700": {
-        "$value": "#c62828",
-        "$description": "Status: fail (5.62:1 on white)."
+      "800": {
+        "$value": "#971f1f",
+        "$description": "Status: fail. 7.09:1 on #ededed."
       }
     },
     "ink": {
+      "950": {
+        "$value": "#111827",
+        "$description": "Opaque dark surface; fallback for dark glass."
+      },
       "a00": {
         "$value": "rgba(17, 24, 39, 0)"
       },
@@ -92,28 +108,47 @@
       "a06": {
         "$value": "rgba(17, 24, 39, 0.06)"
       },
+      "a08": {
+        "$value": "rgba(17, 24, 39, 0.08)"
+      },
+      "a12": {
+        "$value": "rgba(17, 24, 39, 0.12)"
+      },
       "a18": {
         "$value": "rgba(17, 24, 39, 0.18)"
       },
       "a28": {
         "$value": "rgba(17, 24, 39, 0.28)"
+      },
+      "a78": {
+        "$value": "rgba(17, 24, 39, 0.78)",
+        "$description": "Dark glass tint. White text stays at 8.77:1 even over a pure white backdrop."
+      },
+      "a90": {
+        "$value": "rgba(17, 24, 39, 0.9)",
+        "$description": "Dark card glass tint. White text 13.39:1 and text.inverse-secondary 11.96:1 even over pure white."
       }
     },
-    "black": {
-      "a06": {
-        "$value": "rgba(0, 0, 0, 0.06)"
+    "white": {
+      "a90": {
+        "$value": "rgba(255, 255, 255, 0.9)",
+        "$description": "Button glass fill. #111111 stays at 16:1 even where the brand rim tints it most."
+      },
+      "a80": {
+        "$value": "rgba(255, 255, 255, 0.8)",
+        "$description": "Light glass tint. #111111 text stays at 11.76:1 and #333333 at 7.87:1 even over a pure black backdrop."
+      },
+      "a70": {
+        "$value": "rgba(255, 255, 255, 0.7)",
+        "$description": "Card glass tint. text.secondary stays at 8.26:1 over the darkest pixel of the page backdrop."
+      },
+      "a60": {
+        "$value": "rgba(255, 255, 255, 0.6)",
+        "$description": "Light glass edge."
       },
       "a16": {
-        "$value": "rgba(0, 0, 0, 0.16)"
-      },
-      "a18": {
-        "$value": "rgba(0, 0, 0, 0.18)"
-      }
-    },
-    "grey": {
-      "a60": {
-        "$value": "rgba(138, 138, 138, 0.6)",
-        "$description": "Translucent chip fill over imagery."
+        "$value": "rgba(255, 255, 255, 0.16)",
+        "$description": "Dark glass edge."
       }
     }
   },
@@ -142,23 +177,14 @@
     },
     "weight": {
       "$type": "fontWeight",
-      "light": {
-        "$value": 300
-      },
       "regular": {
         "$value": 400
       },
       "medium": {
         "$value": 500
       },
-      "semibold": {
-        "$value": 600
-      },
       "bold": {
         "$value": 700
-      },
-      "extrabold": {
-        "$value": 800
       }
     },
     "size": {
@@ -186,9 +212,6 @@
       },
       "4xl": {
         "$value": "40px"
-      },
-      "6xl": {
-        "$value": "72px"
       }
     },
     "line-height": {
@@ -205,17 +228,11 @@
       },
       "spacious": {
         "$value": 1.9
-      },
-      "double": {
-        "$value": 2
       }
     },
     "letter-spacing": {
       "$type": "dimension",
       "$description": "Six steps. Was nine: -0.8, -0.7, -0.5 and -0.4px merged into -0.5px.",
-      "tightest": {
-        "$value": "-3.8px"
-      },
       "tighter": {
         "$value": "-1.5px"
       },
@@ -319,6 +336,10 @@
     "2xl": {
       "$value": "32px",
       "$description": "Hero media."
+    },
+    "pill": {
+      "$value": "999px",
+      "$description": "Fully rounded ends (buttons)."
     }
   },
   "size": {
@@ -342,20 +363,34 @@
       "$value": "1200px"
     },
     "hero-text": {
-      "$value": "420px"
+      "$value": "560px"
     },
     "hero-media": {
       "$value": "560px"
     },
-    "hero-offset": {
-      "$value": "184px",
-      "$description": "Hero left inset at desktop. Layout-specific, so it lives in size, not the spacing scale."
+    "hero-width": {
+      "$value": "1120px",
+      "$description": "Hero is centred within this width. Matches the backdrop's quiet column, so the headline never sits on full-strength swirls."
     },
     "hero-min-height": {
       "$value": "744px"
     },
     "card-media": {
       "$value": "300px"
+    },
+    "target": {
+      "$value": "44px",
+      "$description": "Minimum touch target for buttons and menu links (WCAG 2.5.5, AAA)."
+    }
+  },
+  "blur": {
+    "$type": "dimension",
+    "$description": "Backdrop blur radii for glass surfaces.",
+    "sm": {
+      "$value": "12px"
+    },
+    "md": {
+      "$value": "20px"
     }
   },
   "breakpoint": {

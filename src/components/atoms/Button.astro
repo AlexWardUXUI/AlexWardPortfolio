@@ -1,0 +1,137 @@
+---
+/**
+ * Atom: Button. Glass pill, 44px minimum height (AAA target size), label always
+ * text.primary. Variants: primary (white 90% glass, brand gradient rim, swirls
+ * fading in from both ends: 16:1) and secondary (light glass with a quiet ink
+ * edge; ink swirls appear only on hover: 11.76:1 over a black backdrop).
+ * Renders an <a> when given href, otherwise a real <button> (which can open a
+ * native popover).
+ */
+import type { ButtonProps } from '../../types/schema';
+import Icon from './Icon.astro';
+
+type Props = ButtonProps;
+
+const { label, icon, href, variant = 'primary', popoverTarget, class: className } = Astro.props;
+const external = href ? (Astro.props.external ?? /^https?:\/\//.test(href)) : false;
+const classes = ['button', `button--${variant}`, 'type-label', className];
+---
+
+{href ? (
+  <a class:list={classes} data-variant={variant} href={href} target={external ? '_blank' : undefined} rel={external ? 'noopener' : undefined}>
+    {icon && <Icon name={icon} />}
+    <span>{label}</span>
+    {external && (
+      <>
+        <Icon name="external" class="button__external" />
+        <span class="visually-hidden"> (opens in a new tab)</span>
+      </>
+    )}
+  </a>
+) : (
+  <button type="button" class:list={classes} data-variant={variant} popovertarget={popoverTarget}>
+    {icon && <Icon name={icon} />}
+    <span>{label}</span>
+  </button>
+)}
+
+<style>
+  .button {
+    position: relative;
+    isolation: isolate;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-8);
+    min-height: var(--size-target);
+    padding: 0 var(--space-16);
+    border: 1.5px solid transparent;
+    border-radius: var(--radius-pill);
+    background:
+      linear-gradient(var(--button-fill), var(--button-fill)) padding-box,
+      var(--button-rim) border-box;
+    -webkit-backdrop-filter: blur(var(--effect-glass-blur-light)) saturate(160%);
+    backdrop-filter: blur(var(--effect-glass-blur-light)) saturate(160%);
+    box-shadow: var(--shadow-elevation-1);
+    color: var(--color-text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    cursor: pointer;
+    transition:
+      box-shadow var(--motion-transition-base),
+      transform var(--motion-transition-base);
+  }
+  /* Swirls: the brand gradient, masked to contour lines at each end */
+  .button::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background: var(--button-swirl);
+    opacity: var(--button-swirl-rest);
+    -webkit-mask: url('/assets/img/backdrop/button-swirl-left.svg') no-repeat left center / auto 100%,
+      url('/assets/img/backdrop/button-swirl-right.svg') no-repeat right center / auto 100%;
+    mask: url('/assets/img/backdrop/button-swirl-left.svg') no-repeat left center / auto 100%,
+      url('/assets/img/backdrop/button-swirl-right.svg') no-repeat right center / auto 100%;
+    transition: opacity var(--motion-transition-base);
+  }
+  .button:hover,
+  .button:focus-visible {
+    box-shadow: var(--shadow-elevation-2);
+    transform: translateY(-1px);
+  }
+  .button:hover::before,
+  .button:focus-visible::before {
+    opacity: var(--button-swirl-hover);
+  }
+
+  /* Variants only change these five values */
+  .button--primary {
+    --button-fill: var(--color-surface-glass-button);
+    --button-rim: var(--gradient-brand);
+    --button-swirl: var(--gradient-brand);
+    --button-swirl-rest: var(--opacity-button-swirl);
+    --button-swirl-hover: var(--opacity-button-swirl-hover);
+  }
+  .button--secondary {
+    --button-fill: var(--color-surface-glass-light);
+    --button-rim: linear-gradient(var(--color-border-button-secondary), var(--color-border-button-secondary));
+    --button-swirl: var(--color-text-primary);
+    --button-swirl-rest: var(--opacity-button-swirl-secondary);
+    --button-swirl-hover: var(--opacity-button-swirl-secondary-hover);
+    border-width: 1px;
+    box-shadow: var(--shadow-glass-highlight);
+  }
+  .button--secondary:hover,
+  .button--secondary:focus-visible {
+    box-shadow: var(--shadow-elevation-1), var(--shadow-glass-highlight);
+  }
+  .button:focus-visible {
+    outline: 2px solid var(--color-border-focus);
+    outline-offset: 3px;
+  }
+  .button__external {
+    width: var(--space-16);
+    height: var(--space-16);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .button:hover,
+    .button:focus-visible {
+      transform: none;
+    }
+  }
+  @media (prefers-reduced-transparency: reduce) {
+    .button {
+      -webkit-backdrop-filter: none;
+      backdrop-filter: none;
+    }
+  }
+  @media (forced-colors: active) {
+    .button {
+      border-color: ButtonText;
+    }
+    .button::before {
+      display: none;
+    }
+  }
+</style>

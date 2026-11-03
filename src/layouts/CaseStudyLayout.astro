@@ -40,7 +40,7 @@ const { study } = Astro.props;
       <div class="prose">
         <slot />
       </div>
-      <CaseFooter label={study.footerLabel} cta={caseCta} />
+      <CaseFooter label={study.footerLabel} {...caseCta} />
     </article>
   </main>
 </BaseLayout>

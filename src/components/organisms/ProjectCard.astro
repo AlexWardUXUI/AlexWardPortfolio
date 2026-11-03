@@ -2,8 +2,8 @@
 /**
  * Organism: ProjectCard
  * Whole-card link to a case study: image with chips, title, optional badge
- * (Pill) or roles (RoleList), and a description. Variants: tone (light | dark).
- * Shows a shadow on hover and keyboard focus.
+ * (Pill), and a description. Variants: tone (light | dark).
+ * Frosted glass surface (light or dark) that lifts on hover and keyboard focus.
  */
 import type { ProjectCardProps } from '../../types/schema';
 import Image from '../atoms/Image.astro';
@@ -11,15 +11,14 @@ import Heading from '../atoms/Heading.astro';
 import Text from '../atoms/Text.astro';
 import Pill from '../atoms/Pill.astro';
 import ChipGroup from '../molecules/ChipGroup.astro';
-import RoleList from '../molecules/RoleList.astro';
 
 type Props = ProjectCardProps;
 
-const { href, title, description, image, chips = [], tone = 'light', badge, roles } = Astro.props;
+const { href, title, description, image, chips = [], tone = 'light', badge } = Astro.props;
 const dark = tone === 'dark';
 ---
 
-<a class:list={['card', `card--${tone}`]} href={href}>
+<a class:list={['card', `card--${tone}`, dark ? 'glass-dark' : 'glass-light']} href={href}>
   <div class="card__media">
     <Image {...image} />
     {chips.length > 0 && (
@@ -32,7 +31,6 @@ const dark = tone === 'dark';
     <div class="card__head">
       <Heading level={2} style="heading-md" color={dark ? 'inverse' : 'primary'}>{title}</Heading>
       {badge && <Pill label={badge} />}
-      {roles && roles.length > 0 && <RoleList roles={roles} />}
     </div>
     <Text color={dark ? 'inverse-secondary' : 'secondary'}>{description}</Text>
   </div>
@@ -46,18 +44,28 @@ const dark = tone === 'dark';
     padding-bottom: var(--space-24);
     border-radius: var(--radius-xl);
     overflow: hidden;
-    box-shadow: var(--shadow-none);
-    transition: box-shadow var(--motion-transition-base);
+    box-shadow: var(--shadow-elevation-1), var(--shadow-glass-highlight);
+    transition:
+      box-shadow var(--motion-transition-base),
+      transform var(--motion-transition-base);
   }
+  /* Card tints: see color.surface.glass-card-* for their worst-case contrast */
   .card--light {
-    background: var(--color-surface-default);
+    --glass-tint: var(--color-surface-glass-card-light);
   }
   .card--dark {
-    background: var(--color-surface-inverse);
+    --glass-tint: var(--color-surface-glass-card-dark);
   }
   .card:hover,
   .card:focus-visible {
-    box-shadow: var(--shadow-hover);
+    box-shadow: var(--shadow-elevation-2), var(--shadow-glass-highlight);
+    transform: translateY(-2px);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .card:hover,
+    .card:focus-visible {
+      transform: none;
+    }
   }
   .card:focus-visible {
     outline: 2px solid var(--color-border-focus);
