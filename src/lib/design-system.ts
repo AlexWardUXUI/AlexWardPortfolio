@@ -8,7 +8,7 @@
 import schemaSource from '../types/schema.ts?raw';
 import contentConfigSource from '../content.config.ts?raw';
 import { tokens, tokenPaths, type TokenMeta, type TokenPath, type TokenTier } from '../tokens/tokens';
-import { contrast, wcagLevel, type WcagLevel } from './color';
+import { composite, contrast, wcagLevel, type WcagLevel } from './color';
 
 /* -------------------------------------------------------------------------- */
 /* Tokens                                                                     */
@@ -50,40 +50,41 @@ export interface ColorRow {
   level: WcagLevel | null;
 }
 
-const WHITE = String(tokens['color.surface.default'].value);
-const INVERSE = String(tokens['color.surface.inverse'].value);
+const v = (path: TokenPath) => String(tokens[path].value);
+const WHITE = v('color.surface.default');
+const INVERSE = v('color.surface.inverse');
+/** The darkest light surface text sits on (code blocks, panels). Light text tokens are measured here. */
+const DARKEST_LIGHT = v('color.surface.sunken');
 
-/** Every semantic text colour with its contrast against the surface it is used on. */
+/** Every semantic text colour, measured against the darkest surface it can appear on. */
 export const textColorRows: ColorRow[] = tokensWhere('color.text.', 'semantic').map((token) => {
   const hex = String(token.value);
   const inverse = token.path.includes('inverse');
-  const background = inverse ? INVERSE : WHITE;
+  const background = inverse ? INVERSE : DARKEST_LIGHT;
   const ratio = contrast(hex, background);
   return {
     token,
     hex,
     background,
-    backgroundName: inverse ? 'surface.inverse' : 'surface.default',
+    backgroundName: inverse ? 'surface.inverse' : 'surface.sunken',
     ratio,
     level: ratio === null ? null : wcagLevel(ratio),
   };
 });
 
-/** Brand colours, with white-text contrast where the colour is used as a fill. */
-export const brandColorRows: ColorRow[] = (
-  ['color.primary.default', 'color.secondary.default'] as const
-).map((path) => {
+/** Brand colours: the link blue as text on the darkest light surface, the purple with white text on it. */
+export const brandColorRows: ColorRow[] = (['color.primary.default', 'color.secondary.default'] as const).map((path) => {
   const token = tokens[path];
   const hex = String(token.value);
   const asText = path === 'color.primary.default';
-  const background = asText ? WHITE : hex;
+  const background = asText ? DARKEST_LIGHT : hex;
   const fg = asText ? hex : WHITE;
   const ratio = contrast(fg, background);
   return {
     token,
     hex,
     background,
-    backgroundName: asText ? 'surface.default' : 'white text on fill',
+    backgroundName: asText ? 'surface.sunken' : 'white text on fill',
     ratio,
     level: ratio === null ? null : wcagLevel(ratio),
   };
@@ -91,15 +92,69 @@ export const brandColorRows: ColorRow[] = (
 
 export const surfaceRows = tokensWhere('color.surface.', 'semantic');
 
-/** Contrast fixes made in the audit, measured with the same function as the live tables. */
+/** Scales an rgba() token's alpha, e.g. the swirls, which fade to 10% under the content column. */
+function fade(value: string, factor: number): string {
+  return value.replace(/,\s*([\d.]+)\)$/, (_, a) => `, ${Number(a) * factor})`);
+}
+
+/**
+ * The darkest the home page backdrop can get behind a card, ignoring the blur
+ * (which only lightens it): both glows stacked at full strength plus a swirl
+ * line at its in-column 10%. Cards never sit on anything darker.
+ */
+export const PAGE_BACKDROP_DARKEST = composite(
+  fade(v('color.backdrop.swirl'), 0.1),
+  composite(v('color.backdrop.glow-secondary'), composite(v('color.backdrop.glow-primary'), v('color.surface.page')))
+);
+
+/**
+ * Glass: you can't measure through a blur, so each surface is measured over the
+ * worst possible backdrop (black behind light glass, white behind dark glass).
+ */
+export const glassRows = [
+  { surface: 'color.surface.glass-light', backdrop: '#000000', backdropName: 'black', text: ['color.text.primary', 'color.text.emphasis'] },
+  { surface: 'color.surface.glass-dark', backdrop: '#ffffff', backdropName: 'white', text: ['color.text.inverse'] },
+  { surface: 'color.surface.glass-card-light', backdrop: PAGE_BACKDROP_DARKEST, backdropName: 'darkest page backdrop', text: ['color.text.primary', 'color.text.secondary'] },
+  { surface: 'color.surface.glass-card-dark', backdrop: '#ffffff', backdropName: 'white', text: ['color.text.inverse', 'color.text.inverse-secondary'] },
+  // Buttons: the fill sits on the brand gradient rim, so the darker stop (primary blue) is its worst backdrop
+  { surface: 'color.surface.glass-button', backdrop: v('color.primary.default'), backdropName: 'brand blue rim', text: ['color.text.primary'] },
+].flatMap((g) =>
+  g.text.map((t) => {
+    const tint = v(g.surface as TokenPath);
+    const flattened = composite(tint, g.backdrop);
+    return {
+      surface: g.surface,
+      tint,
+      text: t,
+      textHex: v(t as TokenPath),
+      backdropName: g.backdropName,
+      flattened,
+      ratio: contrast(v(t as TokenPath), flattened),
+    };
+  })
+);
+
+/** Every contrast fix since the Framer audit, measured with the same function as the live tables. */
 export const contrastFixes = [
-  { use: 'Links', before: '#0099ff', after: String(tokens['color.text.link'].value), on: WHITE },
-  { use: 'Role tags', before: '#b3b3b3', after: String(tokens['color.text.muted'].value), on: WHITE },
-  { use: 'Metadata line', before: '#8c8c8c', after: String(tokens['color.text.muted'].value), on: WHITE },
-].map((row) => {
-  const pair = (c: string) => contrast(c, row.on);
-  return { ...row, beforeRatio: pair(row.before), afterRatio: pair(row.after) };
-});
+  { use: 'Body text', before: ['#666666', WHITE], after: [v('color.text.secondary'), DARKEST_LIGHT] },
+  { use: 'Links', before: ['#0099ff', WHITE], after: [v('color.text.link'), DARKEST_LIGHT] },
+  { use: 'Role tags', before: ['#b3b3b3', WHITE], after: [v('color.text.muted'), DARKEST_LIGHT] },
+  { use: 'Metadata line', before: ['#8c8c8c', WHITE], after: [v('color.text.muted'), DARKEST_LIGHT] },
+  { use: 'Highlighted pill', before: [WHITE, '#8941d1'], after: [WHITE, v('color.secondary.default')] },
+  {
+    use: 'Chips over images (worst case)',
+    before: [WHITE, composite('rgba(138, 138, 138, 0.6)', WHITE)],
+    after: [WHITE, composite(v('color.surface.glass-dark'), WHITE)],
+  },
+].map((row) => ({
+  use: row.use,
+  before: row.before[0] as string,
+  beforeOn: row.before[1] as string,
+  after: row.after[0] as string,
+  afterOn: row.after[1] as string,
+  beforeRatio: contrast(row.before[0] as string, row.before[1] as string),
+  afterRatio: contrast(row.after[0] as string, row.after[1] as string),
+}));
 
 /* -------------------------------------------------------------------------- */
 /* Components                                                                 */
@@ -163,7 +218,7 @@ function parseComponent(file: string, source: string): ComponentDoc {
   const typeClasses = [...source.matchAll(/type-([a-z-]+?)(?=["'`\s}])/g)].map((m) => `typography-${m[1]}`);
   const found = new Set<TokenPath>();
   for (const v of [...vars, ...typeClasses]) {
-    // typography sub-properties (e.g. --typography-nav-link-font-size) map to their parent token
+    // typography sub-properties (e.g. --typography-body-font-size) map to their parent token
     const base = v.replace(/-(font-family|font-size|font-weight|line-height|letter-spacing)$/, '');
     const path = cssVarToPath.get(v) ?? cssVarToPath.get(base);
     if (path) found.add(path);

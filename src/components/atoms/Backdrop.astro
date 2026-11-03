@@ -1,0 +1,80 @@
+---
+/**
+ * Atom: Backdrop. Decorative page background: soft brand glows in the corners
+ * and swirl contours in the side gutters. Gives the glass surfaces something
+ * to blur. Fades out under the content column so every text colour keeps
+ * 7:1 (checked pixel by pixel), drops the swirls below 1100px, and disappears
+ * entirely in forced colours and print.
+ */
+import type { BackdropProps } from '../../types/schema';
+
+type Props = BackdropProps;
+
+const { swirls = true } = Astro.props;
+---
+
+<div class="backdrop" aria-hidden="true">
+  {swirls && (
+    <div class="backdrop__gutters">
+      <div class="backdrop__swirls" />
+    </div>
+  )}
+</div>
+
+<style>
+  .backdrop {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+    background:
+      radial-gradient(900px 600px at 8% 4%, var(--color-backdrop-glow-primary), transparent 70%),
+      radial-gradient(800px 560px at 96% 10%, var(--color-backdrop-glow-secondary), transparent 70%),
+      radial-gradient(900px 700px at 0% 52%, var(--color-backdrop-glow-primary-soft), transparent 70%),
+      radial-gradient(900px 700px at 100% 78%, var(--color-backdrop-glow-secondary-soft), transparent 70%);
+  }
+
+  /* Full strength in the gutters, 10% under the 1120px content column, at any width */
+  .backdrop__gutters {
+    position: absolute;
+    inset: 0;
+    -webkit-mask-image: linear-gradient(to right, #000 calc(50% - 680px), rgb(0 0 0 / 0.1) calc(50% - 560px), rgb(0 0 0 / 0.1) calc(50% + 560px), #000 calc(50% + 680px));
+    mask-image: linear-gradient(to right, #000 calc(50% - 680px), rgb(0 0 0 / 0.1) calc(50% - 560px), rgb(0 0 0 / 0.1) calc(50% + 560px), #000 calc(50% + 680px));
+  }
+
+  /* The SVGs are mask shapes only, so the line colour stays a token */
+  .backdrop__swirls {
+    position: absolute;
+    inset: 0;
+    background: var(--color-backdrop-swirl);
+    --swirl-right: url('/assets/img/backdrop/swirl-right.svg');
+    --swirl-left: url('/assets/img/backdrop/swirl-left.svg');
+    -webkit-mask-image: var(--swirl-right), var(--swirl-left), var(--swirl-right), var(--swirl-left);
+    mask-image: var(--swirl-right), var(--swirl-left), var(--swirl-right), var(--swirl-left);
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: right 0 top 0, left 0 top 650px, right 0 top 2300px, left 0 top 2950px;
+    mask-position: right 0 top 0, left 0 top 650px, right 0 top 2300px, left 0 top 2950px;
+  }
+
+  /* Below 1100px the content column reaches the edges: no swirls */
+  @media (max-width: 1099px) {
+    .backdrop__gutters {
+      display: none;
+    }
+  }
+  /* Mobile: only the two top glows */
+  @media (max-width: 899px) {
+    .backdrop {
+      background:
+        radial-gradient(600px 420px at 8% 0%, var(--color-backdrop-glow-primary), transparent 70%),
+        radial-gradient(560px 400px at 96% 4%, var(--color-backdrop-glow-secondary), transparent 70%);
+    }
+  }
+  @media (forced-colors: active), print {
+    .backdrop {
+      display: none;
+    }
+  }
+</style>

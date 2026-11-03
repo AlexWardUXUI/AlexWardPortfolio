@@ -8,6 +8,8 @@
 html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
 
 body {
+  position: relative;
+  isolation: isolate;
   margin: 0;
   font-family: var(--font-family-sans);
   color: var(--color-text-primary);
@@ -24,6 +26,19 @@ strong { font-weight: var(--font-weight-bold); }
 
 :focus-visible { outline: 2px solid var(--color-border-focus); outline-offset: 2px; }
 
+/* Text for screen readers only */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 /* Text colour utilities: one per semantic text token (see TextColor in src/types/schema.ts) */
 .text-primary { color: var(--color-text-primary); }
 .text-display { color: var(--color-text-display); }
@@ -35,6 +50,57 @@ strong { font-weight: var(--font-weight-bold); }
 .text-link { color: var(--color-text-link); }
 
 .align-center { text-align: center; }
+
+/* Glass surfaces.
+   Tints are set so the allowed text stays WCAG AAA over ANY backdrop (worst case
+   measured against pure black for light glass, pure white for dark glass).
+   Light glass: only text.primary / text.emphasis. Dark glass: only text.inverse.
+   A component may swap the tint through --glass-tint (project cards do), but only
+   for a tint documented with its own worst case. Fallbacks below ignore it. */
+.glass-light,
+.glass-dark {
+  /* Reset so a nested glass surface (a chip inside a card) never inherits its parent's tint */
+  --glass-tint: initial;
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(160%);
+  backdrop-filter: blur(var(--glass-blur)) saturate(160%);
+}
+.glass-light {
+  --glass-blur: var(--effect-glass-blur-light);
+  background: var(--glass-tint, var(--color-surface-glass-light));
+  border: 1px solid var(--color-border-glass-light);
+}
+.glass-dark {
+  --glass-blur: var(--effect-glass-blur-dark);
+  background: var(--glass-tint, var(--color-surface-glass-dark));
+  border: 1px solid var(--color-border-glass-dark);
+}
+/* No blur support, or the visitor asked for less transparency: go solid. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .glass-light { background: var(--color-surface-glass-light-solid); }
+  .glass-dark { background: var(--color-surface-glass-dark-solid); }
+}
+/* Responsive type: the only places a typography token changes size */
+@media (max-width: 599px) {
+  .type-display { font-size: var(--font-size-3xl); letter-spacing: var(--font-letter-spacing-tight); }
+  .type-lead { font-size: var(--font-size-lg); }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .glass-light,
+  .glass-dark {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+  .glass-light { background: var(--color-surface-glass-light-solid); }
+  .glass-dark { background: var(--color-surface-glass-dark-solid); }
+}
+/* Windows high contrast: effects are dropped, so draw a real border instead. */
+@media (forced-colors: active) {
+  .glass-light,
+  .glass-dark {
+    border: 1px solid CanvasText;
+  }
+}
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }

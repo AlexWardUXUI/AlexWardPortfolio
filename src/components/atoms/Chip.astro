@@ -10,7 +10,7 @@ type Props = ChipProps;
 const { label, icon, iconFit = 'cover' } = Astro.props;
 ---
 
-<span class="chip type-caption">
+<span class="chip glass-dark type-caption">
   {icon && <img class:list={['chip__icon', `chip__icon--${iconFit}`]} src={icon.src} alt={icon.decorative ? '' : icon.alt} aria-hidden={icon.decorative ? 'true' : undefined} width="20" height="20" />}
   {label}
 </span>
@@ -22,10 +22,7 @@ const { label, icon, iconFit = 'cover' } = Astro.props;
     gap: var(--space-6);
     padding: var(--space-6) var(--space-8);
     border-radius: var(--radius-sm);
-    background: var(--color-surface-overlay);
-    -webkit-backdrop-filter: blur(6px);
-    backdrop-filter: blur(6px);
-    box-shadow: var(--shadow-chip);
+    box-shadow: var(--shadow-elevation-1), var(--shadow-glass-highlight);
     color: var(--color-text-inverse);
     text-transform: uppercase;
     white-space: nowrap;

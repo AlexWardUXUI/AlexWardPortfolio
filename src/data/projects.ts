@@ -32,7 +32,6 @@ export const onboardingBlueprint: ProjectCardProps = {
     'Mapping the end-to-end onboarding service to reveal customer pain points, handoff gaps and opportunities to improve delivery.',
   image: { src: '/assets/img/work/onboarding-blueprint.png', alt: 'Excerpt of the onboarding service blueprint: cross-team delivery steps beside the friction they revealed' },
   chips: [figma, { label: 'Stakeholder collaboration' }],
-  roles: ['Service design'],
   size: 'wide',
 };
 
@@ -60,7 +59,6 @@ export const agilent: ProjectCardProps = {
   description: 'Designed an interactive product configurator to help customers explore complex laboratory equipment.',
   image: { src: '/assets/img/work/agilent-configurator.png', alt: 'Figma file of configurator layouts and annotated pattern library pages for Agilent' },
   chips: [figma, optimalWorkshop],
-  roles: ['Lead designer', 'User research', 'Prototypes'],
   size: 'wide',
 };
 

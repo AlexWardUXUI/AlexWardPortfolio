@@ -1,13 +1,13 @@
 ---
-/** Molecule: ContrastBadge. WCAG contrast ratio with a pass or fail state for normal-size text. */
+/** Molecule: ContrastBadge. WCAG contrast ratio, passing only at AAA (7:1), the site's minimum for normal-size text. */
 import type { ContrastBadgeProps } from '../../types/schema';
-import { wcagLevel } from '../../lib/color';
+import { TARGET_RATIO, wcagLevel } from '../../lib/color';
 
 type Props = ContrastBadgeProps;
 
 const { ratio } = Astro.props;
 const level = ratio === null ? null : wcagLevel(ratio);
-const pass = level === 'AA' || level === 'AAA';
+const pass = ratio !== null && ratio >= TARGET_RATIO;
 ---
 
 {ratio !== null && (

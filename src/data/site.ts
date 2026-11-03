@@ -1,33 +1,33 @@
-import type { Brand, ConnectSectionProps, HeroProps, NavLinkItem, RichText } from '../types/schema';
+import type { Brand, ButtonLink, CaseFooterProps, ConnectSectionProps, HeroProps } from '../types/schema';
 
 export const LINKEDIN = 'https://www.linkedin.com/in/alexjward93/';
 
 export const site = {
-  title: 'Alex Ward | Service and Product design leader',
+  title: 'Alex Ward | Product & Service design lead',
   description: 'Design leader | Lead product designer | Service design',
   ogImage: '/assets/img/home/hero.png',
 };
 
 export const brand: Brand = {
   name: 'ALEX WARD',
-  tagline: 'Service and Product design leader',
+  tagline: 'Product & Service design lead',
   href: '/',
 };
 
-export const homeNav: NavLinkItem[] = [
-  { label: 'Selected work', href: '#work' },
-  { label: 'Design system', href: '/design-system/' },
-  { label: 'Contact me', href: LINKEDIN, external: true },
+export const homeNav: ButtonLink[] = [
+  { label: 'Selected work', href: '#work', icon: 'work', variant: 'primary' },
+  { label: 'Design system', href: '/design-system/', icon: 'system', variant: 'secondary' },
+  { label: 'Contact me', href: LINKEDIN, external: true, icon: 'message', variant: 'secondary' },
 ];
 
-export const caseNav: NavLinkItem[] = [
-  { label: 'Home', href: '/' },
-  { label: 'Design system', href: '/design-system/' },
+export const caseNav: ButtonLink[] = [
+  { label: 'Home', href: '/', icon: 'home', variant: 'secondary' },
+  { label: 'Design system', href: '/design-system/', icon: 'system', variant: 'secondary' },
 ];
 
-export const designSystemNav: NavLinkItem[] = [
-  { label: 'Home', href: '/' },
-  { label: 'Contact me', href: LINKEDIN, external: true },
+export const designSystemNav: ButtonLink[] = [
+  { label: 'Home', href: '/', icon: 'home', variant: 'secondary' },
+  { label: 'Contact me', href: LINKEDIN, external: true, icon: 'message', variant: 'secondary' },
 ];
 
 export const designSystemCopy = {
@@ -56,7 +56,11 @@ export const hero: HeroProps = {
 export const connect: ConnectSectionProps = {
   id: 'contact',
   title: 'Let’s connect!',
-  text: ['Connect with me on ', { link: { href: LINKEDIN, label: 'LinkedIn', external: true } }, ' and shoot me a message'],
+  text: 'Connect with me on LinkedIn and shoot me a message.',
+  cta: { label: 'Connect on LinkedIn', href: LINKEDIN, external: true, icon: 'message' },
 };
 
-export const caseCta: RichText = ['Want to learn more? ', { link: { href: LINKEDIN, label: "Let's connect", external: true } }];
+export const caseCta: Omit<CaseFooterProps, 'label'> = {
+  prompt: 'Want to learn more?',
+  cta: { label: "Let's connect", href: LINKEDIN, external: true, icon: 'message' },
+};

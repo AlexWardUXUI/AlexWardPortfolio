@@ -4,7 +4,7 @@ import { tokensWhere } from '../../lib/design-system';
 
 const space = tokensWhere('space.', 'primitive');
 const radii = tokensWhere('radius.', 'primitive');
-const shadows = tokensWhere('shadow.', 'semantic').filter((t) => t.path !== 'shadow.none');
+const shadows = tokensWhere('shadow.', 'semantic').filter((t) => t.path.startsWith('shadow.elevation'));
 ---
 
 <div class="foundations">

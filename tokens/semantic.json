@@ -4,8 +4,8 @@
     "$type": "color",
     "primary": {
       "default": {
-        "$value": "{color.blue.600}",
-        "$description": "Primary action: links, nav actions, focus ring."
+        "$value": "{color.blue.700}",
+        "$description": "Primary action: links and focus ring."
       },
       "subtle": {
         "$value": "{color.blue.100}",
@@ -14,22 +14,22 @@
     },
     "secondary": {
       "default": {
-        "$value": "{color.purple.500}",
-        "$description": "Secondary accent: highlights such as the Highlighted work pill."
+        "$value": "{color.purple.600}",
+        "$description": "Secondary accent: the Highlighted work pill."
       }
     },
     "status": {
       "pass": {
-        "$value": "{color.green.700}"
+        "$value": "{color.green.800}"
       },
       "fail": {
-        "$value": "{color.red.700}"
+        "$value": "{color.red.800}"
       }
     },
     "text": {
       "primary": {
         "$value": "{color.neutral.950}",
-        "$description": "Default ink: headings, brand, hero."
+        "$description": "Default ink: headings, brand, nav links. Safe on light glass."
       },
       "display": {
         "$value": "{color.navy.950}",
@@ -37,7 +37,7 @@
       },
       "emphasis": {
         "$value": "{color.neutral.700}",
-        "$description": "H3s, hero intro, connect strapline."
+        "$description": "H3s, hero intro, connect strapline, controls on glass. Safe on light glass."
       },
       "secondary": {
         "$value": "{color.neutral.500}",
@@ -54,7 +54,8 @@
         "$value": "{color.neutral.75}"
       },
       "link": {
-        "$value": "{color.primary.default}"
+        "$value": "{color.primary.default}",
+        "$description": "Inline links. Not used on glass: on glass, links use text.primary with a primary underline."
       }
     },
     "surface": {
@@ -70,15 +71,33 @@
       "inverse": {
         "$value": "{color.neutral.1000}"
       },
-      "overlay": {
-        "$value": "{color.grey.a60}",
-        "$description": "Translucent surface over imagery (chips)."
+      "glass-light": {
+        "$value": "{color.white.a80}",
+        "$description": "Frosted light surface (nav, controls). Only text.primary and text.emphasis may sit on it."
       },
-      "hero-start": {
-        "$value": "{color.neutral.0}"
+      "glass-light-solid": {
+        "$value": "{color.neutral.0}",
+        "$description": "Fallback when blur is unsupported or transparency is reduced."
       },
-      "hero-end": {
-        "$value": "{color.neutral.25}"
+      "glass-dark": {
+        "$value": "{color.ink.a78}",
+        "$description": "Frosted dark surface over imagery (chips). Only text.inverse may sit on it."
+      },
+      "glass-dark-solid": {
+        "$value": "{color.ink.950}",
+        "$description": "Fallback for dark glass."
+      },
+      "glass-card-light": {
+        "$value": "{color.white.a70}",
+        "$description": "Frosted project card. Cards only sit on page surfaces, so it is measured over the darkest page backdrop pixel, not black. text.primary and text.secondary only."
+      },
+      "glass-card-dark": {
+        "$value": "{color.ink.a90}",
+        "$description": "Frosted highlighted card. Measured over pure white. text.inverse and text.inverse-secondary only."
+      },
+      "glass-button": {
+        "$value": "{color.white.a90}",
+        "$description": "Button fill over the brand gradient rim. Only text.primary sits on it: 16:1 at its darkest point."
       }
     },
     "border": {
@@ -90,6 +109,39 @@
       },
       "focus": {
         "$value": "{color.primary.default}"
+      },
+      "glass-light": {
+        "$value": "{color.white.a60}"
+      },
+      "glass-dark": {
+        "$value": "{color.white.a16}"
+      },
+      "button-secondary": {
+        "$value": "{color.ink.a28}",
+        "$description": "Secondary button edge (decorative; the label identifies the button)."
+      }
+    },
+    "backdrop": {
+      "$description": "Decorative page backdrop (home page). Kept out of the content column so every text colour stays at 7:1 or above, checked pixel by pixel.",
+      "glow-primary": {
+        "$value": "{color.blue.a16}",
+        "$description": "Blue glow, top left."
+      },
+      "glow-secondary": {
+        "$value": "{color.purple.a14}",
+        "$description": "Purple glow, top right."
+      },
+      "glow-primary-soft": {
+        "$value": "{color.blue.a07}",
+        "$description": "Blue glow, mid page left."
+      },
+      "glow-secondary-soft": {
+        "$value": "{color.purple.a07}",
+        "$description": "Purple glow, lower right."
+      },
+      "swirl": {
+        "$value": "{color.blue.a20}",
+        "$description": "Swirl contour lines in the side gutters (decorative)."
       }
     }
   },
@@ -98,32 +150,12 @@
     "display": {
       "$value": {
         "fontFamily": "{font.family.sans}",
-        "fontSize": "{font.size.6xl}",
-        "fontWeight": "{font.weight.bold}",
-        "lineHeight": "{font.line-height.snug}",
-        "letterSpacing": "{font.letter-spacing.tightest}"
-      },
-      "$description": "Case study H1."
-    },
-    "heading-xl": {
-      "$value": {
-        "fontFamily": "{font.family.sans}",
         "fontSize": "{font.size.4xl}",
-        "fontWeight": "{font.weight.extrabold}",
+        "fontWeight": "{font.weight.bold}",
         "lineHeight": "{font.line-height.snug}",
         "letterSpacing": "{font.letter-spacing.tighter}"
       },
-      "$description": "Section titles."
-    },
-    "heading-lg": {
-      "$value": {
-        "fontFamily": "{font.family.sans}",
-        "fontSize": "{font.size.3xl}",
-        "fontWeight": "{font.weight.bold}",
-        "lineHeight": "{font.line-height.snug}",
-        "letterSpacing": "{font.letter-spacing.tight}"
-      },
-      "$description": "Hero headline."
+      "$description": "Page and section titles, hero headline and stat numbers. Steps down to 32px below 600px (global.css)."
     },
     "heading-md": {
       "$value": {
@@ -133,7 +165,7 @@
         "lineHeight": "{font.line-height.normal}",
         "letterSpacing": "{font.letter-spacing.snug}"
       },
-      "$description": "Card titles and case study H2. The only H2 style (the semibold navy variant and the gradient banner were retired)."
+      "$description": "Card titles and case study H2."
     },
     "heading-sm": {
       "$value": {
@@ -145,26 +177,7 @@
       },
       "$description": "Case study H3."
     },
-    "eyebrow": {
-      "$value": {
-        "fontFamily": "{font.family.sans}",
-        "fontSize": "{font.size.2xl}",
-        "fontWeight": "{font.weight.medium}",
-        "lineHeight": "{font.line-height.relaxed}",
-        "letterSpacing": "{font.letter-spacing.snug}"
-      }
-    },
     "lead": {
-      "$value": {
-        "fontFamily": "{font.family.sans}",
-        "fontSize": "{font.size.2xl}",
-        "fontWeight": "{font.weight.regular}",
-        "lineHeight": "{font.line-height.snug}",
-        "letterSpacing": "{font.letter-spacing.snug}"
-      },
-      "$description": "Hero intro."
-    },
-    "lead-sm": {
       "$value": {
         "fontFamily": "{font.family.sans}",
         "fontSize": "{font.size.xl}",
@@ -172,7 +185,7 @@
         "lineHeight": "{font.line-height.normal}",
         "letterSpacing": "{font.letter-spacing.snug}"
       },
-      "$description": "Section intros, connect strapline."
+      "$description": "Hero intro, section intros, eyebrows above titles and the connect strapline. Steps down to 18px below 600px."
     },
     "body": {
       "$value": {
@@ -181,25 +194,8 @@
         "fontWeight": "{font.weight.regular}",
         "lineHeight": "{font.line-height.spacious}",
         "letterSpacing": "{font.letter-spacing.none}"
-      }
-    },
-    "nav-link": {
-      "$value": {
-        "fontFamily": "{font.family.sans}",
-        "fontSize": "{font.size.md}",
-        "fontWeight": "{font.weight.medium}",
-        "lineHeight": "{font.line-height.relaxed}",
-        "letterSpacing": "{font.letter-spacing.none}"
-      }
-    },
-    "brand": {
-      "$value": {
-        "fontFamily": "{font.family.sans}",
-        "fontSize": "{font.size.md}",
-        "fontWeight": "{font.weight.light}",
-        "lineHeight": "{font.line-height.double}",
-        "letterSpacing": "{font.letter-spacing.wide}"
-      }
+      },
+      "$description": "Paragraphs and text links, including the nav."
     },
     "label": {
       "$value": {
@@ -207,19 +203,9 @@
         "fontSize": "{font.size.sm}",
         "fontWeight": "{font.weight.medium}",
         "lineHeight": "{font.line-height.relaxed}",
-        "letterSpacing": "{font.letter-spacing.none}"
-      },
-      "$description": "Footer, meta rows, table headers."
-    },
-    "label-tight": {
-      "$value": {
-        "fontFamily": "{font.family.sans}",
-        "fontSize": "{font.size.sm}",
-        "fontWeight": "{font.weight.medium}",
-        "lineHeight": "{font.line-height.relaxed}",
         "letterSpacing": "{font.letter-spacing.snug}"
       },
-      "$description": "Pills and role tags."
+      "$description": "Pills, nav brand, footer, meta rows and table headers."
     },
     "caption": {
       "$value": {
@@ -244,32 +230,55 @@
   },
   "shadow": {
     "$type": "shadow",
-    "chip": {
+    "elevation-0": {
+      "$value": {
+        "color": "{color.ink.a00}",
+        "offsetX": "0px",
+        "offsetY": "0px",
+        "blur": "0px",
+        "spread": "0px"
+      },
+      "$description": "Flat. Sits on the surface."
+    },
+    "elevation-1": {
       "$value": [
         {
-          "color": "{color.black.a18}",
+          "color": "{color.ink.a06}",
           "offsetX": "0px",
-          "offsetY": "0.6px",
-          "blur": "0.6px",
-          "spread": "-1.25px"
+          "offsetY": "1px",
+          "blur": "2px",
+          "spread": "0px"
         },
         {
-          "color": "{color.black.a16}",
+          "color": "{color.ink.a08}",
           "offsetX": "0px",
-          "offsetY": "2.3px",
-          "blur": "2.3px",
-          "spread": "-2.5px"
-        },
-        {
-          "color": "{color.black.a06}",
-          "offsetX": "0px",
-          "offsetY": "10px",
-          "blur": "10px",
-          "spread": "-3.75px"
+          "offsetY": "4px",
+          "blur": "12px",
+          "spread": "-4px"
         }
-      ]
+      ],
+      "$description": "Raised: cards at rest, chips, controls."
     },
-    "elevated": {
+    "elevation-2": {
+      "$value": [
+        {
+          "color": "{color.ink.a08}",
+          "offsetX": "0px",
+          "offsetY": "2px",
+          "blur": "4px",
+          "spread": "0px"
+        },
+        {
+          "color": "{color.ink.a18}",
+          "offsetX": "0px",
+          "offsetY": "18px",
+          "blur": "36px",
+          "spread": "-12px"
+        }
+      ],
+      "$description": "Hover and focus: interactive cards lift to here."
+    },
+    "elevation-3": {
       "$value": [
         {
           "color": "{color.ink.a06}",
@@ -286,53 +295,27 @@
           "spread": "-24px"
         }
       ],
-      "$description": "Hero media."
+      "$description": "Floating: hero media."
     },
-    "hover": {
-      "$value": [
-        {
-          "color": "{color.ink.a04}",
-          "offsetX": "0px",
-          "offsetY": "2px",
-          "blur": "4px",
-          "spread": "0px"
-        },
-        {
-          "color": "{color.ink.a18}",
-          "offsetX": "0px",
-          "offsetY": "16px",
-          "blur": "36px",
-          "spread": "-12px"
-        }
-      ],
-      "$description": "Interactive card hover and focus."
-    },
-    "none": {
+    "glass-highlight": {
       "$value": {
-        "color": "{color.ink.a00}",
+        "color": "{color.white.a60}",
         "offsetX": "0px",
-        "offsetY": "0px",
+        "offsetY": "1px",
         "blur": "0px",
-        "spread": "0px"
-      }
+        "spread": "0px",
+        "inset": true
+      },
+      "$description": "1px inner top highlight that gives glass its edge."
     }
   },
-  "gradient": {
-    "$type": "gradient",
-    "hero": {
-      "$value": [
-        {
-          "color": "{color.surface.hero-start}",
-          "position": 0
-        },
-        {
-          "color": "{color.surface.hero-end}",
-          "position": 1
-        }
-      ],
-      "$extensions": {
-        "angle": "180deg"
-      }
+  "effect": {
+    "$type": "dimension",
+    "glass-blur-light": {
+      "$value": "{blur.md}"
+    },
+    "glass-blur-dark": {
+      "$value": "{blur.sm}"
     }
   },
   "motion": {
@@ -345,6 +328,45 @@
           "timingFunction": "{easing.standard}"
         }
       }
+    }
+  },
+  "gradient": {
+    "$type": "gradient",
+    "brand": {
+      "$value": [
+        {
+          "color": "{color.primary.default}",
+          "position": 0
+        },
+        {
+          "color": "{color.secondary.default}",
+          "position": 1
+        }
+      ],
+      "$extensions": {
+        "angle": "90deg"
+      },
+      "$description": "Blue to purple. Button rim and swirls (decorative, never behind text)."
+    }
+  },
+  "opacity": {
+    "$type": "number",
+    "$description": "Strength of decorative layers.",
+    "button-swirl": {
+      "$value": 0.34,
+      "$description": "Button swirls at rest."
+    },
+    "button-swirl-hover": {
+      "$value": 0.6,
+      "$description": "Button swirls on hover and focus."
+    },
+    "button-swirl-secondary": {
+      "$value": 0,
+      "$description": "Secondary button swirls at rest: hidden."
+    },
+    "button-swirl-secondary-hover": {
+      "$value": 0.22,
+      "$description": "Secondary button swirls on hover and focus."
     }
   }
 }

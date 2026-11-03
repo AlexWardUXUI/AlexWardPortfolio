@@ -21,6 +21,22 @@ function luminance([r, g, b]: RGB): number {
   return 0.2126 * lin(r) + 0.7152 * lin(g) + 0.0722 * lin(b);
 }
 
+/** Alpha of an rgba() colour, 1 for opaque colours. */
+export function alphaOf(value: string): number {
+  const m = value.match(/^rgba\([^,]+,[^,]+,[^,]+,\s*([\d.]+)\)/i);
+  return m?.[1] ? Number(m[1]) : 1;
+}
+
+/** Flattens a translucent colour over an opaque backdrop, returning a hex colour. */
+export function composite(top: string, backdrop: string): string {
+  const t = parseColor(top);
+  const b = parseColor(backdrop);
+  if (!t || !b) return backdrop;
+  const a = alphaOf(top);
+  const mix = t.map((c, i) => Math.round(c * a + (b[i] ?? 0) * (1 - a)));
+  return '#' + mix.map((c) => c.toString(16).padStart(2, '0')).join('');
+}
+
 /** Contrast ratio between two opaque colours, rounded to 2dp. Null if either can't be parsed. */
 export function contrast(fg: string, bg: string): number | null {
   const a = parseColor(fg);
@@ -31,6 +47,9 @@ export function contrast(fg: string, bg: string): number | null {
 }
 
 export type WcagLevel = 'AAA' | 'AA' | 'AA large' | 'Fail';
+
+/** The bar this site holds every text colour to: WCAG AAA for normal-size text. */
+export const TARGET_RATIO = 7;
 
 /** WCAG level for normal-size text. "AA large" means it only passes at 24px+ (or 18.66px+ bold). */
 export function wcagLevel(ratio: number): WcagLevel {

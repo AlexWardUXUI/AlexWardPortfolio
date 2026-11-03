@@ -2,39 +2,45 @@
 :root {
   /* primitive */
   --color-neutral-0: #ffffff;
-  --color-neutral-25: #f7f8f6;
   --color-neutral-50: #f3f4f2;
   --color-neutral-75: #f2f2f2;
   --color-neutral-100: #ededed;
-  --color-neutral-400: #737373;
-  --color-neutral-500: #666666;
+  --color-neutral-400: #4e4e4e;
+  --color-neutral-500: #444444;
   --color-neutral-700: #333333;
   --color-neutral-950: #111111;
   --color-neutral-1000: #000000;
   --color-navy-950: #001122;
   --color-blue-100: #c4dcf2;
-  --color-blue-500: #0099ff;
-  --color-blue-600: #007acc;
-  --color-purple-500: #8941d1;
-  --color-green-700: #1a7f37;
-  --color-red-700: #c62828;
+  --color-blue-700: #005187;
+  --color-blue-a16: rgba(0, 81, 135, 0.16);
+  --color-blue-a07: rgba(0, 81, 135, 0.07);
+  --color-blue-a20: rgba(0, 81, 135, 0.2);
+  --color-purple-600: #6a2fb0;
+  --color-purple-a14: rgba(106, 47, 176, 0.14);
+  --color-purple-a07: rgba(106, 47, 176, 0.07);
+  --color-green-800: #135b27;
+  --color-red-800: #971f1f;
+  --color-ink-950: #111827;
   --color-ink-a00: rgba(17, 24, 39, 0);
   --color-ink-a04: rgba(17, 24, 39, 0.04);
   --color-ink-a06: rgba(17, 24, 39, 0.06);
+  --color-ink-a08: rgba(17, 24, 39, 0.08);
+  --color-ink-a12: rgba(17, 24, 39, 0.12);
   --color-ink-a18: rgba(17, 24, 39, 0.18);
   --color-ink-a28: rgba(17, 24, 39, 0.28);
-  --color-black-a06: rgba(0, 0, 0, 0.06);
-  --color-black-a16: rgba(0, 0, 0, 0.16);
-  --color-black-a18: rgba(0, 0, 0, 0.18);
-  --color-grey-a60: rgba(138, 138, 138, 0.6);
+  --color-ink-a78: rgba(17, 24, 39, 0.78);
+  --color-ink-a90: rgba(17, 24, 39, 0.9);
+  --color-white-a90: rgba(255, 255, 255, 0.9);
+  --color-white-a80: rgba(255, 255, 255, 0.8);
+  --color-white-a70: rgba(255, 255, 255, 0.7);
+  --color-white-a60: rgba(255, 255, 255, 0.6);
+  --color-white-a16: rgba(255, 255, 255, 0.16);
   --font-family-sans: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-family-mono: "JetBrains Mono", SFMono-Regular, Menlo, Consolas, monospace;
-  --font-weight-light: 300;
   --font-weight-regular: 400;
   --font-weight-medium: 500;
-  --font-weight-semibold: 600;
   --font-weight-bold: 700;
-  --font-weight-extrabold: 800;
   --font-size-xs: 12px;
   --font-size-sm: 14px;
   --font-size-md: 16px;
@@ -43,13 +49,10 @@
   --font-size-2xl: 24px;
   --font-size-3xl: 32px;
   --font-size-4xl: 40px;
-  --font-size-6xl: 72px;
   --font-line-height-snug: 1.2;
   --font-line-height-normal: 1.4;
   --font-line-height-relaxed: 1.5;
   --font-line-height-spacious: 1.9;
-  --font-line-height-double: 2;
-  --font-letter-spacing-tightest: -3.8px;
   --font-letter-spacing-tighter: -1.5px;
   --font-letter-spacing-tight: -1px;
   --font-letter-spacing-snug: -0.5px;
@@ -80,17 +83,21 @@
   --radius-lg: 20px;
   --radius-xl: 28px;
   --radius-2xl: 32px;
+  --radius-pill: 999px;
   --size-icon-sm: 20px;
   --size-nav-height: 80px;
   --size-content-width: 900px;
   --size-wide-width: 1000px;
   --size-grid-width: 1040px;
   --size-section-width: 1200px;
-  --size-hero-text: 420px;
+  --size-hero-text: 560px;
   --size-hero-media: 560px;
-  --size-hero-offset: 184px;
+  --size-hero-width: 1120px;
   --size-hero-min-height: 744px;
   --size-card-media: 300px;
+  --size-target: 44px;
+  --blur-sm: 12px;
+  --blur-md: 20px;
   --breakpoint-sm: 600px;
   --breakpoint-md: 900px;
   --breakpoint-lg: 1100px;
@@ -99,11 +106,11 @@
   --easing-standard: cubic-bezier(0.25, 0.1, 0.25, 1);
 
   /* semantic */
-  --color-primary-default: var(--color-blue-600);
+  --color-primary-default: var(--color-blue-700);
   --color-primary-subtle: var(--color-blue-100);
-  --color-secondary-default: var(--color-purple-500);
-  --color-status-pass: var(--color-green-700);
-  --color-status-fail: var(--color-red-700);
+  --color-secondary-default: var(--color-purple-600);
+  --color-status-pass: var(--color-green-800);
+  --color-status-fail: var(--color-red-800);
   --color-text-primary: var(--color-neutral-950);
   --color-text-display: var(--color-navy-950);
   --color-text-emphasis: var(--color-neutral-700);
@@ -116,27 +123,29 @@
   --color-surface-default: var(--color-neutral-0);
   --color-surface-sunken: var(--color-neutral-100);
   --color-surface-inverse: var(--color-neutral-1000);
-  --color-surface-overlay: var(--color-grey-a60);
-  --color-surface-hero-start: var(--color-neutral-0);
-  --color-surface-hero-end: var(--color-neutral-25);
+  --color-surface-glass-light: var(--color-white-a80);
+  --color-surface-glass-light-solid: var(--color-neutral-0);
+  --color-surface-glass-dark: var(--color-ink-a78);
+  --color-surface-glass-dark-solid: var(--color-ink-950);
+  --color-surface-glass-card-light: var(--color-white-a70);
+  --color-surface-glass-card-dark: var(--color-ink-a90);
+  --color-surface-glass-button: var(--color-white-a90);
   --color-border-subtle: var(--color-primary-subtle);
   --color-border-default: var(--color-neutral-100);
   --color-border-focus: var(--color-primary-default);
+  --color-border-glass-light: var(--color-white-a60);
+  --color-border-glass-dark: var(--color-white-a16);
+  --color-border-button-secondary: var(--color-ink-a28);
+  --color-backdrop-glow-primary: var(--color-blue-a16);
+  --color-backdrop-glow-secondary: var(--color-purple-a14);
+  --color-backdrop-glow-primary-soft: var(--color-blue-a07);
+  --color-backdrop-glow-secondary-soft: var(--color-purple-a07);
+  --color-backdrop-swirl: var(--color-blue-a20);
   --typography-display-font-family: var(--font-family-sans);
-  --typography-display-font-size: var(--font-size-6xl);
+  --typography-display-font-size: var(--font-size-4xl);
   --typography-display-font-weight: var(--font-weight-bold);
   --typography-display-line-height: var(--font-line-height-snug);
-  --typography-display-letter-spacing: var(--font-letter-spacing-tightest);
-  --typography-heading-xl-font-family: var(--font-family-sans);
-  --typography-heading-xl-font-size: var(--font-size-4xl);
-  --typography-heading-xl-font-weight: var(--font-weight-extrabold);
-  --typography-heading-xl-line-height: var(--font-line-height-snug);
-  --typography-heading-xl-letter-spacing: var(--font-letter-spacing-tighter);
-  --typography-heading-lg-font-family: var(--font-family-sans);
-  --typography-heading-lg-font-size: var(--font-size-3xl);
-  --typography-heading-lg-font-weight: var(--font-weight-bold);
-  --typography-heading-lg-line-height: var(--font-line-height-snug);
-  --typography-heading-lg-letter-spacing: var(--font-letter-spacing-tight);
+  --typography-display-letter-spacing: var(--font-letter-spacing-tighter);
   --typography-heading-md-font-family: var(--font-family-sans);
   --typography-heading-md-font-size: var(--font-size-2xl);
   --typography-heading-md-font-weight: var(--font-weight-bold);
@@ -147,46 +156,21 @@
   --typography-heading-sm-font-weight: var(--font-weight-bold);
   --typography-heading-sm-line-height: var(--font-line-height-normal);
   --typography-heading-sm-letter-spacing: var(--font-letter-spacing-none);
-  --typography-eyebrow-font-family: var(--font-family-sans);
-  --typography-eyebrow-font-size: var(--font-size-2xl);
-  --typography-eyebrow-font-weight: var(--font-weight-medium);
-  --typography-eyebrow-line-height: var(--font-line-height-relaxed);
-  --typography-eyebrow-letter-spacing: var(--font-letter-spacing-snug);
   --typography-lead-font-family: var(--font-family-sans);
-  --typography-lead-font-size: var(--font-size-2xl);
+  --typography-lead-font-size: var(--font-size-xl);
   --typography-lead-font-weight: var(--font-weight-regular);
-  --typography-lead-line-height: var(--font-line-height-snug);
+  --typography-lead-line-height: var(--font-line-height-normal);
   --typography-lead-letter-spacing: var(--font-letter-spacing-snug);
-  --typography-lead-sm-font-family: var(--font-family-sans);
-  --typography-lead-sm-font-size: var(--font-size-xl);
-  --typography-lead-sm-font-weight: var(--font-weight-regular);
-  --typography-lead-sm-line-height: var(--font-line-height-normal);
-  --typography-lead-sm-letter-spacing: var(--font-letter-spacing-snug);
   --typography-body-font-family: var(--font-family-sans);
   --typography-body-font-size: var(--font-size-md);
   --typography-body-font-weight: var(--font-weight-regular);
   --typography-body-line-height: var(--font-line-height-spacious);
   --typography-body-letter-spacing: var(--font-letter-spacing-none);
-  --typography-nav-link-font-family: var(--font-family-sans);
-  --typography-nav-link-font-size: var(--font-size-md);
-  --typography-nav-link-font-weight: var(--font-weight-medium);
-  --typography-nav-link-line-height: var(--font-line-height-relaxed);
-  --typography-nav-link-letter-spacing: var(--font-letter-spacing-none);
-  --typography-brand-font-family: var(--font-family-sans);
-  --typography-brand-font-size: var(--font-size-md);
-  --typography-brand-font-weight: var(--font-weight-light);
-  --typography-brand-line-height: var(--font-line-height-double);
-  --typography-brand-letter-spacing: var(--font-letter-spacing-wide);
   --typography-label-font-family: var(--font-family-sans);
   --typography-label-font-size: var(--font-size-sm);
   --typography-label-font-weight: var(--font-weight-medium);
   --typography-label-line-height: var(--font-line-height-relaxed);
-  --typography-label-letter-spacing: var(--font-letter-spacing-none);
-  --typography-label-tight-font-family: var(--font-family-sans);
-  --typography-label-tight-font-size: var(--font-size-sm);
-  --typography-label-tight-font-weight: var(--font-weight-medium);
-  --typography-label-tight-line-height: var(--font-line-height-relaxed);
-  --typography-label-tight-letter-spacing: var(--font-letter-spacing-snug);
+  --typography-label-letter-spacing: var(--font-letter-spacing-snug);
   --typography-caption-font-family: var(--font-family-sans);
   --typography-caption-font-size: var(--font-size-xs);
   --typography-caption-font-weight: var(--font-weight-regular);
@@ -197,12 +181,19 @@
   --typography-code-font-weight: var(--font-weight-regular);
   --typography-code-line-height: var(--font-line-height-relaxed);
   --typography-code-letter-spacing: var(--font-letter-spacing-none);
-  --shadow-chip: 0px 0.6px 0.6px -1.25px var(--color-black-a18), 0px 2.3px 2.3px -2.5px var(--color-black-a16), 0px 10px 10px -3.75px var(--color-black-a06);
-  --shadow-elevated: 0px 1px 2px 0px var(--color-ink-a06), 0px 24px 60px -24px var(--color-ink-a28);
-  --shadow-hover: 0px 2px 4px 0px var(--color-ink-a04), 0px 16px 36px -12px var(--color-ink-a18);
-  --shadow-none: 0px 0px 0px 0px var(--color-ink-a00);
-  --gradient-hero: linear-gradient(180deg, var(--color-surface-hero-start) 0%, var(--color-surface-hero-end) 100%);
+  --shadow-elevation-0: 0px 0px 0px 0px var(--color-ink-a00);
+  --shadow-elevation-1: 0px 1px 2px 0px var(--color-ink-a06), 0px 4px 12px -4px var(--color-ink-a08);
+  --shadow-elevation-2: 0px 2px 4px 0px var(--color-ink-a08), 0px 18px 36px -12px var(--color-ink-a18);
+  --shadow-elevation-3: 0px 1px 2px 0px var(--color-ink-a06), 0px 24px 60px -24px var(--color-ink-a28);
+  --shadow-glass-highlight: inset 0px 1px 0px 0px var(--color-white-a60);
+  --effect-glass-blur-light: var(--blur-md);
+  --effect-glass-blur-dark: var(--blur-sm);
   --motion-transition-base: var(--duration-base) var(--easing-standard) 0ms;
+  --gradient-brand: linear-gradient(90deg, var(--color-primary-default) 0%, var(--color-secondary-default) 100%);
+  --opacity-button-swirl: 0.34;
+  --opacity-button-swirl-hover: 0.6;
+  --opacity-button-swirl-secondary: 0;
+  --opacity-button-swirl-secondary-hover: 0.22;
 }
 
 /* Typography utilities: one class per semantic typography token */
@@ -212,22 +203,6 @@
   font-weight: var(--typography-display-font-weight);
   line-height: var(--typography-display-line-height);
   letter-spacing: var(--typography-display-letter-spacing);
-}
-
-.type-heading-xl {
-  font-family: var(--typography-heading-xl-font-family);
-  font-size: var(--typography-heading-xl-font-size);
-  font-weight: var(--typography-heading-xl-font-weight);
-  line-height: var(--typography-heading-xl-line-height);
-  letter-spacing: var(--typography-heading-xl-letter-spacing);
-}
-
-.type-heading-lg {
-  font-family: var(--typography-heading-lg-font-family);
-  font-size: var(--typography-heading-lg-font-size);
-  font-weight: var(--typography-heading-lg-font-weight);
-  line-height: var(--typography-heading-lg-line-height);
-  letter-spacing: var(--typography-heading-lg-letter-spacing);
 }
 
 .type-heading-md {
@@ -246,28 +221,12 @@
   letter-spacing: var(--typography-heading-sm-letter-spacing);
 }
 
-.type-eyebrow {
-  font-family: var(--typography-eyebrow-font-family);
-  font-size: var(--typography-eyebrow-font-size);
-  font-weight: var(--typography-eyebrow-font-weight);
-  line-height: var(--typography-eyebrow-line-height);
-  letter-spacing: var(--typography-eyebrow-letter-spacing);
-}
-
 .type-lead {
   font-family: var(--typography-lead-font-family);
   font-size: var(--typography-lead-font-size);
   font-weight: var(--typography-lead-font-weight);
   line-height: var(--typography-lead-line-height);
   letter-spacing: var(--typography-lead-letter-spacing);
-}
-
-.type-lead-sm {
-  font-family: var(--typography-lead-sm-font-family);
-  font-size: var(--typography-lead-sm-font-size);
-  font-weight: var(--typography-lead-sm-font-weight);
-  line-height: var(--typography-lead-sm-line-height);
-  letter-spacing: var(--typography-lead-sm-letter-spacing);
 }
 
 .type-body {
@@ -278,36 +237,12 @@
   letter-spacing: var(--typography-body-letter-spacing);
 }
 
-.type-nav-link {
-  font-family: var(--typography-nav-link-font-family);
-  font-size: var(--typography-nav-link-font-size);
-  font-weight: var(--typography-nav-link-font-weight);
-  line-height: var(--typography-nav-link-line-height);
-  letter-spacing: var(--typography-nav-link-letter-spacing);
-}
-
-.type-brand {
-  font-family: var(--typography-brand-font-family);
-  font-size: var(--typography-brand-font-size);
-  font-weight: var(--typography-brand-font-weight);
-  line-height: var(--typography-brand-line-height);
-  letter-spacing: var(--typography-brand-letter-spacing);
-}
-
 .type-label {
   font-family: var(--typography-label-font-family);
   font-size: var(--typography-label-font-size);
   font-weight: var(--typography-label-font-weight);
   line-height: var(--typography-label-line-height);
   letter-spacing: var(--typography-label-letter-spacing);
-}
-
-.type-label-tight {
-  font-family: var(--typography-label-tight-font-family);
-  font-size: var(--typography-label-tight-font-size);
-  font-weight: var(--typography-label-tight-font-weight);
-  line-height: var(--typography-label-tight-line-height);
-  letter-spacing: var(--typography-label-tight-letter-spacing);
 }
 
 .type-caption {

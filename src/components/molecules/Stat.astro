@@ -9,7 +9,7 @@ const { value, label, detail } = Astro.props;
 ---
 
 <div class="stat">
-  <Text as="span" style="heading-xl" color="primary" class="stat__value">{value}</Text>
+  <Text as="span" style="display" color="primary" class="stat__value">{value}</Text>
   <Text as="span" style="label" color="primary">{label}</Text>
   {detail && <Text as="span" style="caption" color="muted">{detail}</Text>}
 </div>

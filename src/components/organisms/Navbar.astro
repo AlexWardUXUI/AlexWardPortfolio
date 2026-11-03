@@ -1,23 +1,66 @@
 ---
-/** Organism: Navbar. Fixed top bar: brand (name and tagline) plus a list of nav Links. */
+/**
+ * Organism: Navbar. Fixed glass bar: brand (name and tagline) plus a row of
+ * nav Buttons. When the buttons no longer fit beside the brand, they fold
+ * behind a Menu Button into a glass popover panel; if the brand still does
+ * not fit, the tagline is dropped too. Inside the menu every action uses the
+ * secondary Button style; on the bar each keeps its own variant. Fit is measured, not guessed from a
+ * breakpoint, so it works for any set of links. The popover itself needs no
+ * JavaScript (Esc and tapping outside close it).
+ */
 import type { NavbarProps } from '../../types/schema';
-import Link from '../atoms/Link.astro';
+import Button from '../atoms/Button.astro';
 
 type Props = NavbarProps;
 
 const { brand, links } = Astro.props;
 ---
 
-<header class="navbar">
-  <a class="navbar__brand type-brand text-primary" href={brand.href}>
-    <strong>{brand.name} |</strong><span class="navbar__tagline"> {brand.tagline}</span>
+<header class="navbar glass-light" id="site-nav">
+  <a class="navbar__brand type-label text-primary" href={brand.href}>
+    <strong>{brand.name}</strong><span class="navbar__tagline"> | {brand.tagline}</span>
   </a>
-  <nav aria-label="Primary">
-    <ul class="navbar__links">
-      {links.map((l) => <li><Link href={l.href} external={l.external} variant="nav">{l.label}</Link></li>)}
+  <nav class="navbar__nav" aria-label="Primary">
+    <span class="navbar__menu"><Button label="Menu" icon="menu" variant="secondary" popoverTarget="nav-menu" /></span>
+    <ul class="navbar__links glass-light" id="nav-menu" popover>
+      {links.map((l) => <li><Button {...l} /></li>)}
     </ul>
   </nav>
 </header>
+<script is:inline>
+  (() => {
+    const bar = document.getElementById('site-nav');
+    const brand = bar.querySelector('.navbar__brand');
+    const menu = document.getElementById('nav-menu');
+    const truncated = () => brand.scrollWidth > brand.clientWidth + 1;
+    // full: brand + buttons in a row. menu: buttons behind Menu. menu-short: no tagline either.
+    // In the menu panel every action is secondary; on the bar each keeps its own variant
+    const setMode = (mode) => {
+      bar.dataset.mode = mode;
+      const inMenu = mode !== 'full';
+      menu.querySelectorAll('.button').forEach((b) => {
+        const own = b.dataset.variant;
+        b.classList.toggle('button--primary', !inMenu && own === 'primary');
+        b.classList.toggle('button--secondary', inMenu || own === 'secondary');
+      });
+    };
+    const fit = () => {
+      setMode('full');
+      if (truncated()) {
+        setMode('menu');
+        if (truncated()) setMode('menu-short');
+      } else if (menu.matches(':popover-open')) {
+        menu.hidePopover();
+      }
+    };
+    fit();
+    new ResizeObserver(fit).observe(bar);
+    document.fonts?.ready.then(fit);
+    menu.querySelectorAll('a').forEach((a) =>
+      a.addEventListener('click', () => menu.matches(':popover-open') && menu.hidePopover())
+    );
+  })();
+</script>
 
 <style>
   .navbar {
@@ -25,34 +68,82 @@ const { brand, links } = Astro.props;
     inset: 0 0 auto 0;
     z-index: 100;
     height: var(--size-nav-height);
-    padding: var(--space-24);
+    padding: 0 var(--space-24);
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: var(--space-24);
-    background: var(--color-surface-default);
+    border-width: 0 0 1px;
+    box-shadow: var(--shadow-elevation-1);
   }
   .navbar__brand {
+    min-width: 0;
+    letter-spacing: var(--font-letter-spacing-wide);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
-  .navbar__links {
+  .navbar__nav {
+    flex: none;
     display: flex;
-    gap: var(--space-24);
+    align-items: center;
+  }
+  .navbar__links {
     margin: 0;
-    padding: 0;
     list-style: none;
   }
+  .navbar__menu {
+    display: none;
+  }
+
+  /* Full: the popover list is shown inline as a row of buttons, without its glass panel */
+  .navbar:not([data-mode^='menu']) .navbar__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-12);
+    position: static;
+    inset: auto;
+    width: auto;
+    height: auto;
+    padding: 0;
+    overflow: visible;
+    color: inherit;
+    background: none;
+    border: 0;
+    box-shadow: none;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+
+  /* Menu: a Menu button opens the list as a glass panel under the bar.
+     The panel's glass and solid fallbacks come from the global .glass-light utility. */
+  .navbar[data-mode^='menu'] .navbar__menu {
+    display: inline-flex;
+  }
+  .navbar[data-mode='menu-short'] .navbar__tagline {
+    display: none;
+  }
+  .navbar[data-mode^='menu'] .navbar__links {
+    position: fixed;
+    inset: calc(var(--size-nav-height) + var(--space-8)) var(--space-16) auto auto;
+    margin: 0;
+    min-width: 220px;
+    padding: var(--space-12);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-elevation-2), var(--shadow-glass-highlight);
+  }
+  .navbar[data-mode^='menu'] .navbar__links:popover-open {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+  }
+  .navbar[data-mode^='menu'] .navbar__links :global(.button) {
+    width: 100%;
+  }
+
   @media (max-width: 599px) {
     .navbar {
-      padding: var(--space-16);
-    }
-    .navbar__tagline {
-      display: none;
-    }
-    .navbar__links {
-      gap: var(--space-16);
+      padding: 0 var(--space-16);
     }
   }
 </style>

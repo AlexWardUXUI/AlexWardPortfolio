@@ -12,7 +12,6 @@ import Stat from '../components/molecules/Stat.astro';
 import CodeBlock from '../components/molecules/CodeBlock.astro';
 import ContrastBadge from '../components/molecules/ContrastBadge.astro';
 import ChipGroup from '../components/molecules/ChipGroup.astro';
-import RoleList from '../components/molecules/RoleList.astro';
 import Pill from '../components/atoms/Pill.astro';
 import DocSection from '../components/showcase/DocSection.astro';
 import AliasChain from '../components/showcase/AliasChain.astro';
@@ -27,6 +26,7 @@ import {
   textColorRows,
   brandColorRows,
   contrastFixes,
+  glassRows,
   components,
   componentCounts,
   contentSchema,
@@ -41,6 +41,7 @@ const sections = [
   { id: 'colour', label: 'Colour' },
   { id: 'type', label: 'Typography' },
   { id: 'foundations', label: 'Space, radius, shadow' },
+  { id: 'elevation', label: 'Elevation and glass' },
   { id: 'components', label: 'Components' },
   { id: 'schema', label: 'Content schema' },
   { id: 'audit', label: 'Audit' },
@@ -71,7 +72,7 @@ const principles = [
   },
   {
     title: 'Accessible by default',
-    text: 'Every text colour is measured against its background below. The audit fixed three failing colours by changing tokens, not components, and removed the fourth with the gradient banner it sat on.',
+    text: 'Every text colour meets WCAG AAA (7:1), measured against the darkest surface it can sit on. Glass is measured over the worst possible backdrop, because you cannot measure through a blur.',
   },
 ];
 ---
@@ -82,7 +83,7 @@ const principles = [
     <div class="ds__column">
       <div class="ds__intro">
         <CaseHeader eyebrow={designSystemCopy.eyebrow} title={designSystemCopy.title} />
-        <Text style="lead-sm" color="emphasis">{designSystemCopy.intro}</Text>
+        <Text style="lead" color="emphasis">{designSystemCopy.intro}</Text>
       </div>
 
       <div class="ds__stats">
@@ -91,7 +92,7 @@ const principles = [
         <Stat value={caseStudyCount} label="Case studies" detail="Written in MDX, checked against one content schema" />
       </div>
 
-      <nav class="ds__toc" aria-label="On this page">
+      <nav class="ds__toc glass-light" aria-label="On this page">
         <ul>
           {sections.map((s) => <li><a class="type-label" href={`#${s.id}`}>{s.label}</a></li>)}
         </ul>
@@ -135,10 +136,10 @@ const principles = [
       <DocSection
         id="colour"
         title="Colour"
-        intro="Contrast ratios are calculated from the token values when the site is built. AA needs 4.5:1 for normal text; the muted grey and link blue were chosen to clear it."
+        intro="Contrast ratios are calculated from the token values when the site is built. The bar is WCAG AAA: 7:1 for normal text, measured against the darkest surface each colour can sit on (#ededed for light text)."
       >
         <ColorTable caption="Brand colours" rows={brandColorRows} contrastLabel="Contrast" />
-        <ColorTable caption="Text colours" rows={textColorRows} contrastLabel="On its surface" />
+        <ColorTable caption="Text colours" rows={textColorRows} contrastLabel="On darkest surface" />
       </DocSection>
 
       <DocSection id="type" title="Typography" intro="One family, Inter, in fifteen semantic styles. Each style is a composite token, emitted as a utility class such as .type-body.">
@@ -147,6 +148,58 @@ const principles = [
 
       <DocSection id="foundations" title="Space, radius and shadow" intro="A 4px spacing scale with two half steps for compact components. Each radius and shadow has one documented role.">
         <Foundations />
+      </DocSection>
+
+      <DocSection
+        id="elevation"
+        title="Elevation and glass"
+        intro="Four elevation levels give depth without borders. Glass is used only where content moves behind it, and its tint is set so the allowed text passes AAA over any backdrop."
+      >
+        <ul class="elevations">
+          {[0, 1, 2, 3].map((n) => (
+            <li class="elevation" style={`box-shadow: var(--shadow-elevation-${n})`}>
+              <code class="type-code">shadow.elevation-{n}</code>
+              <span class="type-caption text-secondary">{['Flat', 'Raised: cards, chips, controls', 'Hover and focus', 'Floating: hero media'][n]}</span>
+            </li>
+          ))}
+        </ul>
+        <div class="glass-demo">
+          <img class="glass-demo__backdrop" src="/assets/img/component-library/tcg-system-layers.svg" alt="" aria-hidden="true" />
+          <div class="glass-demo__panel glass-light">
+            <span class="type-heading-sm text-primary">Light glass</span>
+            <span class="type-body text-emphasis">Nav bar, switcher, page index. Project cards use a lighter card tint.</span>
+          </div>
+          <div class="glass-demo__panel glass-dark">
+            <span class="type-heading-sm text-inverse">Dark glass</span>
+            <span class="type-body text-inverse">Chips over imagery</span>
+          </div>
+        </div>
+        <div class="table-wrap" tabindex="0">
+          <table class="fixes">
+            <caption class="type-label">Worst-case contrast: each tint flattened over the backdrop that hurts it most</caption>
+            <thead class="type-label">
+              <tr>
+                <th scope="col">Surface</th>
+                <th scope="col">Text</th>
+                <th scope="col">Worst backdrop</th>
+                <th scope="col">Contrast</th>
+              </tr>
+            </thead>
+            <tbody class="type-caption">
+              {glassRows.map((g) => (
+                <tr>
+                  <th scope="row"><code class="type-code">{g.surface}</code></th>
+                  <td><code class="type-code">{g.text}</code></td>
+                  <td><span class="fix"><span class="swatch" style={`background:${g.flattened}`} />{g.backdropName} → <code class="type-code">{g.flattened}</code></span></td>
+                  <td><ContrastBadge ratio={g.ratio} /></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <Text color="secondary">
+          If a browser can't blur, or a visitor turns on Reduce transparency, glass becomes a solid surface. In Windows high contrast mode it draws a plain border instead.
+        </Text>
       </DocSection>
 
       <DocSection
@@ -161,7 +214,6 @@ const principles = [
               <ChipGroup chips={[{ label: 'Figma', icon: { src: '/assets/img/icons/figma.png', alt: 'Figma logo', decorative: true } }, { label: 'Design maturity' }]} />
             </div>
             <Pill label="Highlighted work" />
-            <RoleList roles={['Lead designer', 'User research', 'Prototypes']} />
           </div>
         </div>
         <ComponentCatalogue components={components} />
@@ -194,7 +246,7 @@ const principles = [
       <DocSection
         id="audit"
         title="Audit fixes"
-        intro="The original Framer site was audited before this system was built. Four text colours failed WCAG AA. Three were fixed with a single token change each; the fourth, white text on a gradient banner, went when the banner was replaced with a standard heading."
+        intro="The original Framer site was audited before this system was built, then raised from AA to AAA. Every row was fixed with a token change, not a component change. A gradient banner that could not pass was replaced with a standard heading."
       >
         <div class="table-wrap" tabindex="0">
           <table class="fixes">
@@ -209,8 +261,8 @@ const principles = [
               {contrastFixes.map((f) => (
                 <tr>
                   <th scope="row" class="text-primary">{f.use}</th>
-                  <td><span class="fix"><span class="swatch" style={`background:${f.before}`} /><code class="type-code">{f.before}</code><ContrastBadge ratio={f.beforeRatio} /></span></td>
-                  <td><span class="fix"><span class="swatch" style={`background:${f.after}`} /><code class="type-code">{f.after}</code><ContrastBadge ratio={f.afterRatio} /></span></td>
+                  <td><span class="fix"><span class="sample" style={`color:${f.before};background:${f.beforeOn}`}>Aa</span><code class="type-code">{f.before} on {f.beforeOn}</code><ContrastBadge ratio={f.beforeRatio} /></span></td>
+                  <td><span class="fix"><span class="sample" style={`color:${f.after};background:${f.afterOn}`}>Aa</span><code class="type-code">{f.after} on {f.afterOn}</code><ContrastBadge ratio={f.afterRatio} /></span></td>
                 </tr>
               ))}
             </tbody>
@@ -250,6 +302,14 @@ const principles = [
     padding-block: var(--space-24);
     border-block: 1px solid var(--color-border-default);
   }
+  .ds__toc {
+    position: sticky;
+    top: calc(var(--size-nav-height) + var(--space-12));
+    z-index: 50;
+    padding: var(--space-6);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-elevation-1), var(--shadow-glass-highlight);
+  }
   .ds__toc ul {
     display: flex;
     flex-wrap: wrap;
@@ -258,15 +318,18 @@ const principles = [
     padding: 0;
     list-style: none;
   }
+  /* On glass, links use the darkest ink; blue marks hover. */
   .ds__toc a {
     display: inline-block;
     padding: var(--space-6) var(--space-12);
     border-radius: var(--radius-sm);
-    background: var(--color-surface-default);
-    color: var(--color-text-link);
+    color: var(--color-text-primary);
   }
   .ds__toc a:hover {
     text-decoration: underline;
+    text-decoration-color: var(--color-primary-default);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 4px;
   }
   .cards {
     display: grid;
@@ -381,6 +444,63 @@ const principles = [
     align-items: center;
     gap: var(--space-8);
   }
+  .sample {
+    display: inline-grid;
+    place-items: center;
+    width: 32px;
+    height: 24px;
+    border-radius: var(--radius-xs);
+    box-shadow: inset 0 0 0 1px var(--color-border-default);
+    font-weight: var(--font-weight-bold);
+  }
+  .fixes caption {
+    padding: var(--space-12) var(--space-16) 0;
+    text-align: left;
+    color: var(--color-text-muted);
+  }
+  .elevations {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--space-24);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .elevation {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+    padding: var(--space-24) var(--space-16);
+    border-radius: var(--radius-md);
+    background: var(--color-surface-default);
+    min-width: 0;
+  }
+  .glass-demo {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-24);
+    padding: var(--space-40);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    isolation: isolate;
+  }
+  .glass-demo__backdrop {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+  }
+  .glass-demo__panel {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    padding: var(--space-24);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-elevation-2), var(--shadow-glass-highlight);
+  }
   .swatch {
     width: 20px;
     height: 20px;
@@ -389,6 +509,8 @@ const principles = [
   }
   @media (max-width: 899px) {
     .ds__stats,
+    .elevations,
+    .glass-demo,
     .cards,
     .cards--2,
     .split {
