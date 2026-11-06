@@ -12,10 +12,12 @@
   --color-neutral-1000: #000000;
   --color-navy-950: #001122;
   --color-blue-100: #c4dcf2;
+  --color-blue-300: #7cc4f5;
   --color-blue-700: #005187;
   --color-blue-a16: rgba(0, 81, 135, 0.16);
   --color-blue-a07: rgba(0, 81, 135, 0.07);
   --color-blue-a20: rgba(0, 81, 135, 0.2);
+  --color-purple-300: #c4b2f5;
   --color-purple-600: #6a2fb0;
   --color-purple-a14: rgba(106, 47, 176, 0.14);
   --color-purple-a07: rgba(106, 47, 176, 0.07);
@@ -103,6 +105,7 @@
   --breakpoint-lg: 1100px;
   --breakpoint-xl: 1280px;
   --duration-base: 250ms;
+  --duration-edge: 2400ms;
   --easing-standard: cubic-bezier(0.25, 0.1, 0.25, 1);
 
   /* semantic */
@@ -136,6 +139,8 @@
   --color-border-glass-light: var(--color-white-a60);
   --color-border-glass-dark: var(--color-white-a16);
   --color-border-button-secondary: var(--color-ink-a28);
+  --color-border-featured-start: var(--color-blue-300);
+  --color-border-featured-end: var(--color-purple-300);
   --color-backdrop-glow-primary: var(--color-blue-a16);
   --color-backdrop-glow-secondary: var(--color-purple-a14);
   --color-backdrop-glow-primary-soft: var(--color-blue-a07);

@@ -121,10 +121,6 @@ export interface ChipProps {
   iconFit?: 'cover' | 'contain';
 }
 
-export interface PillProps {
-  label: string;
-}
-
 export interface CodeProps {
   class?: string;
 }
@@ -186,6 +182,8 @@ export interface NavbarProps {
 }
 
 export interface HeroProps {
+  /** Short line above the headline, e.g. role and location. */
+  eyebrow?: string;
   title: string;
   intro: string;
   image: ImageAsset;
@@ -201,8 +199,12 @@ export interface ProjectCardProps {
   tone?: Tone;
   /** Grid footprint. narrow = 320 units, wide = 680 units at desktop. */
   size: 'narrow' | 'wide';
-  /** Purple pill beside the title, e.g. "Highlighted work". */
-  badge?: string;
+  /**
+   * The one highlighted piece of work: a soft light runs along the card edge twice
+   * on load (under 5 seconds, WCAG 2.2.2), again on hover or focus, and screen
+   * readers hear "Highlighted work" before the title. Static rim with reduced motion.
+   */
+  featured?: boolean;
 }
 
 export interface WorkGridProps {
