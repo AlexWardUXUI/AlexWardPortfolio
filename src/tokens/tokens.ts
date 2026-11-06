@@ -26,10 +26,12 @@ export const tokenPaths = [
   'color.neutral.1000',
   'color.navy.950',
   'color.blue.100',
+  'color.blue.300',
   'color.blue.700',
   'color.blue.a16',
   'color.blue.a07',
   'color.blue.a20',
+  'color.purple.300',
   'color.purple.600',
   'color.purple.a14',
   'color.purple.a07',
@@ -117,6 +119,7 @@ export const tokenPaths = [
   'breakpoint.lg',
   'breakpoint.xl',
   'duration.base',
+  'duration.edge',
   'easing.standard',
   'color.primary.default',
   'color.primary.subtle',
@@ -148,6 +151,8 @@ export const tokenPaths = [
   'color.border.glass-light',
   'color.border.glass-dark',
   'color.border.button-secondary',
+  'color.border.featured-start',
+  'color.border.featured-end',
   'color.backdrop.glow-primary',
   'color.backdrop.glow-secondary',
   'color.backdrop.glow-primary-soft',
@@ -179,7 +184,7 @@ export const tokenPaths = [
 export type TokenPath = (typeof tokenPaths)[number];
 
 /** Semantic tokens only: the ones components use for colour, type and shadow. */
-export type UsableTokenPath = Exclude<TokenPath, 'color.neutral.0' | 'color.neutral.50' | 'color.neutral.75' | 'color.neutral.100' | 'color.neutral.400' | 'color.neutral.500' | 'color.neutral.700' | 'color.neutral.950' | 'color.neutral.1000' | 'color.navy.950' | 'color.blue.100' | 'color.blue.700' | 'color.blue.a16' | 'color.blue.a07' | 'color.blue.a20' | 'color.purple.600' | 'color.purple.a14' | 'color.purple.a07' | 'color.green.800' | 'color.red.800' | 'color.ink.950' | 'color.ink.a00' | 'color.ink.a04' | 'color.ink.a06' | 'color.ink.a08' | 'color.ink.a12' | 'color.ink.a18' | 'color.ink.a28' | 'color.ink.a78' | 'color.ink.a90' | 'color.white.a90' | 'color.white.a80' | 'color.white.a70' | 'color.white.a60' | 'color.white.a16' | 'font.family.sans' | 'font.family.mono' | 'font.weight.regular' | 'font.weight.medium' | 'font.weight.bold' | 'font.size.xs' | 'font.size.sm' | 'font.size.md' | 'font.size.lg' | 'font.size.xl' | 'font.size.2xl' | 'font.size.3xl' | 'font.size.4xl' | 'font.line-height.snug' | 'font.line-height.normal' | 'font.line-height.relaxed' | 'font.line-height.spacious' | 'font.letter-spacing.tighter' | 'font.letter-spacing.tight' | 'font.letter-spacing.snug' | 'font.letter-spacing.none' | 'font.letter-spacing.wide' | 'space.4' | 'space.6' | 'space.8' | 'space.10' | 'space.12' | 'space.16' | 'space.20' | 'space.24' | 'space.28' | 'space.32' | 'space.40' | 'space.48' | 'space.56' | 'space.60' | 'space.64' | 'space.72' | 'space.88' | 'space.96' | 'space.120' | 'radius.xs' | 'radius.sm' | 'radius.md' | 'radius.lg' | 'radius.xl' | 'radius.2xl' | 'radius.pill' | 'size.icon-sm' | 'size.nav-height' | 'size.content-width' | 'size.wide-width' | 'size.grid-width' | 'size.section-width' | 'size.hero-text' | 'size.hero-media' | 'size.hero-width' | 'size.hero-min-height' | 'size.card-media' | 'size.target' | 'blur.sm' | 'blur.md' | 'breakpoint.sm' | 'breakpoint.md' | 'breakpoint.lg' | 'breakpoint.xl' | 'duration.base' | 'easing.standard'>;
+export type UsableTokenPath = Exclude<TokenPath, 'color.neutral.0' | 'color.neutral.50' | 'color.neutral.75' | 'color.neutral.100' | 'color.neutral.400' | 'color.neutral.500' | 'color.neutral.700' | 'color.neutral.950' | 'color.neutral.1000' | 'color.navy.950' | 'color.blue.100' | 'color.blue.300' | 'color.blue.700' | 'color.blue.a16' | 'color.blue.a07' | 'color.blue.a20' | 'color.purple.300' | 'color.purple.600' | 'color.purple.a14' | 'color.purple.a07' | 'color.green.800' | 'color.red.800' | 'color.ink.950' | 'color.ink.a00' | 'color.ink.a04' | 'color.ink.a06' | 'color.ink.a08' | 'color.ink.a12' | 'color.ink.a18' | 'color.ink.a28' | 'color.ink.a78' | 'color.ink.a90' | 'color.white.a90' | 'color.white.a80' | 'color.white.a70' | 'color.white.a60' | 'color.white.a16' | 'font.family.sans' | 'font.family.mono' | 'font.weight.regular' | 'font.weight.medium' | 'font.weight.bold' | 'font.size.xs' | 'font.size.sm' | 'font.size.md' | 'font.size.lg' | 'font.size.xl' | 'font.size.2xl' | 'font.size.3xl' | 'font.size.4xl' | 'font.line-height.snug' | 'font.line-height.normal' | 'font.line-height.relaxed' | 'font.line-height.spacious' | 'font.letter-spacing.tighter' | 'font.letter-spacing.tight' | 'font.letter-spacing.snug' | 'font.letter-spacing.none' | 'font.letter-spacing.wide' | 'space.4' | 'space.6' | 'space.8' | 'space.10' | 'space.12' | 'space.16' | 'space.20' | 'space.24' | 'space.28' | 'space.32' | 'space.40' | 'space.48' | 'space.56' | 'space.60' | 'space.64' | 'space.72' | 'space.88' | 'space.96' | 'space.120' | 'radius.xs' | 'radius.sm' | 'radius.md' | 'radius.lg' | 'radius.xl' | 'radius.2xl' | 'radius.pill' | 'size.icon-sm' | 'size.nav-height' | 'size.content-width' | 'size.wide-width' | 'size.grid-width' | 'size.section-width' | 'size.hero-text' | 'size.hero-media' | 'size.hero-width' | 'size.hero-min-height' | 'size.card-media' | 'size.target' | 'blur.sm' | 'blur.md' | 'breakpoint.sm' | 'breakpoint.md' | 'breakpoint.lg' | 'breakpoint.xl' | 'duration.base' | 'duration.edge' | 'easing.standard'>;
 
 /** Returns the CSS var() reference for a token, e.g. token('color.primary.default'). */
 export function token(path: UsableTokenPath): string {
@@ -198,10 +203,12 @@ export const tokens: Record<TokenPath, TokenMeta> = {
   'color.neutral.1000': {"path":"color.neutral.1000","tier":"primitive","type":"color","cssVar":"--color-neutral-1000","value":"#000000","description":"Dark card surface only."},
   'color.navy.950': {"path":"color.navy.950","tier":"primitive","type":"color","cssVar":"--color-navy-950","value":"#001122","description":"Case study display titles."},
   'color.blue.100': {"path":"color.blue.100","tier":"primitive","type":"color","cssVar":"--color-blue-100","value":"#c4dcf2","description":"Divider between role tags (non-text)."},
+  'color.blue.300': {"path":"color.blue.300","tier":"primitive","type":"color","cssVar":"--color-blue-300","value":"#7cc4f5","description":"Light blue for decoration on dark surfaces (featured card edge)."},
   'color.blue.700': {"path":"color.blue.700","tier":"primitive","type":"color","cssVar":"--color-blue-700","value":"#005187","description":"Links and primary actions. 7.10:1 on #ededed, 8.31:1 on white: WCAG AAA."},
   'color.blue.a16': {"path":"color.blue.a16","tier":"primitive","type":"color","cssVar":"--color-blue-a16","value":"rgba(0, 81, 135, 0.16)","description":"Backdrop glow, strongest corner."},
   'color.blue.a07': {"path":"color.blue.a07","tier":"primitive","type":"color","cssVar":"--color-blue-a07","value":"rgba(0, 81, 135, 0.07)","description":"Backdrop glow, soft."},
   'color.blue.a20': {"path":"color.blue.a20","tier":"primitive","type":"color","cssVar":"--color-blue-a20","value":"rgba(0, 81, 135, 0.2)","description":"Backdrop swirl line (non-text)."},
+  'color.purple.300': {"path":"color.purple.300","tier":"primitive","type":"color","cssVar":"--color-purple-300","value":"#c4b2f5","description":"Light purple for decoration on dark surfaces (featured card edge)."},
   'color.purple.600': {"path":"color.purple.600","tier":"primitive","type":"color","cssVar":"--color-purple-600","value":"#6a2fb0","description":"Highlighted work pill. White text on it reaches 7.94:1: WCAG AAA."},
   'color.purple.a14': {"path":"color.purple.a14","tier":"primitive","type":"color","cssVar":"--color-purple-a14","value":"rgba(106, 47, 176, 0.14)","description":"Backdrop glow, strongest corner."},
   'color.purple.a07': {"path":"color.purple.a07","tier":"primitive","type":"color","cssVar":"--color-purple-a07","value":"rgba(106, 47, 176, 0.07)","description":"Backdrop glow, soft."},
@@ -289,6 +296,7 @@ export const tokens: Record<TokenPath, TokenMeta> = {
   'breakpoint.lg': {"path":"breakpoint.lg","tier":"primitive","type":"dimension","cssVar":"--breakpoint-lg","value":"1100px"},
   'breakpoint.xl': {"path":"breakpoint.xl","tier":"primitive","type":"dimension","cssVar":"--breakpoint-xl","value":"1280px"},
   'duration.base': {"path":"duration.base","tier":"primitive","type":"duration","cssVar":"--duration-base","value":"250ms"},
+  'duration.edge': {"path":"duration.edge","tier":"primitive","type":"duration","cssVar":"--duration-edge","value":"2400ms","description":"One lap of the featured card edge light. Two laps (4.8s) keep it under WCAG 2.2.2's five seconds."},
   'easing.standard': {"path":"easing.standard","tier":"primitive","type":"cubicBezier","cssVar":"--easing-standard","value":[0.25,0.1,0.25,1]},
   'color.primary.default': {"path":"color.primary.default","tier":"semantic","type":"color","cssVar":"--color-primary-default","aliasOf":"color.blue.700","value":"#005187","description":"Primary action: links and focus ring."},
   'color.primary.subtle': {"path":"color.primary.subtle","tier":"semantic","type":"color","cssVar":"--color-primary-subtle","aliasOf":"color.blue.100","value":"#c4dcf2","description":"Low-emphasis primary tint: dividers."},
@@ -320,6 +328,8 @@ export const tokens: Record<TokenPath, TokenMeta> = {
   'color.border.glass-light': {"path":"color.border.glass-light","tier":"semantic","type":"color","cssVar":"--color-border-glass-light","aliasOf":"color.white.a60","value":"rgba(255, 255, 255, 0.6)"},
   'color.border.glass-dark': {"path":"color.border.glass-dark","tier":"semantic","type":"color","cssVar":"--color-border-glass-dark","aliasOf":"color.white.a16","value":"rgba(255, 255, 255, 0.16)"},
   'color.border.button-secondary': {"path":"color.border.button-secondary","tier":"semantic","type":"color","cssVar":"--color-border-button-secondary","aliasOf":"color.ink.a28","value":"rgba(17, 24, 39, 0.28)","description":"Secondary button edge (decorative; the label identifies the button)."},
+  'color.border.featured-start': {"path":"color.border.featured-start","tier":"semantic","type":"color","cssVar":"--color-border-featured-start","aliasOf":"color.blue.300","value":"#7cc4f5","description":"Featured card edge light, leading colour (decorative)."},
+  'color.border.featured-end': {"path":"color.border.featured-end","tier":"semantic","type":"color","cssVar":"--color-border-featured-end","aliasOf":"color.purple.300","value":"#c4b2f5","description":"Featured card edge light, trailing colour (decorative)."},
   'color.backdrop.glow-primary': {"path":"color.backdrop.glow-primary","tier":"semantic","type":"color","cssVar":"--color-backdrop-glow-primary","aliasOf":"color.blue.a16","value":"rgba(0, 81, 135, 0.16)","description":"Blue glow, top left."},
   'color.backdrop.glow-secondary': {"path":"color.backdrop.glow-secondary","tier":"semantic","type":"color","cssVar":"--color-backdrop-glow-secondary","aliasOf":"color.purple.a14","value":"rgba(106, 47, 176, 0.14)","description":"Purple glow, top right."},
   'color.backdrop.glow-primary-soft': {"path":"color.backdrop.glow-primary-soft","tier":"semantic","type":"color","cssVar":"--color-backdrop-glow-primary-soft","aliasOf":"color.blue.a07","value":"rgba(0, 81, 135, 0.07)","description":"Blue glow, mid page left."},

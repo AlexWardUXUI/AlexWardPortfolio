@@ -42,14 +42,15 @@ export const designSystemCopy = {
 };
 
 export const hero: HeroProps = {
-  title: 'I help teams solve complex product problems and turn them into services people can use.',
+  eyebrow: 'Product & service design lead · Edinburgh',
+  title: 'I design products, the services around them and the systems that hold them together.',
   intro:
-    'I’m an Edinburgh-based product designer and design leader. I work across strategy, research and delivery, shaping product direction, building capable teams and improving end-to-end experiences.',
+    'I lead design from first research to shipped product. Most recently: a design system and a growing team supporting nine products in healthcare software.',
   image: {
-    src: '/assets/img/home/hero.png',
-    alt: 'Product work across web, mobile and wearable interfaces',
-    width: 560,
-    height: 560,
+    src: '/assets/img/home/hero-layers.svg',
+    alt: 'Three stacked layers: a service blueprint with customer, frontstage and backstage lanes at the base, a design system of shared components in the middle, and a product screen built from them on top',
+    width: 1000,
+    height: 1000,
   },
 };
 

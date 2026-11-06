@@ -119,6 +119,14 @@
       "button-secondary": {
         "$value": "{color.ink.a28}",
         "$description": "Secondary button edge (decorative; the label identifies the button)."
+      },
+      "featured-start": {
+        "$value": "{color.blue.300}",
+        "$description": "Featured card edge light, leading colour (decorative)."
+      },
+      "featured-end": {
+        "$value": "{color.purple.300}",
+        "$description": "Featured card edge light, trailing colour (decorative)."
       }
     },
     "backdrop": {

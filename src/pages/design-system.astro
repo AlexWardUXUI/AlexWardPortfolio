@@ -12,7 +12,7 @@ import Stat from '../components/molecules/Stat.astro';
 import CodeBlock from '../components/molecules/CodeBlock.astro';
 import ContrastBadge from '../components/molecules/ContrastBadge.astro';
 import ChipGroup from '../components/molecules/ChipGroup.astro';
-import Pill from '../components/atoms/Pill.astro';
+import Button from '../components/atoms/Button.astro';
 import DocSection from '../components/showcase/DocSection.astro';
 import AliasChain from '../components/showcase/AliasChain.astro';
 import ColorTable from '../components/showcase/ColorTable.astro';
@@ -211,7 +211,8 @@ const principles = [
             <div class="specimen__media">
               <ChipGroup chips={[{ label: 'Figma', icon: { src: '/assets/img/icons/figma.png', alt: 'Figma logo', decorative: true } }, { label: 'Design maturity' }]} />
             </div>
-            <Pill label="Highlighted work" />
+            <Button label="Primary" icon="work" />
+            <Button label="Secondary" icon="system" variant="secondary" />
           </div>
         </div>
         <ComponentCatalogue components={components} />

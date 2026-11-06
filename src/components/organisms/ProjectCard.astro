@@ -1,24 +1,23 @@
 ---
 /**
  * Organism: ProjectCard
- * Whole-card link to a case study: image with chips, title, optional badge
- * (Pill), and a description. Variants: tone (light | dark).
+ * Whole-card link to a case study: image with chips, title and description.
+ * Variants: tone (light | dark), featured (animated edge light).
  * Frosted glass surface (light or dark) that lifts on hover and keyboard focus.
  */
 import type { ProjectCardProps } from '../../types/schema';
 import Image from '../atoms/Image.astro';
 import Heading from '../atoms/Heading.astro';
 import Text from '../atoms/Text.astro';
-import Pill from '../atoms/Pill.astro';
 import ChipGroup from '../molecules/ChipGroup.astro';
 
 type Props = ProjectCardProps;
 
-const { href, title, description, image, chips = [], tone = 'light', badge } = Astro.props;
+const { href, title, description, image, chips = [], tone = 'light', featured = false } = Astro.props;
 const dark = tone === 'dark';
 ---
 
-<a class:list={['card', `card--${tone}`, dark ? 'glass-dark' : 'glass-light']} href={href}>
+<a class:list={['card', `card--${tone}`, dark ? 'glass-dark' : 'glass-light', featured && 'card--featured']} href={href}>
   <div class="card__media">
     <Image {...image} />
     {chips.length > 0 && (
@@ -29,15 +28,21 @@ const dark = tone === 'dark';
   </div>
   <div class="card__body">
     <div class="card__head">
-      <Heading level={2} style="heading-md" color={dark ? 'inverse' : 'primary'}>{title}</Heading>
-      {badge && <Pill label={badge} />}
+      <Heading level={2} style="heading-md" color={dark ? 'inverse' : 'primary'}>{featured && <span class="visually-hidden">Highlighted work: </span>}{title}</Heading>
     </div>
     <Text color={dark ? 'inverse-secondary' : 'secondary'}>{description}</Text>
   </div>
 </a>
 
 <style>
+  @property --edge-angle {
+    syntax: '<angle>';
+    inherits: false;
+    initial-value: 0turn;
+  }
+
   .card {
+    position: relative;
     display: flex;
     flex-direction: column;
     gap: var(--space-16);
@@ -99,6 +104,54 @@ const dark = tone === 'dark';
   @media (max-width: 599px) {
     .card__media {
       height: 240px;
+    }
+  }
+
+  /* Featured: a soft light runs along the edge. Two laps on load (4.8s, under
+     WCAG 2.2.2's five seconds), then it rests; hover or focus replays it. */
+  .card--featured::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    border-radius: inherit;
+    pointer-events: none;
+    background: conic-gradient(
+      from var(--edge-angle),
+      transparent 0turn 0.62turn,
+      var(--color-border-featured-start) 0.84turn,
+      var(--color-border-featured-end) 0.97turn,
+      transparent 1turn
+    );
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+    animation: edge-run var(--duration-edge) linear 2;
+  }
+  .card--featured::after {
+    padding: 2px;
+  }
+  .card--featured:hover::after,
+  .card--featured:focus-visible::after {
+    animation: edge-run var(--duration-edge) linear infinite;
+  }
+  @keyframes edge-run {
+    to {
+      --edge-angle: 1turn;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .card--featured::after,
+    .card--featured:hover::after,
+    .card--featured:focus-visible::after {
+      animation: none;
+      background: linear-gradient(135deg, var(--color-border-featured-start), var(--color-border-featured-end));
+      opacity: 0.6;
+    }
+  }
+  @media (forced-colors: active) {
+    .card--featured::after {
+      display: none;
     }
   }
 </style>

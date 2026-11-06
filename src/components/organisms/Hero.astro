@@ -1,5 +1,5 @@
 ---
-/** Organism: Hero. Headline and intro beside an elevated square image. */
+/** Organism: Hero. Eyebrow, headline and intro beside an elevated square image. Text uses text.primary and text.emphasis only, so it stays AAA over the backdrop glow. */
 import type { HeroProps } from '../../types/schema';
 import Heading from '../atoms/Heading.astro';
 import Text from '../atoms/Text.astro';
@@ -7,11 +7,12 @@ import Image from '../atoms/Image.astro';
 
 type Props = HeroProps;
 
-const { title, intro, image } = Astro.props;
+const { eyebrow, title, intro, image } = Astro.props;
 ---
 
 <section class="hero">
   <div class="hero__text">
+    {eyebrow && <Text style="lead" color="emphasis">{eyebrow}</Text>}
     <Heading level={1} style="display" color="primary">{title}</Heading>
     <Text style="lead" color="emphasis">{intro}</Text>
   </div>

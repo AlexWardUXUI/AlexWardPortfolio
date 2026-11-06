@@ -21,7 +21,7 @@ export const aiAssistedDesign: ProjectCardProps = {
   image: { src: '/assets/img/work/ai-context-card.svg', alt: 'File map of the shared context given to AI tools: folders for styles, components, patterns, research and personas, each holding Markdown files' },
   chips: [{ label: 'AI' }, { label: 'Leadership' }, { label: 'Frontier' }],
   tone: 'dark',
-  badge: 'Highlighted work',
+  featured: true,
   size: 'wide',
 };
 

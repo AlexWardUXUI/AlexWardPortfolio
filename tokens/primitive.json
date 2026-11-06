@@ -51,6 +51,10 @@
         "$value": "#c4dcf2",
         "$description": "Divider between role tags (non-text)."
       },
+      "300": {
+        "$value": "#7cc4f5",
+        "$description": "Light blue for decoration on dark surfaces (featured card edge)."
+      },
       "700": {
         "$value": "#005187",
         "$description": "Links and primary actions. 7.10:1 on #ededed, 8.31:1 on white: WCAG AAA."
@@ -72,6 +76,10 @@
       "600": {
         "$value": "#6a2fb0",
         "$description": "Highlighted work pill. White text on it reaches 7.94:1: WCAG AAA."
+      },
+      "300": {
+        "$value": "#c4b2f5",
+        "$description": "Light purple for decoration on dark surfaces (featured card edge)."
       },
       "a14": {
         "$value": "rgba(106, 47, 176, 0.14)",
@@ -413,6 +421,10 @@
     "$type": "duration",
     "base": {
       "$value": "250ms"
+    },
+    "edge": {
+      "$value": "2400ms",
+      "$description": "One lap of the featured card edge light. Two laps (4.8s) keep it under WCAG 2.2.2's five seconds."
     }
   },
   "easing": {

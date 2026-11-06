@@ -29,7 +29,7 @@ src/
   content.config.ts        case study frontmatter schema
   content/case-studies/    one .mdx file per case study
   types/schema.ts          props for every component
-  components/atoms/        Heading, Text, Button, Icon, Image, Chip, Pill, Code, Backdrop
+  components/atoms/        Heading, Text, Button, Icon, Image, Chip, Code, Backdrop
   components/molecules/    ChipGroup, Figure, Columns, CodeBlock, Stat, ContrastBadge
   components/organisms/    Navbar, Hero, ProjectCard, WorkGrid, ConnectSection, CaseHeader, Gallery, CaseFooter, VariantPlayground, SystemTeaser
   components/showcase/     docs-only components for /design-system/
